@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PhotoGallery.DAL\PhotoGallery.DAL.csproj">
+      <Project>{e7d675e3-7aee-44d1-a3a1-56ada02c4589}</Project>
+      <Name>PhotoGallery.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
