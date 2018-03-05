@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Cache;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,5 +22,9 @@ namespace PhotoGallery.DAL
         public Format Format { get; set; }
 
         public Resolution Resolution { get; set; }
+
+        public string Note { get; set; }
+
+        public string Location { get; set; }
     }
 }
