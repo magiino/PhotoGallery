@@ -40,9 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Album.cs" />
+    <Compile Include="AlbumEntity.cs" />
     <Compile Include="Format.cs" />
-    <Compile Include="Photo.cs" />
+    <Compile Include="PersonEntity.cs" />
+    <Compile Include="PhotoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolution.cs" />
   </ItemGroup>
