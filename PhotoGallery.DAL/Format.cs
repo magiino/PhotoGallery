@@ -2,13 +2,13 @@
 {
     public enum Format
     {
-        bmp,
-        gif,
-        jpg,
-        jpe,
-        jpeg,
-        png,
-        tif,
-        tiff,
+        Bmp,
+        Gif,
+        Jpg,
+        Jpe,
+        Jpeg,
+        Png,
+        Tif,
+        Tiff,
     }
 }
