@@ -46,7 +46,6 @@
     <Compile Include="Format.cs" />
     <Compile Include="Entities\PersonEntity.cs" />
     <Compile Include="Entities\PhotoEntity.cs" />
-    <Compile Include="Album.cs" />
     <Compile Include="ItemTag.cs" />
     <Compile Include="PersonTag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
