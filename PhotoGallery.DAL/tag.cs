@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.DAL
 {
@@ -10,15 +11,10 @@ namespace PhotoGallery.DAL
     {
 
 
-        //Tag(float xPos, float yPos)
-        //{
-        //    positionOnPhotox = xPos;
-        //    positionOnPhotoy = yPos;
-        //}
-
         public int PositionOnPhotoX { get; protected set; }
         public int PositionOnPhotoY { get; protected set; }
 
+        public ICollection<PhotoEntity> PhotosWithThisTag{get; set;}
 
 
     }
