@@ -10,14 +10,16 @@ namespace PhotoGallery.DAL
     {
 
 
-        Tag(float xPos, float yPos)
-        {
-            positionOnPhotox = xPos;
-            positionOnPhotoy = yPos;
-        }
+        //Tag(float xPos, float yPos)
+        //{
+        //    positionOnPhotox = xPos;
+        //    positionOnPhotoy = yPos;
+        //}
 
-        public float positionOnPhotox { get; set; }
-        public float positionOnPhotoy { get; set; }
+        public int PositionOnPhotoX { get; protected set; }
+        public int PositionOnPhotoY { get; protected set; }
+
+
 
     }
 }
