@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace PhotoGallery.DAL.Entities
 {
-    class PersonTag : Tag
+    public class PersonTag : Tag
     {
-        public string PersonName { get; private set; }
-        public string PersonSurname { get; private set; }
+        
 
         public PersonEntity Person { get; private set; }
 

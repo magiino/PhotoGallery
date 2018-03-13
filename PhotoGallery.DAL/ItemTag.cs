@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhotoGallery.DAL
+namespace PhotoGallery.DAL.Entities
 {
-    class ItemTag : Tag
+    public class ItemTag : Tag
     {
         public string ItemName { get; private set; }
         ItemTag(string itemName, int xPos, int yPos)
