@@ -13,5 +13,8 @@ namespace PhotoGallery.DAL.Entities
         public string Note { get; set; }
         public string Location { get; set; }
         public ICollection<AlbumEntity> Albums { get; set; } = new List<AlbumEntity>();
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+
+#endif
     }
 }
