@@ -8,5 +8,6 @@ namespace PhotoGallery.DAL.Entities
         public string Title { get; set; }
         public PhotoEntity CoverPhoto { get; set; }
         public ICollection<PhotoEntity> Photos {get ; set; } = new List<PhotoEntity>();
+        public int NumberOfPhotos => Photos.Count;
     }
 }
