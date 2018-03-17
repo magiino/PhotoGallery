@@ -5,6 +5,7 @@ namespace PhotoGallery.DAL.Entities
 {
     public class PersonEntity : BaseEntity
     { 
+        [Required]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
