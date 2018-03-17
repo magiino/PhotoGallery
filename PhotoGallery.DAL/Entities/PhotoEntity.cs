@@ -18,7 +18,9 @@ namespace PhotoGallery.DAL.Entities
         public ResolutionEntity Resolution { get; set; }
         public string Note { get; set; }
         public string Location { get; set; }
+        [Required]
         public virtual ICollection<AlbumEntity> Albums { get; set; } = new List<AlbumEntity>();
+        [Required]
         public virtual ICollection<TagEntity> Tags { get; set; } = new List<TagEntity>();
     }
 }
