@@ -1,4 +1,4 @@
-﻿namespace PhotoGallery.DAL
+﻿namespace PhotoGallery.DAL.Enums
 {
     public enum Format
     {
