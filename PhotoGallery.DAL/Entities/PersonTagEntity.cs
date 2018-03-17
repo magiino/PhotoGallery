@@ -2,6 +2,7 @@
 {
     public class PersonTagEntity : TagEntity
     {
+        [Required]
         public PersonEntity Person { get; set; }
 
         PersonTagEntity(string name, string surname, int xPos, int yPos)

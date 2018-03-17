@@ -4,7 +4,9 @@ namespace PhotoGallery.DAL.Entities
 {
     public class ResolutionEntity : BaseEntity
     {
+        [Required]
         public int Height { get; set; }
+        [Required]
         public int Width { get; set; }
     }
 }

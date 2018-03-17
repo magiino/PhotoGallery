@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using PhotoGallery.DAL.Entities.Base.Implementation;
 using PhotoGallery.DAL.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace PhotoGallery.DAL.Entities
 {
     public class PhotoEntity : BaseEntity
     {
+        [Required]
         public string Name { get; set; }
         public DateTime CreatedTime { get; set; }
+        [Required]
         public Format Format { get; set; }
+        [Required]
         public ResolutionEntity Resolution { get; set; }
         public string Note { get; set; }
         public string Location { get; set; }
