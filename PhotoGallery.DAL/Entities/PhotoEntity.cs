@@ -14,7 +14,7 @@ namespace PhotoGallery.DAL.Entities
         public DateTime CreatedTime { get; set; }
         [Required]
         public Format Format { get; set; }
-        [Required]
+        public int ResolutionId { get; set; }
         public ResolutionEntity Resolution { get; set; }
         public string Note { get; set; }
         public string Location { get; set; }

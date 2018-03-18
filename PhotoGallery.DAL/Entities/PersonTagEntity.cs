@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-namespace PhotoGallery.DAL.Entities
+﻿namespace PhotoGallery.DAL.Entities
 {
     public class PersonTagEntity : TagEntity
     {
-        [Required]
+        public int PersonId { get; set; }
         public PersonEntity Person { get; set; }
 
         PersonTagEntity(string name, string surname, int xPos, int yPos)
