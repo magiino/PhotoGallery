@@ -1,7 +1,9 @@
-﻿namespace PhotoGallery.DAL.Entities
+﻿using System.ComponentModel.DataAnnotations;
+namespace PhotoGallery.DAL.Entities
 {
     public class PersonTagEntity : TagEntity
     {
+        [Required]
         public PersonEntity Person { get; set; }
 
         PersonTagEntity(string name, string surname, int xPos, int yPos)
