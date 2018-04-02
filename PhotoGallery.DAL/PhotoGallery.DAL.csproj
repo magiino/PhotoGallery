@@ -56,6 +56,7 @@
     <Compile Include="Entities\PhotoEntity.cs" />
     <Compile Include="Entities\ItemTagEntity.cs" />
     <Compile Include="Entities\PersonTagEntity.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="Migrations\201804021823507_InitialMigration.cs" />
     <Compile Include="Migrations\201804021823507_InitialMigration.Designer.cs">
       <DependentUpon>201804021823507_InitialMigration.cs</DependentUpon>
