@@ -1,12 +1,11 @@
-﻿namespace PhotoGallery.WPF.ViewModels.Base
-{
-    class BaseViewModel
-    {
+﻿using PropertyChanged;
+using System.ComponentModel;
 
-        [AddINotifyPropertyChangedInterface]
-        public class BaseViewModel : INotifyPropertyChanged
-        {
-            public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
-        }
+namespace PhotoGallery.WPF.ViewModels.Base
+{
+    [AddINotifyPropertyChangedInterface]
+    public class BaseViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
     }
 }

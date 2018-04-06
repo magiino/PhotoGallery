@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using PhotoGallery.BL.Models;
+using System.Collections.ObjectModel;
 
 namespace PhotoGallery.WPF.ViewModels
 {
@@ -11,7 +12,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         public LeftMenuViewModel()
         {
-            OnLoad()
+            OnLoad();
         }
 
 
