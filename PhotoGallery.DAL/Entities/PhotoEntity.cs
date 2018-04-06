@@ -11,6 +11,8 @@ namespace PhotoGallery.DAL.Entities
         [Required]
         public string Name { get; set; }
         [Required]
+        public string Path { get; set; }
+        [Required]
         public DateTime CreatedTime { get; set; }
         [Required]
         public Format Format { get; set; }
