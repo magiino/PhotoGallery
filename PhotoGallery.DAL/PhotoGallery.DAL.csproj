@@ -51,7 +51,6 @@
     <Compile Include="Entities\AlbumEntity.cs" />
     <Compile Include="Entities\Base\Implementation\BaseEntity.cs" />
     <Compile Include="Entities\Base\Interface\IEntity.cs" />
-    <Compile Include="Entities\LocationEntity.cs" />
     <Compile Include="Enums\Format.cs" />
     <Compile Include="Entities\PersonEntity.cs" />
     <Compile Include="Entities\PhotoEntity.cs" />
