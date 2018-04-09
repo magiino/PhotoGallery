@@ -47,6 +47,8 @@
     <Compile Include="Models\AlbumModel.cs" />
     <Compile Include="Models\PhotoDetailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AlbumRepository.cs" />
+    <Compile Include="Repositories\IAlbumRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PhotoGallery.DAL\PhotoGallery.DAL.csproj">
@@ -56,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messeges\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

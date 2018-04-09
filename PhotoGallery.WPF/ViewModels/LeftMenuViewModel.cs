@@ -1,20 +1,23 @@
 ﻿using PhotoGallery.BL.Models;
 using System.Collections.ObjectModel;
+using PhotoGallery.BL.Repositories;
+using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.WPF.ViewModels
 {
     public class LeftMenuViewModel
     {
         public ObservableCollection<AlbumModel> Albums { get; set; }
-        public string Search { get; set; }
+        public AlbumModel SelectedAlbum { get; set; }
+        public ObservableCollection<TagEntity> Tags { get; set; }
+        public TagEntity SelectedTag { get; set; }
+        public string AlbumSearch { get; set; }
+        public string TagSearch { get; set; }
 
-
-
-        public LeftMenuViewModel()
+        public LeftMenuViewModel(IAlbumRepository albumRepository)
         {
             OnLoad();
         }
-
 
         private void OnLoad()
         {
