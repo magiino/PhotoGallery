@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMessenger.cs" />
+    <Compile Include="Messenger.cs" />
     <Compile Include="Models\AlbumModel.cs" />
     <Compile Include="Models\PhotoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
