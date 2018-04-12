@@ -121,7 +121,7 @@
             var models = new List<PhotoListModel>();
             foreach (var entity in entities)
             {
-                models.Add(Map(entity));
+                models.Add(MapList(entity));
             }
             return models;
         }
