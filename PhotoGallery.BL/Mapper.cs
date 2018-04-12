@@ -1,4 +1,5 @@
-﻿namespace PhotoGallery.DAL
+﻿namespace PhotoGallery.BL
+
 {
     using System.Collections.Generic;
     using PhotoGallery.BL.Models;
@@ -21,8 +22,8 @@
         public ICollection<ItemTagModel> Map(IEnumerable<ItemTagEntity> entities)
         {
             var models = new List<ItemTagModel>();
-            foreach(var entity in entities)
-                {
+            foreach (var entity in entities)
+            {
                 models.Add(Map(entity));
             }
 
@@ -34,7 +35,7 @@
         {
             return new PersonTagModel
             {
-                Person = entity.Person, 
+                Person = entity.Person,
                 PersonId = entity.PersonId,
                 PositionOnPhotoX = entity.PositionOnPhotoX,
                 PositionOnPhotoY = entity.PositionOnPhotoY,
@@ -74,7 +75,7 @@
                 models.Add(Map(entity));
             }
             return models;
-       }
+        }
 
         public PhotoDetailModel Map(PhotoEntity entity)
         {
@@ -103,5 +104,27 @@
             }
             return models;
         }
+        
+        public PhotoListModel MapList(PhotoEntity entity)
+        {
+            return new PhotoListModel
+            {
+                Name = entity.Name,
+                Path = entity.Path,
+                Albums = entity.Albums
+            };
+
+        }
+
+        public ICollection<PhotoListModel> MapList(IEnumerable<PhotoEntity> entities)
+        {
+            var models = new List<PhotoListModel>();
+            foreach (var entity in entities)
+            {
+                models.Add(Map(entity));
+            }
+            return models;
+        }
+
     }
 }

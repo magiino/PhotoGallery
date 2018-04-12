@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using PhotoGallery.DAL.Enums;
+
 using PhotoGallery.DAL.Entities;
 namespace PhotoGallery.BL.Models
 {
