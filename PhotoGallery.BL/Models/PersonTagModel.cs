@@ -8,7 +8,7 @@ using PhotoGallery.DAL.Enums;
 using PhotoGallery.DAL.Entities;
 namespace PhotoGallery.BL.Models
 {
-    class PersonTagModel
+    public class PersonTagModel
     {
         public int PersonId { get; set; }
 
@@ -18,7 +18,7 @@ namespace PhotoGallery.BL.Models
 
         public int PositionOnPhotoY { get; set; }
 
-        public virtual ICollection<PhotoEntity> PhotosWithThisTag { get; set; } = new List<PhotoEntity>();
+        public ICollection<PhotoEntity> PhotosWithThisTag { get; set; } = new List<PhotoEntity>();
 
     }
 }

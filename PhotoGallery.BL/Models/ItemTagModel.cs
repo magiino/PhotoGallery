@@ -10,7 +10,7 @@ using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL.Models
 {
-    class ItemTagModel
+    public class ItemTagModel
     {
         public string Name { get; set; }
 

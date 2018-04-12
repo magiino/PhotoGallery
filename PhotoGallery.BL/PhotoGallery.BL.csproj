@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMessenger.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="Messenger.cs" />
     <Compile Include="Models\AlbumModel.cs" />
     <Compile Include="Models\ItemTagModel.cs" />
