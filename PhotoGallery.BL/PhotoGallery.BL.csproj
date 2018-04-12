@@ -45,6 +45,8 @@
     <Compile Include="IMessenger.cs" />
     <Compile Include="Messenger.cs" />
     <Compile Include="Models\AlbumModel.cs" />
+    <Compile Include="Models\ItemTagModel.cs" />
+    <Compile Include="Models\PersonTagModel.cs" />
     <Compile Include="Models\PhotoDetailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AlbumRepository.cs" />
