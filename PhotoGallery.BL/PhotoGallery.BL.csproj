@@ -59,6 +59,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AlbumRepository.cs" />
     <Compile Include="Repositories\IAlbumRepository.cs" />
+    <Compile Include="Repositories\ItemTagRepository.cs" />
+    <Compile Include="Repositories\PersonTagRepository.cs" />
     <Compile Include="Repositories\PhotoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
