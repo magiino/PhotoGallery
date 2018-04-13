@@ -7,9 +7,9 @@ namespace PhotoGallery.DAL.Entities
     public abstract class TagEntity : BaseEntity
    {
         [Required]
-        public int PositionOnPhotoX { get; set; }
+        public int XPosition { get; set; }
         [Required]
-        public int PositionOnPhotoY { get; set; }
-        public virtual ICollection<PhotoEntity> PhotosWithThisTag { get; set; } = new List<PhotoEntity>();
+        public int YPosition { get; set; }
+        public virtual ICollection<PhotoEntity> Photos { get; set; } = new List<PhotoEntity>();
     }
 }

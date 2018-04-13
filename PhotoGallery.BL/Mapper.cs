@@ -11,9 +11,9 @@ namespace PhotoGallery.BL
             return new ItemTagModel
             {
                 Name = entity.Name,
-                PositionOnPhotoX = entity.PositionOnPhotoX,
-                PositionOnPhotoY = entity.PositionOnPhotoY,
-                PhotosWithThisTag = entity.PhotosWithThisTag
+                PositionOnPhotoX = entity.XPosition,
+                PositionOnPhotoY = entity.YPosition,
+                PhotosWithThisTag = entity.Photos
             };
         }
 
@@ -34,9 +34,9 @@ namespace PhotoGallery.BL
             {
                 Person = entity.Person,
                 PersonId = entity.PersonId,
-                PositionOnPhotoX = entity.PositionOnPhotoX,
-                PositionOnPhotoY = entity.PositionOnPhotoY,
-                PhotosWithThisTag = entity.PhotosWithThisTag
+                PositionOnPhotoX = entity.XPosition,
+                PositionOnPhotoY = entity.YPosition,
+                PhotosWithThisTag = entity.Photos
             };
         }
 
