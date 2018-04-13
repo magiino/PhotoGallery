@@ -9,7 +9,7 @@ namespace PhotoGallery.WPF.ViewModels
         public ObservableCollection<PhotoListModel> Photos { get; set; }
         public PhotoListModel SelectedPhoto { get; set; }
 
-        public PhotoListViewModel(IMessenger messenger, IUnityOfWork albumRepository)
+        public PhotoListViewModel(IMessenger messenger, IUnitOfWork albumRepository)
         {
             OnLoad();
         }

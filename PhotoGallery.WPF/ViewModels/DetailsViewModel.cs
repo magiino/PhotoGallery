@@ -14,7 +14,7 @@ namespace PhotoGallery.WPF.ViewModels
         public string Note { get; set; }
         public string Location { get; set; }
 
-        public DetailsViewModel(IMessenger messenger, IUnityOfWork albumRepository)
+        public DetailsViewModel(IMessenger messenger, IUnitOfWork albumRepository)
         {
             OnLoad();
         }

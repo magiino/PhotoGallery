@@ -12,7 +12,7 @@ namespace PhotoGallery.WPF.ViewModels
         public ICommand PreviousPhoto { get; set; }
         public ICommand NextPhoto { get; set; }
 
-        public PhotoDetailViewModel(IMessenger messenger, IUnityOfWork albumRepository)
+        public PhotoDetailViewModel(IMessenger messenger, IUnitOfWork albumRepository)
         {
             OnLoad();
             PreviousPhoto = new RelayCommand(GetPreviousPhoto);

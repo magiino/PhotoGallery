@@ -17,7 +17,7 @@ namespace PhotoGallery.WPF.ViewModels
         public string AlbumSearch { get; set; }
         public string TagSearch { get; set; }
 
-        public LeftMenuViewModel(IMessenger messenger, IUnityOfWork albumRepository)
+        public LeftMenuViewModel(IMessenger messenger, IUnitOfWork albumRepository)
         {
             OnLoad();
         }
