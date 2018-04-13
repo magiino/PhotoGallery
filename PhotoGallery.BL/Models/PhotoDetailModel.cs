@@ -18,5 +18,4 @@ namespace PhotoGallery.BL.Models
         public ICollection<AlbumEntity> Albums { get; set; }
         public ICollection<TagEntity> Tags { get; set; }
     }
-
 }

@@ -104,7 +104,6 @@ namespace PhotoGallery.BL
             {
                 Name = entity.Name,
                 Path = entity.Path,
-                Albums = entity.Albums
             };
         }
 

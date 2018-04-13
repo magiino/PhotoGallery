@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 using PhotoGallery.DAL.Entities.Base.Implementation;
 using PhotoGallery.DAL.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace PhotoGallery.DAL.Entities
 {

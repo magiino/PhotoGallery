@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using PhotoGallery.DAL.Entities.Base.Implementation;
+﻿using PhotoGallery.DAL.Entities.Base.Implementation;
 
 namespace PhotoGallery.DAL.Entities
 {
