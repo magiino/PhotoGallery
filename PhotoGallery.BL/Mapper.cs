@@ -1,9 +1,9 @@
-﻿namespace PhotoGallery.BL
+﻿using System.Collections.Generic;
+using PhotoGallery.BL.Models;
+using PhotoGallery.DAL.Entities;
 
+namespace PhotoGallery.BL
 {
-    using System.Collections.Generic;
-    using PhotoGallery.BL.Models;
-    using PhotoGallery.DAL.Entities;
     public class Mapper
     {
         public ItemTagModel Map(ItemTagEntity entity)
@@ -14,9 +14,7 @@
                 PositionOnPhotoX = entity.PositionOnPhotoX,
                 PositionOnPhotoY = entity.PositionOnPhotoY,
                 PhotosWithThisTag = entity.PhotosWithThisTag
-
             };
-
         }
 
         public ICollection<ItemTagModel> Map(IEnumerable<ItemTagEntity> entities)
@@ -28,7 +26,6 @@
             }
 
             return models;
-
         }
 
         public PersonTagModel Map(PersonTagEntity entity)
@@ -41,7 +38,6 @@
                 PositionOnPhotoY = entity.PositionOnPhotoY,
                 PhotosWithThisTag = entity.PhotosWithThisTag
             };
-
         }
 
         public ICollection<PersonTagModel> Map(IEnumerable<PersonTagEntity> entities)
@@ -53,7 +49,6 @@
             }
 
             return models;
-
         }
 
         public AlbumModel Map(AlbumEntity entity)
@@ -64,8 +59,7 @@
                 Title = entity.Title,
                 CoverPhotoPath = entity.CoverPhoto.Path,
                 NumberOfPhotos = entity.Photos.Count
-            }
-            ;
+            };
         }
         public ICollection<AlbumModel> Map(IEnumerable<AlbumEntity> entities)
         {
@@ -92,7 +86,6 @@
                 Albums = entity.Albums,
                 Tags = entity.Tags
             };
-
         }
 
         public ICollection<PhotoDetailModel> Map(IEnumerable<PhotoEntity> entities)
@@ -113,7 +106,6 @@
                 Path = entity.Path,
                 Albums = entity.Albums
             };
-
         }
 
         public ICollection<PhotoListModel> MapList(IEnumerable<PhotoEntity> entities)
@@ -125,6 +117,5 @@
             }
             return models;
         }
-
     }
 }

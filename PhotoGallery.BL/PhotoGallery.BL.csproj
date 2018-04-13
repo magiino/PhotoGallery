@@ -48,9 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMessenger.cs" />
+    <Compile Include="Messenger\IMessenger.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="Messenger.cs" />
+    <Compile Include="Messenger\Messenger.cs" />
     <Compile Include="Models\AlbumModel.cs" />
     <Compile Include="Models\ItemTagModel.cs" />
     <Compile Include="Models\PersonTagModel.cs" />
@@ -58,7 +58,10 @@
     <Compile Include="Models\PhotoListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AlbumRepository.cs" />
-    <Compile Include="Repositories\IAlbumRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPersonTagRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPhotoRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ItemTagRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAlbumRepository.cs" />
     <Compile Include="Repositories\ItemTagRepository.cs" />
     <Compile Include="Repositories\PersonTagRepository.cs" />
     <Compile Include="Repositories\PhotoRepository.cs" />
@@ -74,7 +77,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Messeges\" />
+    <Folder Include="Messenger\Messeges\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
