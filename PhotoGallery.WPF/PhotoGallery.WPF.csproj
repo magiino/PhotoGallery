@@ -75,6 +75,7 @@
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModel.cs" />
+    <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\PhotoDetailViewModel.cs" />
     <Compile Include="ViewModels\PhotoListViewModel.cs" />
     <Compile Include="ViewModels\LeftMenuViewModel.cs" />
