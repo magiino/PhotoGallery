@@ -14,7 +14,6 @@ namespace PhotoGallery.BL.IoC
         public static Messenger Messenger => IoC.Get<Messenger>();
         public static IUnitOfWork UnitOfWork => IoC.Get<IUnitOfWork>();
 
-
         public static void SetUp()
         {
             BindMessenger(new Messenger());

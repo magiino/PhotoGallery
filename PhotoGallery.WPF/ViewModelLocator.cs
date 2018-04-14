@@ -1,6 +1,17 @@
-﻿namespace PhotoGallery.WPF
+﻿using PhotoGallery.BL;
+using PhotoGallery.BL.IoC;
+using PhotoGallery.WPF.ViewModels;
+
+namespace PhotoGallery.WPF
 {
     public class ViewModelLocator
     {
+        private readonly Messenger _messenger = IoC.Messenger;
+        private readonly IUnitOfWork _unitOfWork = IoC.UnitOfWork;
+
+        public LeftMenuViewModel RecipeListViewModel => new LeftMenuViewModel(_messenger, _unitOfWork);
+        public PhotoDetailViewModel PhotoDetailViewModel => new PhotoDetailViewModel(_messenger, _unitOfWork);
+        public PhotoListViewModel PhotoListViewModel => new PhotoListViewModel(_messenger, _unitOfWork);
+        public DetailsViewModel DetailsViewModel => new DetailsViewModel(_messenger, _unitOfWork); 
     }
 }
