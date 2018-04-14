@@ -64,6 +64,10 @@
     <Compile Include="Migrations\201804061052427_PathAdded.Designer.cs">
       <DependentUpon>201804061052427_PathAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804140850079_RefactorFieldNamesAnotations.cs" />
+    <Compile Include="Migrations\201804140850079_RefactorFieldNamesAnotations.Designer.cs">
+      <DependentUpon>201804140850079_RefactorFieldNamesAnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\TagEntity.cs" />
@@ -79,6 +83,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804061052427_PathAdded.resx">
       <DependentUpon>201804061052427_PathAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804140850079_RefactorFieldNamesAnotations.resx">
+      <DependentUpon>201804140850079_RefactorFieldNamesAnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
