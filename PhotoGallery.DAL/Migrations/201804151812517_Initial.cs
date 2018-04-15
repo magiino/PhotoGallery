@@ -3,7 +3,7 @@ namespace PhotoGallery.DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigration : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -13,33 +13,31 @@ namespace PhotoGallery.DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        CoverPhotoId = c.Int(),
-                        PhotoEntity_Id = c.Int(),
+                        CoverPhotoId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.PhotoEntities", t => t.PhotoEntity_Id)
-                .ForeignKey("dbo.PhotoEntities", t => t.CoverPhotoId)
-                .Index(t => t.CoverPhotoId)
-                .Index(t => t.PhotoEntity_Id);
-            
+                .ForeignKey("dbo.PhotoEntities", t => t.CoverPhotoId, cascadeDelete: true)
+                .Index(t => t.CoverPhotoId);
+
             CreateTable(
-                "dbo.PhotoEntities",
-                c => new
+                    "dbo.PhotoEntities",
+                    c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
+                        Path = c.String(nullable: false),
                         CreatedTime = c.DateTime(nullable: false),
                         Format = c.Int(nullable: false),
                         ResolutionId = c.Int(nullable: false),
                         Note = c.String(),
                         Location = c.String(),
-                        AlbumEntity_Id = c.Int(),
+                        AlbumId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.ResolutionEntities", t => t.ResolutionId, cascadeDelete: true)
-                .ForeignKey("dbo.AlbumEntities", t => t.AlbumEntity_Id)
+                .ForeignKey("dbo.AlbumEntities", t => t.AlbumId)
+                .ForeignKey("dbo.ResolutionEntities", t => t.ResolutionId)
                 .Index(t => t.ResolutionId)
-                .Index(t => t.AlbumEntity_Id);
+                .Index(t => t.AlbumId);
             
             CreateTable(
                 "dbo.ResolutionEntities",
@@ -56,14 +54,14 @@ namespace PhotoGallery.DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        PositionOnPhotoX = c.Int(nullable: false),
-                        PositionOnPhotoY = c.Int(nullable: false),
+                        XPosition = c.Int(nullable: false),
+                        YPosition = c.Int(nullable: false),
                         Name = c.String(),
                         PersonId = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.PersonEntities", t => t.PersonId, cascadeDelete: true)
+                .ForeignKey("dbo.PersonEntities", t => t.PersonId)
                 .Index(t => t.PersonId);
             
             CreateTable(
@@ -83,9 +81,9 @@ namespace PhotoGallery.DAL.Migrations
                         TagEntity_Id = c.Int(nullable: false),
                         PhotoEntity_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.TagEntity_Id, t.PhotoEntity_Id })
-                .ForeignKey("dbo.TagEntities", t => t.TagEntity_Id, cascadeDelete: true)
-                .ForeignKey("dbo.PhotoEntities", t => t.PhotoEntity_Id, cascadeDelete: true)
+                .PrimaryKey(t => new { t.TagEntity_Id, t.PhotoEntity_Id})
+                .ForeignKey("dbo.TagEntities", t => t.TagEntity_Id)
+                .ForeignKey("dbo.PhotoEntities", t => t.PhotoEntity_Id)
                 .Index(t => t.TagEntity_Id)
                 .Index(t => t.PhotoEntity_Id);
             
@@ -93,19 +91,17 @@ namespace PhotoGallery.DAL.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.PhotoEntities", "AlbumEntity_Id", "dbo.AlbumEntities");
             DropForeignKey("dbo.AlbumEntities", "CoverPhotoId", "dbo.PhotoEntities");
             DropForeignKey("dbo.TagEntities", "PersonId", "dbo.PersonEntities");
             DropForeignKey("dbo.TagEntityPhotoEntities", "PhotoEntity_Id", "dbo.PhotoEntities");
             DropForeignKey("dbo.TagEntityPhotoEntities", "TagEntity_Id", "dbo.TagEntities");
             DropForeignKey("dbo.PhotoEntities", "ResolutionId", "dbo.ResolutionEntities");
-            DropForeignKey("dbo.AlbumEntities", "PhotoEntity_Id", "dbo.PhotoEntities");
+            DropForeignKey("dbo.PhotoEntities", "AlbumId", "dbo.AlbumEntities");
             DropIndex("dbo.TagEntityPhotoEntities", new[] { "PhotoEntity_Id" });
             DropIndex("dbo.TagEntityPhotoEntities", new[] { "TagEntity_Id" });
             DropIndex("dbo.TagEntities", new[] { "PersonId" });
-            DropIndex("dbo.PhotoEntities", new[] { "AlbumEntity_Id" });
+            DropIndex("dbo.PhotoEntities", new[] { "AlbumId" });
             DropIndex("dbo.PhotoEntities", new[] { "ResolutionId" });
-            DropIndex("dbo.AlbumEntities", new[] { "PhotoEntity_Id" });
             DropIndex("dbo.AlbumEntities", new[] { "CoverPhotoId" });
             DropTable("dbo.TagEntityPhotoEntities");
             DropTable("dbo.PersonEntities");

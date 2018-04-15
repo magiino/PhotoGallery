@@ -7,13 +7,13 @@ namespace PhotoGallery.DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class PathAdded : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PathAdded));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201804061052427_PathAdded"; }
+            get { return "201804151812517_Initial"; }
         }
         
         string IMigrationMetadata.Source
