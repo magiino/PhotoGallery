@@ -7,6 +7,12 @@ namespace PhotoGallery.BL.Repositories
 {
     public class PhotoRepository
     {
+        private readonly DataContext _dataContext;
+        public PhotoRepository(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
+
         public PhotoDetailModel FindByName(string name)
         {
             using (var dataContext = new DataContext())
@@ -27,7 +33,6 @@ namespace PhotoGallery.BL.Repositories
         }
 
         public PhotoDetailModel GetById(int id)
-
         {
             using (var dataContext = new DataContext())
             {

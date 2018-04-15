@@ -45,26 +45,18 @@ namespace PhotoGallery.BL.Repositories
                 return Mapper.AlbumEntityToAlbumModel(album);
             }
         }
-
-
-        private readonly DataContext dataDontext;
-
-        public AlbumRepository(DataContext dataDontext)
-        {
-            dataDontext = dataDontext;
-        }
-
+        
         public AlbumEntity Add(AlbumEntity album)
         {
-            dataDontext.Albums.Add(album);
-            dataDontext.SaveChanges();
+            _dataDontext.Albums.Add(album);
+            _dataDontext.SaveChanges();
             return album;
         }
 
         public void Delete(int id)
         {
-            var album = dataDontext.Albums.FirstOrDefault(r => r.Id == id);
-            dataDontext.Albums.Remove(album);
+            var album = _dataDontext.Albums.FirstOrDefault(r => r.Id == id);
+            _dataDontext.Albums.Remove(album);
         }
 
         public void Update(AlbumModel album)

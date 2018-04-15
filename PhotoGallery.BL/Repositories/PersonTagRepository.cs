@@ -8,12 +8,18 @@ namespace PhotoGallery.BL.Repositories
 {
     public class PersonTagRepository
     {
+        private readonly DataContext _dataDontext;
+
+        public PersonTagRepository(DataContext dataDontext)
+        {
+            _dataDontext = dataDontext;
+        }
+
         public ICollection<PersonTagListModel> GetAll()
         {
             using (var dataContext = new DataContext())
             {
                 return Mapper.PersonTagEntitiesToPersonTagListModels(dataContext.PersonTags.ToList());
-
             }
         }
 
@@ -39,28 +45,20 @@ namespace PhotoGallery.BL.Repositories
             }
         }
 
-
-        private readonly DataContext dataDontext;
-
-        public PersonTagRepository(DataContext dataDontext)
-        {
-            dataDontext = dataDontext;
-        }
-
-        public PersonTagModel GetById(int id)
+        public PersonTagListModel GetById(int id)
         {
             using (var dataContext = new DataContext())
             {
                 var personTag = dataContext
                     .PersonTags
                     .FirstOrDefault(r => r.Id == id);
-                return mapper.Map(personTag);
+                return Mapper.PersonTagEntityToPersonTagListModel(personTag);
             }
         }
         public PersonTagEntity Add(PersonTagEntity person)
         {
-            dataDontext.PersonTags.Add(person);
-            dataDontext.SaveChanges();
+            _dataDontext.PersonTags.Add(person);
+            _dataDontext.SaveChanges();
             return person;
         }
 

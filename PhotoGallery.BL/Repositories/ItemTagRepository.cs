@@ -8,6 +8,13 @@ namespace PhotoGallery.BL.Repositories
 {
     public class ItemTagRepository
     {
+        private readonly DataContext _dataDontext;
+
+        public ItemTagRepository(DataContext dataDontext)
+        {
+            _dataDontext = dataDontext;
+        }
+
         public ICollection<ItemTagListModel> GetAll()
         {
             using (var dataContext = new DataContext())
@@ -27,22 +34,13 @@ namespace PhotoGallery.BL.Repositories
                 return Mapper.ItemTagEntityToItemTagListModel(itemTag);
             }
         }
-
-
-
-        private readonly DataContext dataDontext;
-
-        public ItemTagRepository(DataContext dataDontext)
+ 
+        public ItemTagListModel GetById(int id)
         {
-            dataDontext = dataDontext;
-        }
-
-        public ItemTagModel GetById(int id)
-        {
-            var itemTag = dataDontext
+            var itemTag = _dataDontext
                 .ItemTags
                 .FirstOrDefault(r => r.Id == id);
-            return mapper.Map(itemTag);
+            return Mapper.ItemTagEntityToItemTagListModel(itemTag);
         }
 
     }

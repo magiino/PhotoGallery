@@ -1,15 +1,12 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PhotoGallery.BL.Repositories;
 using Xunit;
 using PhotoGallery.DAL;
 
 namespace Tests
 {
-    [TestClass]
-    public class UnitTest1
+    public class RepositoriesTests
     {
-        [TestMethod]
         public void DbConnectionTest()
         {
             using (var DataContext = new DataContext())
@@ -18,47 +15,47 @@ namespace Tests
             }
         }
 
-        private AlbumRepository albumRepository = new AlbumRepository();
-        private PhotoRepository photoRepository = new PhotoRepository();
-        private ItemTagRepository itemTagRepository = new ItemTagRepository();
+        private readonly AlbumRepository _albumRepository = new AlbumRepository(new DataContext());
+        private readonly PhotoRepository _photoRepository = new PhotoRepository(new DataContext());
+        private readonly ItemTagRepository _itemTagRepository = new ItemTagRepository(new DataContext());
 
         [Fact]
         public void FindByName_TestPhoto_NotNull()
         {
-            var photo = photoRepository.FindByName("Testing photo");
-            Assert.IsNotNull(photo);
+            var photo = _photoRepository.FindByName("Testing photo");
+            Assert.NotNull(photo);
         }
         [Fact]
         public void FindByName_NonExistPhoto_Null()
         {
-            var photo = photoRepository.FindByName("NonExisting Photo");
-            Assert.IsNull(photo);
+            var photo = _photoRepository.FindByName("NonExisting Photo");
+            Assert.Null(photo);
         }
         [Fact]
         public void FindByName_TestAlbum_NotNull()
         {
-            var album = albumRepository.FindByTitle("Testing album");
-            Assert.IsNotNull(album);
+            var album = _albumRepository.FindByTitle("Testing album");
+            Assert.NotNull(album);
         }
         [Fact]
         public void FindByName_TestPhoto_ContainsNote()
         {
-            var photo = photoRepository.FindByName("Testing photo");
+            var photo = _photoRepository.FindByName("Testing photo");
             var note = photo.Note.Contains("testing note");
-            Assert.IsTrue(note);
+            Assert.True(note);
         }
         [Fact]
         public void FindByName_TestPhoto_Resolution()
         {
-            var photo = photoRepository.FindByName("Testing photo");
+            var photo = _photoRepository.FindByName("Testing photo");
             var resol = photo.Resolution.Height == 600;
-            Assert.IsTrue(resol);
+            Assert.True(resol);
         }
         [Fact]
         public void FindByName_TestItemTag_NotNull()
         {
-            var tag = itemTagRepository.GetByName("Testing tag");
-            Assert.IsNotNull(tag);
+            var tag = _itemTagRepository.GetByName("Testing tag");
+            Assert.NotNull(tag);
         }
 
 
