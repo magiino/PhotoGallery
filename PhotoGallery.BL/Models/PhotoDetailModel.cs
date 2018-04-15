@@ -15,7 +15,7 @@ namespace PhotoGallery.BL.Models
         public ResolutionEntity Resolution { get; set; }
         public string Note { get; set; }
         public string Location { get; set; }
-        public ICollection<AlbumEntity> Albums { get; set; }
+        public AlbumEntity Album { get; set; }
         public ICollection<TagEntity> Tags { get; set; }
     }
 }

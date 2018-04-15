@@ -83,7 +83,7 @@ namespace PhotoGallery.BL
                 Resolution = entity.Resolution,
                 Note = entity.Note,
                 Location = entity.Location,
-                Albums = entity.Albums,
+                Album = entity.Album,
                 Tags = entity.Tags
             };
         }
