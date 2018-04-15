@@ -7,6 +7,13 @@ namespace PhotoGallery.BL.Repositories
 {
     public class AlbumRepository 
     {
+        private readonly DataContext _dataDontext;
+
+        public AlbumRepository(DataContext dataDontext)
+        {
+            _dataDontext = dataDontext;
+        }
+
         public AlbumModel FindByTitle(string title)
 
         {
@@ -28,7 +35,6 @@ namespace PhotoGallery.BL.Repositories
         }
 
         public AlbumModel GetById(int id)
-
         {
             using (var dataContext = new DataContext())
             {
