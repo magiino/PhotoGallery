@@ -7,36 +7,34 @@ namespace PhotoGallery.BL.Repositories
 {
     public class PersonTagRepository
     {
-        private readonly Mapper mapper = new Mapper();
-
-        public ICollection<PersonTagModel> GetAll()
+        public ICollection<PersonTagListModel> GetAll()
         {
             using (var dataContext = new DataContext())
             {
-                return mapper.Map(dataContext.PersonTags.ToList());
+                return Mapper.PersonTagEntitiesToPersonTagListModels(dataContext.PersonTags.ToList());
 
             }
         }
 
-        public PersonTagModel GetByFirstName(string name)
+        public PersonTagListModel GetByFirstName(string name)
         {
             using (var dataContext = new DataContext())
             {
                 var personTag = dataContext
                  .PersonTags
                  .FirstOrDefault(r => r.Person.FirstName == name);
-                return mapper.Map(personTag);
+                return Mapper.PersonTagEntityToPersonTagListModel(personTag);
             }
         }
 
-        public PersonTagModel GetByLastName(string name)
+        public PersonTagListModel GetByLastName(string name)
         {
             using (var dataContext = new DataContext())
             {
                 var personTag = dataContext
                  .PersonTags
                  .FirstOrDefault(r => r.Person.LastName == name);
-                return mapper.Map(personTag);
+                return Mapper.PersonTagEntityToPersonTagListModel(personTag);
             }
         }
     }

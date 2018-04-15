@@ -5,7 +5,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 {
     public interface IItemTagRepository
     {
-        ICollection<ItemTagModel> GetAll();
-        ItemTagModel GetByName(string name);
+        ICollection<ItemTagListModel> GetAll();
+        ItemTagListModel GetByName(string name);
     }
 }

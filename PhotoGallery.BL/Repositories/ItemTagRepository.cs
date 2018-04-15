@@ -7,25 +7,23 @@ namespace PhotoGallery.BL.Repositories
 {
     public class ItemTagRepository
     {
-        private readonly Mapper mapper = new Mapper();
-
-        public ICollection<ItemTagModel> GetAll()
+        public ICollection<ItemTagListModel> GetAll()
         {
             using (var dataContext = new DataContext())
             {
-                return mapper.Map(dataContext.ItemTags.ToList());
+                return Mapper.ItemTagEntitiesToItemTagListModels(dataContext.ItemTags.ToList());
 
             }
         }
 
-        public ItemTagModel GetByName(string name)
+        public ItemTagListModel GetByName(string name)
         {
             using (var dataContext = new DataContext())
             {
                 var itemTag = dataContext
                  .ItemTags
                  .FirstOrDefault(r => r.Name == name);
-                return mapper.Map(itemTag);
+                return Mapper.ItemTagEntityToItemTagListModel(itemTag);
             }
         }
     }

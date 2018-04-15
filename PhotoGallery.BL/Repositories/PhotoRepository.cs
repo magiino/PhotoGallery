@@ -7,8 +7,6 @@ namespace PhotoGallery.BL.Repositories
 {
     public class PhotoRepository
     {
-        private readonly Mapper mapper = new Mapper();
-
         public PhotoDetailModel FindByName(string name)
         {
             using (var dataContext = new DataContext())
@@ -16,7 +14,7 @@ namespace PhotoGallery.BL.Repositories
                 var photo = dataContext
                  .Photos
                  .FirstOrDefault(r => r.Name == name);
-                return mapper.Map(photo);
+                return Mapper.PhotoEntityToPhotoDetailModel(photo);
             }
         }
 
@@ -24,7 +22,7 @@ namespace PhotoGallery.BL.Repositories
         {
             using (var dataContext = new DataContext())
             {
-                return mapper.MapList(dataContext.Photos.ToList());
+                return Mapper.PhotoEntitiesToPhotoListModels(dataContext.Photos.ToList());
             }
         }
 
@@ -36,7 +34,7 @@ namespace PhotoGallery.BL.Repositories
                 var photo = dataContext
                  .Photos
                  .FirstOrDefault(r => r.Id == id);
-                return mapper.Map(photo);
+                return Mapper.PhotoEntityToPhotoDetailModel(photo);
             }
         }
     }
