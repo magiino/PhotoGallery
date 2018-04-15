@@ -12,8 +12,8 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 
 
         PersonTagModel GetById(int id);
-        PersonTagModel Add(PersonEntity person);
-        PersonTagModel Delete(int id);
-        PersonTagModel Update();
+        PersonTagEntity Add(PersonTagEntity person);
+        void Delete(int id);
+        void Update(PersonTagModel person);
     }
 }

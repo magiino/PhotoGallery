@@ -51,13 +51,10 @@ namespace PhotoGallery.BL.Repositories
 
         public PersonTagModel GetById(int id)
         {
-            using (var dataContext = new DataContext())
-            {
-                var personTag = dataContext
+                var personTag = dataDontext
                     .PersonTags
                     .FirstOrDefault(r => r.Id == id);
                 return mapper.Map(personTag);
-            }
         }
         public PersonTagEntity Add(PersonTagEntity person)
         {
@@ -66,6 +63,16 @@ namespace PhotoGallery.BL.Repositories
             return person;
         }
 
+        public void Delete(int id)
+        {
+            var person = dataDontext.PersonTags.FirstOrDefault(r => r.Id == id);
+            dataDontext.PersonTags.Remove(person);
+        }
+
+        public void Update(PersonTagModel person)
+        {
+
+        }
 
     }
 }

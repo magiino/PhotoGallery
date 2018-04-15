@@ -10,8 +10,8 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         ItemTagModel GetByName(string name);
 
         ItemTagModel GetById(int id);
-        ItemTagModel Add(ItemTagEntity item);
-        ItemTagModel Delete(int id);
-        ItemTagModel Update();
+        ItemTagEntity Add(ItemTagEntity item);
+        void Delete(int id);
+        void Update(ItemTagModel item);
     }
 }
