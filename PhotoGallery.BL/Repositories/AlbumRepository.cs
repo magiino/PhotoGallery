@@ -7,8 +7,6 @@ namespace PhotoGallery.BL.Repositories
 {
     public class AlbumRepository 
     {
-        private readonly Mapper mapper = new Mapper();
-
         public AlbumModel FindByTitle(string title)
 
         {
@@ -17,7 +15,7 @@ namespace PhotoGallery.BL.Repositories
                 var album = dataContext
                 .Albums
                 .FirstOrDefault(r => r.Title == title);
-                return mapper.Map(album);
+                return Mapper.AlbumEntityToAlbumModel(album);
             }
         }
 
@@ -25,7 +23,7 @@ namespace PhotoGallery.BL.Repositories
         {
             using (var dataContext = new DataContext())
             {
-                return mapper.Map(dataContext.Albums.ToList());
+                return Mapper.AlbumEntitiesToAlbumModels(dataContext.Albums.ToList());
             }
         }
 
@@ -37,7 +35,7 @@ namespace PhotoGallery.BL.Repositories
                 var album = dataContext
                  .Albums
                  .FirstOrDefault(r => r.Id == id);
-                return mapper.Map(album);
+                return Mapper.AlbumEntityToAlbumModel(album);
             }
         }
     }

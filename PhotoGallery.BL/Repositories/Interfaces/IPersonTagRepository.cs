@@ -5,8 +5,8 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 {
     public interface IPersonTagRepository
     {
-        ICollection<PersonTagModel> GetAll();
-        PersonTagModel GetByFirstName(string name);
-        PersonTagModel GetByLastName(string name);
+        ICollection<PersonTagListModel> GetAll();
+        PersonTagListModel GetByFirstName(string name);
+        PersonTagListModel GetByLastName(string name);
     }
 }

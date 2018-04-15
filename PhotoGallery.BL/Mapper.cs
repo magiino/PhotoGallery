@@ -1,120 +1,93 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using PhotoGallery.BL.Models;
 using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL
 {
-    public class Mapper
+    public static class Mapper
     {
-        public ItemTagModel Map(ItemTagEntity entity)
+        public static ItemTagListModel ItemTagEntityToItemTagListModel(ItemTagEntity itemTagEntity)
         {
-            return new ItemTagModel
+            return new ItemTagListModel
             {
-                Name = entity.Name,
-                PositionOnPhotoX = entity.XPosition,
-                PositionOnPhotoY = entity.YPosition,
-                PhotosWithThisTag = entity.Photos
+                Id = itemTagEntity.Id,
+                Name = itemTagEntity.Name,
+                XPosition = itemTagEntity.XPosition,
+                YPosition = itemTagEntity.YPosition,
             };
         }
 
-        public ICollection<ItemTagModel> Map(IEnumerable<ItemTagEntity> entities)
+        public static  ICollection<ItemTagListModel> ItemTagEntitiesToItemTagListModels(IEnumerable<ItemTagEntity> itemTagEntities)
         {
-            var models = new List<ItemTagModel>();
-            foreach (var entity in entities)
-            {
-                models.Add(Map(entity));
-            }
-
-            return models;
+            return itemTagEntities.Select(ItemTagEntityToItemTagListModel).ToList();
         }
 
-        public PersonTagModel Map(PersonTagEntity entity)
+        public static PersonTagListModel PersonTagEntityToPersonTagListModel(PersonTagEntity personTag)
         {
-            return new PersonTagModel
+            return new PersonTagListModel
             {
-                Person = entity.Person,
-                PersonId = entity.PersonId,
-                PositionOnPhotoX = entity.XPosition,
-                PositionOnPhotoY = entity.YPosition,
-                PhotosWithThisTag = entity.Photos
+                Id = personTag.Id,
+                Person = personTag.Person,
+                XPosition = personTag.XPosition,
+                YPosition = personTag.YPosition,
             };
         }
 
-        public ICollection<PersonTagModel> Map(IEnumerable<PersonTagEntity> entities)
+        public static ICollection<PersonTagListModel> PersonTagEntitiesToPersonTagListModels(IEnumerable<PersonTagEntity> personTagEntities)
         {
-            var models = new List<PersonTagModel>();
-            foreach (var entity in entities)
-            {
-                models.Add(Map(entity));
-            }
-
-            return models;
+            return personTagEntities.Select(PersonTagEntityToPersonTagListModel).ToList();
         }
 
-        public AlbumModel Map(AlbumEntity entity)
+        public static AlbumModel AlbumEntityToAlbumModel(AlbumEntity albumEntity)
         {
             return new AlbumModel
             {
-                Id = entity.Id,
-                Title = entity.Title,
-                CoverPhotoPath = entity.CoverPhoto.Path,
-                NumberOfPhotos = entity.Photos.Count
+                Id = albumEntity.Id,
+                Title = albumEntity.Title,
+                CoverPhotoPath = albumEntity.CoverPhoto.Path,
+                NumberOfPhotos = albumEntity.Photos.Count
             };
         }
-        public ICollection<AlbumModel> Map(IEnumerable<AlbumEntity> entities)
+        public static  ICollection<AlbumModel> AlbumEntitiesToAlbumModels(IEnumerable<AlbumEntity> albumEntities)
         {
-            var models = new List<AlbumModel>();
-            foreach (var entity in entities)
-            {
-                models.Add(Map(entity));
-            }
-            return models;
+            return albumEntities.Select(AlbumEntityToAlbumModel).ToList();
         }
 
-        public PhotoDetailModel Map(PhotoEntity entity)
+        public static PhotoDetailModel PhotoEntityToPhotoDetailModel(PhotoEntity photoEntity)
         {
             return new PhotoDetailModel
             {
-                Id = entity.Id,
-                Name = entity.Name,
-                Path = entity.Path,
-                CreatedTime = entity.CreatedTime,
-                Format = entity.Format,
-                Resolution = entity.Resolution,
-                Note = entity.Note,
-                Location = entity.Location,
-                Album = entity.Album,
-                Tags = entity.Tags
+                Id = photoEntity.Id,
+                Name = photoEntity.Name,
+                Path = photoEntity.Path,
+                CreatedTime = photoEntity.CreatedTime,
+                Format = photoEntity.Format,
+                Resolution = photoEntity.Resolution,
+                Note = photoEntity.Note,
+                Location = photoEntity.Location,
+                Tags = photoEntity.Tags
             };
         }
 
-        public ICollection<PhotoDetailModel> Map(IEnumerable<PhotoEntity> entities)
+        public static ICollection<PhotoDetailModel> PhotoEntitiesToPhotoDetailModels(IEnumerable<PhotoEntity> photoEntities)
         {
-            var models = new List<PhotoDetailModel>();
-            foreach (var entity in entities)
-            {
-                models.Add(Map(entity));
-            }
-            return models;
+            return photoEntities.Select(PhotoEntityToPhotoDetailModel).ToList();
         }
         
-        public PhotoListModel MapList(PhotoEntity entity)
+        public static PhotoListModel PhotoEntityToPhotoListModel(PhotoEntity photoEntity)
         {
             return new PhotoListModel
             {
-                Name = entity.Name,
-                Path = entity.Path,
+                Id = photoEntity.Id,
+                Name = photoEntity.Name,
+                Path = photoEntity.Path,
             };
         }
 
-        public ICollection<PhotoListModel> MapList(IEnumerable<PhotoEntity> entities)
+        public static ICollection<PhotoListModel> PhotoEntitiesToPhotoListModels(IEnumerable<PhotoEntity> entities)
         {
-            var models = new List<PhotoListModel>();
-            foreach (var entity in entities)
-            {
-                models.Add(MapList(entity));
-            }
-            return models;
+            return entities.Select(PhotoEntityToPhotoListModel).ToList();
         }
     }
 }
