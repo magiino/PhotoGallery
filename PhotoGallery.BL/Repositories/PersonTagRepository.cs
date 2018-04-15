@@ -2,11 +2,12 @@
 using System.Linq;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
+using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL.Repositories
 {
-    public class PersonTagRepository
+    public class PersonTagRepository : IPersonTagRepository
     {
         private readonly DataContext _dataDontext;
 
@@ -60,6 +61,16 @@ namespace PhotoGallery.BL.Repositories
             _dataDontext.PersonTags.Add(person);
             _dataDontext.SaveChanges();
             return person;
+        }
+
+        public void Delete(int id)
+        {
+            var person = _dataDontext.PersonTags.FirstOrDefault(r => r.Id == id);
+            _dataDontext.PersonTags.Remove(person);
+        }
+
+        public void Update(PersonTagListModel person)
+        {
         }
 
 

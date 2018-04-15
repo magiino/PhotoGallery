@@ -2,11 +2,12 @@
 using System.Linq;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
+using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL.Repositories
 {
-    public class AlbumRepository 
+    public class AlbumRepository : IAlbumRepository
     {
         private readonly DataContext _dataDontext;
 

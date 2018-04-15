@@ -11,12 +11,11 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         ICollection<PhotoListModel> GetAll();
         PhotoDetailModel GetById(int id);
 
-        PhotoDetailModel Add(PhotoEntity photo);
-        PhotoDetailModel Delete(int id);
-        PhotoDetailModel Update();
+        PhotoEntity Add(PhotoEntity photo);
+        void Delete(int id);
+        void Update(PhotoDetailModel photo);
 
-        ICollection<PhotoListModel> GetWithName(int pageIndex, int pageSize);
-        ICollection<PhotoListModel> GetWithTime(int pageIndex, int pageSize);
+        ICollection<PhotoListModel> GetPhotos(int pageIndex, int pageSize);
         ICollection<PhotoListModel> GetWithNamePredicate(Predicate<bool> predicate, int pageIndex, int pageSize);
         ICollection<PhotoListModel> GetWithDatePredicate(Predicate<bool> predicate, int pageIndex, int pageSize);
         ICollection<PhotoListModel> GetWithNamePredicateOrdered(Predicate<bool> predicate, int pageIndex, int pageSize);
