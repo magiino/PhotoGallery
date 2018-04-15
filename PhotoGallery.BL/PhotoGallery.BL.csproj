@@ -54,11 +54,12 @@
   <ItemGroup>
     <Compile Include="IAddPhoto.cs" />
     <Compile Include="IoC\IoC.cs" />
+    <Compile Include="MessengerFile\Messeges\ChoosenItem.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="Messenger\IMessenger.cs" />
+    <Compile Include="MessengerFile\IMessenger.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="Messenger\Messenger.cs" />
+    <Compile Include="MessengerFile\Messenger.cs" />
     <Compile Include="Models\AlbumModel.cs" />
     <Compile Include="Models\ItemTagListModel.cs" />
     <Compile Include="Models\PersonTagListModel.cs" />
@@ -85,8 +86,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messenger\Messeges\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

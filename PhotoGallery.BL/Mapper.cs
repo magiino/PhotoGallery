@@ -13,8 +13,6 @@ namespace PhotoGallery.BL
             {
                 Id = itemTagEntity.Id,
                 Name = itemTagEntity.Name,
-                XPosition = itemTagEntity.XPosition,
-                YPosition = itemTagEntity.YPosition,
             };
         }
 
@@ -29,8 +27,6 @@ namespace PhotoGallery.BL
             {
                 Id = personTag.Id,
                 Person = personTag.Person,
-                XPosition = personTag.XPosition,
-                YPosition = personTag.YPosition,
             };
         }
 
