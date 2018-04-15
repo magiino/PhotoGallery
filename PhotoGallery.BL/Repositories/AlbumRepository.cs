@@ -2,6 +2,7 @@
 using System.Linq;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
+using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL.Repositories
 {
@@ -44,5 +45,31 @@ namespace PhotoGallery.BL.Repositories
                 return Mapper.AlbumEntityToAlbumModel(album);
             }
         }
+
+
+        private readonly DataContext dataDontext;
+
+        public AlbumRepository(DataContext dataDontext)
+        {
+            dataDontext = dataDontext;
+        }
+
+        public AlbumEntity Add(AlbumEntity album)
+        {
+            dataDontext.Albums.Add(album);
+            dataDontext.SaveChanges();
+            return album;
+        }
+
+        public void Delete(int id)
+        {
+            var album = dataDontext.Albums.FirstOrDefault(r => r.Id == id);
+            dataDontext.Albums.Remove(album);
+        }
+
+        public void Update(AlbumModel album)
+        {
+        }
+
     }
 }
