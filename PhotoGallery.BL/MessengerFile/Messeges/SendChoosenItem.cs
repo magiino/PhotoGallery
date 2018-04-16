@@ -1,11 +1,11 @@
 ﻿namespace PhotoGallery.BL.MessengerFile.Messeges
 {
-    public class ChoosenItem
+    public class SendChoosenItem
     {
         public int Id { get; set; }
         public bool IsTag { get; set; }
 
-        public ChoosenItem(int id, bool isTag)
+        public SendChoosenItem(int id, bool isTag)
         {
             Id = id;
             IsTag = isTag;

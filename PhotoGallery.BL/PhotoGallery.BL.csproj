@@ -54,8 +54,9 @@
   <ItemGroup>
     <Compile Include="IAddPhoto.cs" />
     <Compile Include="IoC\IoC.cs" />
-    <Compile Include="MessengerFile\Messeges\ChoosenPhoto.cs" />
-    <Compile Include="MessengerFile\Messeges\ChoosenItem.cs" />
+    <Compile Include="MessengerFile\Messeges\SendFilterData.cs" />
+    <Compile Include="MessengerFile\Messeges\SendChoosenPhoto.cs" />
+    <Compile Include="MessengerFile\Messeges\SendChoosenItem.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="MessengerFile\IMessenger.cs" />

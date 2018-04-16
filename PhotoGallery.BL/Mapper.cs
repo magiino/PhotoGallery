@@ -26,7 +26,8 @@ namespace PhotoGallery.BL
             return new PersonTagListModel
             {
                 Id = personTag.Id,
-                Person = personTag.Person,
+                FirstName = personTag.Person.FirstName,
+                LastName = personTag.Person.LastName,
             };
         }
 
@@ -59,7 +60,12 @@ namespace PhotoGallery.BL
                 Path = photoEntity.Path,
                 CreatedTime = photoEntity.CreatedTime,
                 Format = photoEntity.Format,
-                Resolution = photoEntity.Resolution,
+                Resolution = new ResolutionModel()
+                {
+                    Height = photoEntity.Resolution.Height,
+                    Width = photoEntity.Resolution.Width,
+                    Id = photoEntity.Resolution.Id
+                },
                 Note = photoEntity.Note,
                 Location = photoEntity.Location,
                 Tags = photoEntity.Tags

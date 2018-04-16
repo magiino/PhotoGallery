@@ -2,6 +2,7 @@
 {
     public enum Format
     {
+        None,
         Bmp,
         Jpg,
         Jpe,

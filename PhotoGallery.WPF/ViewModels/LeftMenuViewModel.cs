@@ -1,7 +1,9 @@
 ﻿using PhotoGallery.BL.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using PhotoGallery.BL;
 using PhotoGallery.BL.MessengerFile.Messeges;
+using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.WPF.ViewModels
 {
@@ -19,9 +21,9 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedAlbum;
             set
             {
-                SelectedAlbum = null;
+                SelectedItemTag = null;
                 SelectedPersonTag = null;
-                _messenger.Send(new ChoosenItem(value.Id, false));
+                _messenger.Send(new SendChoosenItem(value.Id, false));
                 _selectedAlbum = value;
             }
         }
@@ -35,7 +37,7 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 SelectedAlbum = null;
                 SelectedPersonTag = null;
-                _messenger.Send(new ChoosenItem(value.Id, true));
+                _messenger.Send(new SendChoosenItem(value.Id, true));
                 _selectedItemTag = value;
             }
         }
@@ -48,10 +50,14 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 SelectedAlbum = null;
                 _selectedItemTag = null;
-                _messenger.Send(new ChoosenItem(value.Id, true));
+                _messenger.Send(new SendChoosenItem(value.Id, true));
                 _selectedPersonTag = value;
             }
         }
+
+        public ICommand DeleteAlbumCommand { get; set; }
+        public ICommand AddAlbumCommand { get; set; }
+        public ICommand DeleteTagCommand { get; set; }
 
         public LeftMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -59,6 +65,44 @@ namespace PhotoGallery.WPF.ViewModels
             _unitOfWork = unitOfWork;
 
             OnLoad();
+
+            DeleteAlbumCommand = new RelayCommand(DeleteAlbum, DeleteAlbumCanUse);
+            AddAlbumCommand = new RelayCommand(AddAlbum);
+            DeleteTagCommand = new RelayCommand(DeleteTag, DeleteTagCanUse);
+        }
+
+        private bool DeleteTagCanUse()
+        {
+            return _selectedPersonTag != null || _selectedItemTag != null;
+        }
+
+        private void DeleteTag()
+        {
+            if(_selectedPersonTag != null)
+                _unitOfWork.PersonTags.Delete(_selectedPersonTag.Id);
+            if (_selectedItemTag != null)
+                _unitOfWork.PersonTags.Delete(_selectedItemTag.Id);
+        }
+
+        private void AddAlbum()
+        {
+            // TODO upravovanie albumu
+            // TODO pridavanie albumu z ineho okna?
+            _unitOfWork.Albums.Add(new AlbumEntity()
+            {
+
+            });
+        }
+
+        private bool DeleteAlbumCanUse()
+        {
+            return SelectedAlbum != null;
+        }
+
+        private void DeleteAlbum()
+        {
+            _unitOfWork.Albums.Delete(_selectedAlbum.Id);
+            Albums.Remove(_selectedAlbum);
         }
 
         private void OnLoad()

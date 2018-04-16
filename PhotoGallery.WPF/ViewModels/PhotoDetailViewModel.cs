@@ -6,6 +6,8 @@ namespace PhotoGallery.WPF.ViewModels
 {
     public class PhotoDetailViewModel
     {
+        private readonly IMessenger _messenger;
+        private readonly IUnitOfWork _albumRepository;
         public PhotoListModel Photo { get; set; }
         public int CurrentAlbumId { get; set; }
 
@@ -14,6 +16,9 @@ namespace PhotoGallery.WPF.ViewModels
 
         public PhotoDetailViewModel(IMessenger messenger, IUnitOfWork albumRepository)
         {
+            _messenger = messenger;
+            _albumRepository = albumRepository;
+
             OnLoad();
             PreviousPhoto = new RelayCommand(GetPreviousPhoto);
             NextPhoto = new RelayCommand(GetNextPhoto);

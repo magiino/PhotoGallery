@@ -1,10 +1,10 @@
 ﻿namespace PhotoGallery.BL.MessengerFile.Messeges
 {
-    public class ChoosenPhoto
+    public class SendChoosenPhoto
     {
         public int PhotoId { get; set; }
 
-        public ChoosenPhoto(int id)
+        public SendChoosenPhoto(int id)
         {
             PhotoId = id;
         }
