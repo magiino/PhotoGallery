@@ -10,6 +10,8 @@ namespace PhotoGallery.BL.IoC
             return Kernel.Get<T>();
         }
 
+        public const int PageSize = 20;
+
         public static IKernel Kernel { get; } = new StandardKernel();
         public static Messenger Messenger => IoC.Get<Messenger>();
         public static IUnitOfWork UnitOfWork => IoC.Get<IUnitOfWork>();

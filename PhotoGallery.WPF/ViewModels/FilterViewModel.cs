@@ -2,7 +2,6 @@
 using PhotoGallery.WPF.ViewModels.Base;
 using PhotoGallery.BL.Models;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Input;
@@ -18,10 +17,10 @@ namespace PhotoGallery.WPF.ViewModels
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
 
-        // TODO property na upravovanie nazvu albumu
+        private PhotoDetailModel _selectedPhoto;
+        private AlbumModel _selectedAlbum;
+
         public string AlbumName { get; set; }
-        // TODO zmenit cover photo
-        public int CoverPhotoId { get; set; }
 
         // Zoradenie
         public bool SortByName { get; set; } = false;
@@ -43,11 +42,9 @@ namespace PhotoGallery.WPF.ViewModels
         public DateTime DateFrom { get; set; } = DateTime.MinValue;
         public DateTime DateTo { get; set; } = DateTime.MaxValue;
 
-        private PhotoDetailModel _selectedPhoto;
-        private AlbumModel _selectedAlbum;
-
-        private ICommand SetCoverPhotoCommand { get; }
-        private ICommand AddPhotoCommand { get; }
+        public ICommand SetCoverPhotoCommand { get; }
+        public ICommand AddPhotoCommand { get; }
+        public ICommand DeletePhotoCommand { get; }
 
         public FilterViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -55,9 +52,10 @@ namespace PhotoGallery.WPF.ViewModels
             _unitOfWork = unitOfWork;
             OnLoad();
 
-            SetCoverPhotoCommand = new RelayCommand(ChangeAlbumCoverPhoto);
-            AddPhotoCommand = new RelayCommand(AddPhoto);
-
+            SetCoverPhotoCommand = new RelayCommand(ChangeAlbumCoverPhoto, CanUseButton);
+            AddPhotoCommand = new RelayCommand(AddPhoto, CanUseButton);
+            DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
+            
             _messenger.Register<SendChoosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetById(msg.PhotoId));
             _messenger.Register<SendChoosenItem>(SetAlbum);
         }
@@ -68,25 +66,32 @@ namespace PhotoGallery.WPF.ViewModels
             _unitOfWork.Photos.Add(photo);
             // TODO zaradit fotku do listu
         }
-
-        private void SetAlbum(SendChoosenItem msg)
+        private void DeletePhoto()
         {
-            // TODO set album
-           //msg.IsTag == false ?  : (_selectedAlbum = null)
+            // TODO zmazat ju aj lokalne
+            _unitOfWork.Photos.Delete(_selectedPhoto.Id);
         }
-
-        private void OnLoad()
-        {
-            FormatList = Enum.GetValues(typeof(Format)).Cast<Format>();
-            // Resolutions =  
-        }
-
         private void ChangeAlbumCoverPhoto()
         {
             _selectedAlbum.CoverPhotoPath = _selectedPhoto.Path;
             _unitOfWork.Albums.Update(_selectedAlbum);
         }
 
+        private bool CanUseButton()
+        {
+            return _selectedPhoto != null;
+        }
+
+        private void SetAlbum(SendChoosenItem msg)
+        {
+            // TODO set album
+            // msg.IsTag == false ?  : (_selectedAlbum = null)
+        }
+        private void OnLoad()
+        {
+            FormatList = Enum.GetValues(typeof(Format)).Cast<Format>();
+            // Resolutions =  
+        }
         private void PhotoFilter()
         {
             // TODO filter

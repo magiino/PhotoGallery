@@ -8,18 +8,17 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 {
     public interface IPhotoRepository
     {
-        PhotoDetailModel FindByName(string name);
+        PhotoDetailModel GetDetailModelById(int id);
+        PhotoListModel GetListModelById(int id);
         ICollection<PhotoListModel> GetAll();
-        PhotoDetailModel GetById(int id);
+        PhotoDetailModel FindByName(string name);
 
         PhotoEntity Add(PhotoEntity photo);
-        void Delete(int id);
-        void Update(PhotoDetailModel photo);
+        bool Delete(int id);
+        bool Update(PhotoDetailModel photoDetail);
 
-        ICollection<PhotoListModel> GetPhotos(int pageIndex, int pageSize);
-        ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<PhotoEntity, bool>> predicate, int pageIndex, int pageSize = 6);
-        ICollection<PhotoListModel> GetWithDatePredicate(Predicate<bool> predicate, int pageIndex, int pageSize);
-        ICollection<PhotoListModel> GetWithNamePredicateOrdered(Predicate<bool> predicate, int pageIndex, int pageSize);
-        ICollection<PhotoListModel> GetWithDatePredicateOrdered(Predicate<bool> predicate, int pageIndex, int pageSize);
+        ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize);
+        ICollection<PhotoListModel> GetPhotosByPageFilter(Expression<Func<PhotoEntity, bool>> filter, int pageIndex, int pageSize = IoC.IoC.PageSize);
+        ICollection<PhotoListModel> GetPhotosByPageFilterWithSort(Expression<Func<PhotoEntity, bool>> filter, Expression<Func<PhotoEntity, bool>> sort, int pageIndex, int pageSize = IoC.IoC.PageSize);
     }
 }

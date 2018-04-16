@@ -20,7 +20,8 @@ namespace PhotoGallery.WPF.ViewModels
         public string Note { get; set; }
         public string Location { get; set; }
 
-        public ICommand DeletePhotoCommand { get; }
+        public ICommand AddTagCommand { get; }
+        public ICommand DeleteTagCommand { get; }
 
         public DetailsViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -29,8 +30,7 @@ namespace PhotoGallery.WPF.ViewModels
 
             OnLoad();
 
-            // TODO zmazat ju aj lokalne
-            DeletePhotoCommand = new RelayCommand(() => _unitOfWork.Photos.Delete(SelectedPhoto.Id));
+ 
 
             _messenger.Register<SendChoosenPhoto>(msg => SelectedPhoto = unitOfWork.Photos.GetById(msg.PhotoId));
         }

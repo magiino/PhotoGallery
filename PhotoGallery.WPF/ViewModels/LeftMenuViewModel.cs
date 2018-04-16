@@ -11,11 +11,12 @@ namespace PhotoGallery.WPF.ViewModels
     {
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
+
         private ItemTagListModel _selectedItemTag;
         private PersonTagListModel _selectedPersonTag;
         private AlbumModel _selectedAlbum;
-        public ObservableCollection<AlbumModel> Albums { get; set; }
 
+        public ObservableCollection<AlbumModel> Albums { get; set; }
         public AlbumModel SelectedAlbum
         {
             get => _selectedAlbum;
@@ -29,7 +30,6 @@ namespace PhotoGallery.WPF.ViewModels
         }
 
         public ObservableCollection<ItemTagListModel> Items { get; set; }
-
         public ItemTagListModel SelectedItemTag
         {
             get => _selectedItemTag;
@@ -55,9 +55,9 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        public ICommand DeleteAlbumCommand { get; set; }
-        public ICommand AddAlbumCommand { get; set; }
-        public ICommand DeleteTagCommand { get; set; }
+        public ICommand DeleteAlbumCommand { get; }
+        public ICommand AddAlbumCommand { get; }
+        public ICommand DeleteTagCommand { get; }
 
         public LeftMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {

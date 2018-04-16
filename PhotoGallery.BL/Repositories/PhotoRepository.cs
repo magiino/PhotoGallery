@@ -17,36 +17,30 @@ namespace PhotoGallery.BL.Repositories
             _dataContext = dataContext;
         }
 
+        public PhotoDetailModel GetDetailModelById(int id)
+        {
+            var photo = _dataContext.Photos.FirstOrDefault(x => x.Id == id);
+            return Mapper.PhotoEntityToPhotoDetailModel(photo);
+        }
+
+        public PhotoListModel GetListModelById(int id)
+        {
+            var photo = _dataContext.Photos.FirstOrDefault(x => x.Id == id);
+            return Mapper.PhotoEntityToPhotoListModel(photo);
+        }
+
+        public ICollection<PhotoListModel> GetAll()
+        {
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos.ToList());
+        }
+
         public PhotoDetailModel FindByName(string name)
         {
-            using (var dataContext = new DataContext())
-            {
-                var photo = dataContext
-                 .Photos
-                 .FirstOrDefault(r => r.Name == name);
-                return Mapper.PhotoEntityToPhotoDetailModel(photo);
-            }
+            var photo = _dataContext.Photos.FirstOrDefault(x => x.Name == name);
+            return Mapper.PhotoEntityToPhotoDetailModel(photo);
         }
 
-        public ICollection< PhotoListModel> GetAll()
-        {
-            using (var dataContext = new DataContext())
-            {
-                return Mapper.PhotoEntitiesToPhotoListModels(dataContext.Photos.ToList());
-            }
-        }
-
-        public PhotoDetailModel GetById(int id)
-        {
-            using (var dataContext = new DataContext())
-            {
-                var photo = dataContext
-                 .Photos
-                 .FirstOrDefault(r => r.Id == id);
-                return Mapper.PhotoEntityToPhotoDetailModel(photo);
-            }
-        }
-
+        // todo premysliet ci to neprerobit na PhotoModely
         public PhotoEntity Add(PhotoEntity photo)
         {
             _dataContext.Photos.Add(photo);
@@ -54,18 +48,30 @@ namespace PhotoGallery.BL.Repositories
             return photo;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            var photo = _dataContext.Photos.FirstOrDefault(r => r.Id == id);
+            var photo = _dataContext.Photos.SingleOrDefault(x => x.Id == id);
+            if (photo == null) return false;
+
             _dataContext.Photos.Remove(photo);
+            _dataContext.SaveChanges();
+            return true;
         }
 
-        public void Update(PhotoDetailModel photo)
+        public bool Update(PhotoDetailModel photoDetail)
         {
+            var photoEntity = _dataContext.Photos.SingleOrDefault(x => x.Id == photoDetail.Id);
+            if (photoEntity == null) return false;
+
+            photoEntity.Name = photoDetail.Name;
+            photoEntity.Note = photoDetail.Note;
+            photoEntity.Location = photoDetail.Location;
+            photoEntity.Tags = photoDetail.Tags;
+            _dataContext.SaveChanges();
+            return true;
         }
 
-
-        public ICollection<PhotoListModel> GetPhotos(int pageIndex, int pageSize = 6)
+        public ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize)
         {
             return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
                 .Skip((pageIndex - 1) * pageSize)
@@ -74,28 +80,23 @@ namespace PhotoGallery.BL.Repositories
         }
 
 
-        public ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<PhotoEntity,bool>> predicate, int pageIndex, int pageSize = 6)
+        public ICollection<PhotoListModel> GetPhotosByPageFilter(Expression<Func<PhotoEntity,bool>> filter, int pageIndex, int pageSize = IoC.IoC.PageSize)
         {
             return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
-                .Where(predicate)
+                .Where(filter)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToList());
         }
 
-        public ICollection<PhotoListModel> GetWithDatePredicate(Predicate<bool> predicate, int pageIndex, int pageSize)
+        public ICollection<PhotoListModel> GetPhotosByPageFilterWithSort(Expression<Func<PhotoEntity,bool>> filter, Expression<Func<PhotoEntity,bool>> sort, int pageIndex, int pageSize = IoC.IoC.PageSize)
         {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<PhotoListModel> GetWithNamePredicateOrdered(Predicate<bool> predicate, int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<PhotoListModel> GetWithDatePredicateOrdered(Predicate<bool> predicate, int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
+                .Where(filter)
+                .OrderBy(sort)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList());
         }
     }
 }
