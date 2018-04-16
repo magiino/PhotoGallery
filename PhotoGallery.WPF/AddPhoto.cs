@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using PhotoGallery.BL;
 using PhotoGallery.DAL.Entities;
@@ -15,6 +17,7 @@ namespace PhotoGallery.WPF
     {
         private static Regex r = new Regex(":");
 
+        // TODO prerobit na model
         public PhotoEntity ChoosePhoto(int albumId)
         {
             var fileDialog = new OpenFileDialog
@@ -26,21 +29,18 @@ namespace PhotoGallery.WPF
             };
 
             if (fileDialog.ShowDialog() != true) return null;
-
+            
             var path = fileDialog.FileName;
-            var photo = new PhotoEntity()
+            var photo = new PhotoEntity
             {
                 Name = Path.GetFileName(path),
                 Path = path,
                 Note = fileDialog.Title,
                 AlbumId = albumId,
+                Format = GetFileFormat(path),
+                CreatedTime = GetCreatedTime(path),
+                Resolution = GetResolution(path),
             };
-
-
-
-            photo.Format = GetFileFormat(path);
-            photo.CreatedTime = GetCreatedTime(path);
-            photo.Resolution = GetResolution(path);
 
             return photo;
         }
@@ -79,7 +79,27 @@ namespace PhotoGallery.WPF
 
         private Format GetFileFormat(string path)
         {
-            throw new NotImplementedException();
+            var extension = Path.GetExtension(path);
+            switch (extension)
+            {
+                case ".bmp":
+                    return Format.Bmp;
+                case ".jpg":
+                    return Format.Jpg;
+                case ".jpe":
+                    return Format.Jpe;
+                case ".jpeg":
+                    return Format.Jpeg;
+                case ".png":
+                    return Format.Png;
+                case ".tif":
+                    return Format.Tif;
+                case ".tiff":
+                    return Format.Tiff;
+                default:
+                    Debugger.Break();
+                    throw new NotImplementedException();
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
 using System;
+using System.Linq.Expressions;
 
 namespace PhotoGallery.BL.Repositories
 {
@@ -64,7 +65,7 @@ namespace PhotoGallery.BL.Repositories
         }
 
 
-        public ICollection<PhotoListModel> GetPhotos(int pageIndex, int pageSize)
+        public ICollection<PhotoListModel> GetPhotos(int pageIndex, int pageSize = 6)
         {
             return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
                 .Skip((pageIndex - 1) * pageSize)
@@ -73,9 +74,13 @@ namespace PhotoGallery.BL.Repositories
         }
 
 
-        public ICollection<PhotoListModel> GetWithNamePredicate(Predicate<bool> predicate, int pageIndex, int pageSize)
+        public ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<PhotoEntity,bool>> predicate, int pageIndex, int pageSize = 6)
         {
-            throw new NotImplementedException();
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
+                .Where(predicate)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList());
         }
 
         public ICollection<PhotoListModel> GetWithDatePredicate(Predicate<bool> predicate, int pageIndex, int pageSize)

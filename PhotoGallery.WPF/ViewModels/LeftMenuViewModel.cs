@@ -26,7 +26,6 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-
         public ObservableCollection<ItemTagListModel> Items { get; set; }
 
         public ItemTagListModel SelectedItemTag

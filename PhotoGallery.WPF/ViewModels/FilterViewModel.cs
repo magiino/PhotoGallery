@@ -17,15 +17,14 @@ namespace PhotoGallery.WPF.ViewModels
         //public bool FilterByDate { get; set } = true;
         //public bool FilterByFormat { get; set; } = true;
 
-
-        public bool SortByName { get; set; } = true;
-        public bool SortByDate { get; set; } = true;
+        public bool SortByName { get; set; } = false;
+        public bool SortByDate { get; set; } = false;
         public bool SortByFormat { get; set; } = true;
 
         public bool SortAscending { get; set; } = true;
         public bool SortDescending { get; set; } = true;
 
-        public string InputName { get; set; }
+        public string FilterByName { get; set; }
 
         public IEnumerable<Format> EFormat { get; set; } = Enum.GetValues(typeof(Format)).Cast<Format>();
         public Format SelectedFormat { get; set; }

@@ -4,6 +4,8 @@ using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
+using System;
+using System.Linq.Expressions;
 
 namespace PhotoGallery.BL.Repositories
 {
@@ -59,6 +61,11 @@ namespace PhotoGallery.BL.Repositories
 
         public void Update(ItemTagListModel item)
         {
+        }
+
+        public ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<ItemTagEntity, bool>> predicate, int pageIndex, int pageSize = 6)
+        {
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataDontext.ItemTags.SingleOrDefault(predicate)?.Photos);
         }
 
     }
