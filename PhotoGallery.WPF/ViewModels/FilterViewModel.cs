@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
 
@@ -45,7 +46,8 @@ namespace PhotoGallery.WPF.ViewModels
         private PhotoDetailModel _selectedPhoto;
         private AlbumModel _selectedAlbum;
 
-        private ICommand SetCoverPhotoCommand { get; set; }
+        private ICommand SetCoverPhotoCommand { get; }
+        private ICommand AddPhotoCommand { get; }
 
         public FilterViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -54,9 +56,17 @@ namespace PhotoGallery.WPF.ViewModels
             OnLoad();
 
             SetCoverPhotoCommand = new RelayCommand(ChangeAlbumCoverPhoto);
+            AddPhotoCommand = new RelayCommand(AddPhoto);
 
             _messenger.Register<SendChoosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetById(msg.PhotoId));
             _messenger.Register<SendChoosenItem>(SetAlbum);
+        }
+
+        private void AddPhoto()
+        {
+            var photo = IoC.AddPhoto.ChoosePhoto(_selectedAlbum.Id);
+            _unitOfWork.Photos.Add(photo);
+            // TODO zaradit fotku do listu
         }
 
         private void SetAlbum(SendChoosenItem msg)
