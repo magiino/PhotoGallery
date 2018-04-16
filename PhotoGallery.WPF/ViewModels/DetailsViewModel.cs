@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.BL.Models;
 using PhotoGallery.DAL.Enums;
 
@@ -7,6 +9,10 @@ namespace PhotoGallery.WPF.ViewModels
 {
     public class DetailsViewModel
     {
+        private readonly IMessenger _messenger;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public PhotoDetailModel SelectedPhoto { get; set; }
         public string Name { get; set; }
         public DateTime CreatedTime { get; set; }
         public Format Format { get; set; }
@@ -14,9 +20,19 @@ namespace PhotoGallery.WPF.ViewModels
         public string Note { get; set; }
         public string Location { get; set; }
 
-        public DetailsViewModel(IMessenger messenger, IUnitOfWork albumRepository)
+        public ICommand DeletePhotoCommand { get; }
+
+        public DetailsViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
+            _messenger = messenger;
+            _unitOfWork = unitOfWork;
+
             OnLoad();
+
+            // TODO zmazat ju aj lokalne
+            DeletePhotoCommand = new RelayCommand(() => _unitOfWork.Photos.Delete(SelectedPhoto.Id));
+
+            _messenger.Register<SendChoosenPhoto>(msg => SelectedPhoto = unitOfWork.Photos.GetById(msg.PhotoId));
         }
 
         private void OnLoad()
