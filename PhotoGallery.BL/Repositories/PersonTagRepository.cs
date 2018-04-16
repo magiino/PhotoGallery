@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
@@ -71,6 +73,12 @@ namespace PhotoGallery.BL.Repositories
 
         public void Update(PersonTagListModel person)
         {
+        }
+
+        public ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<PersonTagEntity, bool>> predicate, int pageIndex, int pageSize = 6)
+        {
+            var tag = _dataDontext.PersonTags.SingleOrDefault(predicate);
+            return tag == null ? null : Mapper.PhotoEntitiesToPhotoListModels(tag.Photos);
         }
 
 

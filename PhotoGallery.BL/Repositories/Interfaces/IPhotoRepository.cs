@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using PhotoGallery.BL.Models;
 using PhotoGallery.DAL.Entities;
 
@@ -16,7 +17,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         void Update(PhotoDetailModel photo);
 
         ICollection<PhotoListModel> GetPhotos(int pageIndex, int pageSize);
-        ICollection<PhotoListModel> GetWithNamePredicate(Predicate<bool> predicate, int pageIndex, int pageSize);
+        ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<PhotoEntity, bool>> predicate, int pageIndex, int pageSize = 6);
         ICollection<PhotoListModel> GetWithDatePredicate(Predicate<bool> predicate, int pageIndex, int pageSize);
         ICollection<PhotoListModel> GetWithNamePredicateOrdered(Predicate<bool> predicate, int pageIndex, int pageSize);
         ICollection<PhotoListModel> GetWithDatePredicateOrdered(Predicate<bool> predicate, int pageIndex, int pageSize);
