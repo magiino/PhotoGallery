@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
@@ -11,76 +9,61 @@ namespace PhotoGallery.BL.Repositories
 {
     public class PersonTagRepository : IPersonTagRepository
     {
-        private readonly DataContext _dataDontext;
+        private readonly DataContext _dataContext;
 
-        public PersonTagRepository(DataContext dataDontext)
+        public PersonTagRepository(DataContext dataContext)
         {
-            _dataDontext = dataDontext;
-        }
-
-        public ICollection<PersonTagListModel> GetAll()
-        {
-            using (var dataContext = new DataContext())
-            {
-                return Mapper.PersonTagEntitiesToPersonTagListModels(dataContext.PersonTags.ToList());
-            }
-        }
-
-        public PersonTagListModel GetByFirstName(string name)
-        {
-            using (var dataContext = new DataContext())
-            {
-                var personTag = dataContext
-                 .PersonTags
-                 .FirstOrDefault(r => r.Person.FirstName == name);
-                return Mapper.PersonTagEntityToPersonTagListModel(personTag);
-            }
-        }
-
-        public PersonTagListModel GetByLastName(string name)
-        {
-            using (var dataContext = new DataContext())
-            {
-                var personTag = dataContext
-                 .PersonTags
-                 .FirstOrDefault(r => r.Person.LastName == name);
-                return Mapper.PersonTagEntityToPersonTagListModel(personTag);
-            }
+            _dataContext = dataContext;
         }
 
         public PersonTagListModel GetById(int id)
         {
-            using (var dataContext = new DataContext())
-            {
-                var personTag = dataContext
-                    .PersonTags
-                    .FirstOrDefault(r => r.Id == id);
-                return Mapper.PersonTagEntityToPersonTagListModel(personTag);
-            }
+            var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
+            return Mapper.PersonTagEntityToPersonTagListModel(personTag);
         }
+        public ICollection<PersonTagListModel> GetAll()
+        {
+            return Mapper.PersonTagEntitiesToPersonTagListModels(_dataContext.PersonTags.ToList());
+        }
+        public PersonTagListModel GetByFirstName(string name)
+        {
+            var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.FirstName == name);
+            return Mapper.PersonTagEntityToPersonTagListModel(personTag);
+        }
+        public PersonTagListModel GetByLastName(string name)
+        {
+            var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.LastName == name);
+            return Mapper.PersonTagEntityToPersonTagListModel(personTag);
+        }
+
         public PersonTagEntity Add(PersonTagEntity person)
         {
-            _dataDontext.PersonTags.Add(person);
-            _dataDontext.SaveChanges();
+            _dataContext.PersonTags.Add(person);
+            _dataContext.SaveChanges();
             return person;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            var person = _dataDontext.PersonTags.FirstOrDefault(r => r.Id == id);
-            _dataDontext.PersonTags.Remove(person);
+            var person = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
+            if (person == null) return false;
+
+            _dataContext.PersonTags.Remove(person);
+            _dataContext.SaveChanges();
+            return true;
         }
 
-        public void Update(PersonTagListModel person)
+        public bool Update(PersonTagDetailModel person)
         {
+            var personEntity = _dataContext.PersonTags.SingleOrDefault(x => x.Id == person.Id);
+            if (personEntity == null) return false;
+
+            personEntity.XPosition = person.XPosition;
+            personEntity.YPosition = person.YPosition;
+            personEntity.Person.FirstName = person.FirstName;
+            personEntity.Person.LastName = person.LastName;
+            _dataContext.SaveChanges();
+            return true;
         }
-
-        public ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<PersonTagEntity, bool>> predicate, int pageIndex, int pageSize = 6)
-        {
-            var tag = _dataDontext.PersonTags.SingleOrDefault(predicate);
-            return tag == null ? null : Mapper.PhotoEntitiesToPhotoListModels(tag.Photos);
-        }
-
-
     }
 }

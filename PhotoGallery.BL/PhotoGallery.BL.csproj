@@ -57,6 +57,7 @@
     <Compile Include="MessengerFile\Messeges\SendFilterData.cs" />
     <Compile Include="MessengerFile\Messeges\SendChoosenPhoto.cs" />
     <Compile Include="MessengerFile\Messeges\SendChoosenItem.cs" />
+    <Compile Include="Models\PersonTagDetailModel.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="MessengerFile\IMessenger.cs" />
