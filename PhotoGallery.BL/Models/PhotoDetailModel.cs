@@ -12,7 +12,7 @@ namespace PhotoGallery.BL.Models
         public string Path { get; set; }
         public DateTime CreatedTime { get; set; }
         public Format Format { get; set; }
-        public ResolutionEntity Resolution { get; set; }
+        public ResolutionModel Resolution { get; set; }
         public string Note { get; set; }
         public string Location { get; set; }
         public ICollection<TagEntity> Tags { get; set; }

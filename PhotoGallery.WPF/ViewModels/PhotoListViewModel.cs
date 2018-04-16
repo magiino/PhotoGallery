@@ -11,6 +11,8 @@ namespace PhotoGallery.WPF.ViewModels
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
         private PhotoListModel _selectedPhoto;
+        private AlbumModel _selectedAlbum;
+
         public int PageIndex { get; set; } = 1;
         private int Id { get; set; }
 
@@ -21,23 +23,24 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedPhoto;
             set
             {
-                _messenger.Send(new ChoosenPhoto(SelectedPhoto.Id));
+                _messenger.Send(new SendChoosenPhoto(SelectedPhoto.Id));
                 _selectedPhoto = value;
             }
         }
 
-        public ICommand PreviousPage { get; set; }
-        public ICommand NextPage{ get; set; }
+        public ICommand PreviousPageCommand { get; set; }
+        public ICommand NextPageCommand { get; set; }
 
         public PhotoListViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
             _messenger = messenger;
             _unitOfWork = unitOfWork;
 
-            NextPage = new RelayCommand(GetNextPhotos);
-            PreviousPage = new RelayCommand(GetPreviousPhotos);
+            NextPageCommand = new RelayCommand(GetNextPhotos);
+            PreviousPageCommand = new RelayCommand(GetPreviousPhotos);
 
-            _messenger.Register<ChoosenItem>(SelectedItemChanged);
+            _messenger.Register<SendChoosenItem>(SelectedItemChanged);
+
         }
 
         private void GetPreviousPhotos()
@@ -50,7 +53,7 @@ namespace PhotoGallery.WPF.ViewModels
             throw new System.NotImplementedException();
         }
 
-        private void SelectedItemChanged(ChoosenItem item)
+        private void SelectedItemChanged(SendChoosenItem item)
         {
             PageIndex = 1;
             if (item.IsTag)
