@@ -6,13 +6,12 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 {
     public interface IAlbumRepository
     {
-        AlbumModel FindByTitle(string title);
-
-        ICollection<AlbumModel> GetAll();
         AlbumModel GetById(int id);
-        AlbumEntity Add(AlbumEntity album);
-        void Delete(int id);
-        void Update(AlbumModel album);
+        ICollection<AlbumModel> GetAll();
+        AlbumModel GetByTitle(string title);
 
+        AlbumEntity Add(AlbumEntity album);
+        bool Delete(int id);
+        bool Update(AlbumModel album);
     }
 }

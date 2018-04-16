@@ -34,7 +34,7 @@ namespace Tests
         [Fact]
         public void FindByName_TestAlbum_NotNull()
         {
-            var album = _albumRepository.FindByTitle("Testing album");
+            var album = _albumRepository.GetByTitle("Testing album");
             Assert.NotNull(album);
         }
         [Fact]

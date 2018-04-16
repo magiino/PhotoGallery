@@ -9,59 +9,54 @@ namespace PhotoGallery.BL.Repositories
 {
     public class AlbumRepository : IAlbumRepository
     {
-        private readonly DataContext _dataDontext;
+        private readonly DataContext _dataContext;
 
-        public AlbumRepository(DataContext dataDontext)
+        public AlbumRepository(DataContext dataContext)
         {
-            _dataDontext = dataDontext;
-        }
-
-        public AlbumModel FindByTitle(string title)
-
-        {
-            using (var dataContext = new DataContext())
-            {
-                var album = dataContext
-                .Albums
-                .FirstOrDefault(r => r.Title == title);
-                return Mapper.AlbumEntityToAlbumModel(album);
-            }
-        }
-
-        public ICollection<AlbumModel> GetAll()
-        {
-            using (var dataContext = new DataContext())
-            {
-                return Mapper.AlbumEntitiesToAlbumModels(dataContext.Albums.ToList());
-            }
+            _dataContext = dataContext;
         }
 
         public AlbumModel GetById(int id)
         {
-            using (var dataContext = new DataContext())
-            {
-                var album = dataContext
-                 .Albums
-                 .FirstOrDefault(r => r.Id == id);
-                return Mapper.AlbumEntityToAlbumModel(album);
-            }
+            var album = _dataContext.Albums.FirstOrDefault(x => x.Id == id);
+            return Mapper.AlbumEntityToAlbumModel(album);
         }
-        
+        public ICollection<AlbumModel> GetAll()
+        {
+            return Mapper.AlbumEntitiesToAlbumModels(_dataContext.Albums.ToList());
+        }
+        public AlbumModel GetByTitle(string title)
+        {
+            var album = _dataContext.Albums.FirstOrDefault(x => x.Title == title);
+            return Mapper.AlbumEntityToAlbumModel(album);
+        }
+
         public AlbumEntity Add(AlbumEntity album)
         {
-            _dataDontext.Albums.Add(album);
-            _dataDontext.SaveChanges();
-            return album;
+            var addedAlbum = _dataContext.Albums.Add(album);
+            _dataContext.SaveChanges();
+            return addedAlbum;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            var album = _dataDontext.Albums.FirstOrDefault(r => r.Id == id);
-            _dataDontext.Albums.Remove(album);
+            var album = _dataContext.Albums.FirstOrDefault(r => r.Id == id);
+            if (album == null) return false;
+            _dataContext.Albums.Remove(album);
+            _dataContext.SaveChanges();
+            return true;
         }
 
-        public void Update(AlbumModel album)
+        public bool Update(AlbumModel album)
         {
+            var albumEntity = _dataContext.Albums.SingleOrDefault(x => x.Id == album.Id);
+            if (albumEntity == null) return false;
+
+            albumEntity.Title = album.Title;
+            albumEntity.CoverPhotoId = album.CoverPhotoId;
+
+            _dataContext.SaveChanges();
+            return true;
         }
 
     }

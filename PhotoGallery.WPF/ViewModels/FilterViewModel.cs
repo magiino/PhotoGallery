@@ -56,7 +56,7 @@ namespace PhotoGallery.WPF.ViewModels
             AddPhotoCommand = new RelayCommand(AddPhoto, CanUseButton);
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
             
-            _messenger.Register<SendChoosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetById(msg.PhotoId));
+            _messenger.Register<SendChoosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
             _messenger.Register<SendChoosenItem>(SetAlbum);
         }
 

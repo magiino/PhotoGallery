@@ -30,9 +30,7 @@ namespace PhotoGallery.WPF.ViewModels
 
             OnLoad();
 
- 
-
-            _messenger.Register<SendChoosenPhoto>(msg => SelectedPhoto = unitOfWork.Photos.GetById(msg.PhotoId));
+            _messenger.Register<SendChoosenPhoto>(msg => SelectedPhoto = unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
         }
 
         private void OnLoad()

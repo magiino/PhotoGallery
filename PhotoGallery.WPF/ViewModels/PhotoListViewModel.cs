@@ -63,13 +63,9 @@ namespace PhotoGallery.WPF.ViewModels
                 //    foreach (var tag in x.Tags)
                 //        return tag.Id == item.Id;
                 //},1));
-
-                Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.ItemTags.GetPhotosPredicate(x => x.Id == item.Id, PageIndex));
-                if (Photos.Count == 0)
-                    Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.PersonTags.GetPhotosPredicate(x => x.Id == item.Id, PageIndex));
             }
             else
-                Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosPredicate(x => x.AlbumId == item.Id, PageIndex));
+                Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosByPageFilter(x => x.AlbumId == item.Id, PageIndex));
         }
     }
 }
