@@ -38,9 +38,9 @@ namespace PhotoGallery.BL.Repositories
 
         public PersonTagEntity Add(PersonTagEntity person)
         {
-            _dataContext.PersonTags.Add(person);
+            var addedPersonTag = _dataContext.PersonTags.Add(person);
             _dataContext.SaveChanges();
-            return person;
+            return addedPersonTag;
         }
 
         public bool Delete(int id)

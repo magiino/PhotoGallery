@@ -11,7 +11,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         PhotoDetailModel GetDetailModelById(int id);
         PhotoListModel GetListModelById(int id);
         ICollection<PhotoListModel> GetAll();
-        PhotoDetailModel FindByName(string name);
+        PhotoDetailModel GetByName(string name);
 
         PhotoEntity Add(PhotoEntity photo);
         bool Delete(int id);

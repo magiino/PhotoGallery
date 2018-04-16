@@ -4,69 +4,60 @@ using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
-using System;
-using System.Linq.Expressions;
 
 namespace PhotoGallery.BL.Repositories
 {
     public class ItemTagRepository : IItemTagRepository
     {
-        private readonly DataContext _dataDontext;
+        private readonly DataContext _dataContext;
 
-        public ItemTagRepository(DataContext dataDontext)
+        public ItemTagRepository(DataContext dataContext)
         {
-            _dataDontext = dataDontext;
+            _dataContext = dataContext;
         }
 
-        public ICollection<ItemTagListModel> GetAll()
-        {
-            using (var dataContext = new DataContext())
-            {
-                return Mapper.ItemTagEntitiesToItemTagListModels(dataContext.ItemTags.ToList());
-
-            }
-        }
-
-        public ItemTagListModel GetByName(string name)
-        {
-            using (var dataContext = new DataContext())
-            {
-                var itemTag = dataContext
-                 .ItemTags
-                 .FirstOrDefault(r => r.Name == name);
-                return Mapper.ItemTagEntityToItemTagListModel(itemTag);
-            }
-        }
- 
         public ItemTagListModel GetById(int id)
         {
-            var itemTag = _dataDontext
-                .ItemTags
-                .FirstOrDefault(r => r.Id == id);
+            var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Id == id);
             return Mapper.ItemTagEntityToItemTagListModel(itemTag);
         }
-
+        public ICollection<ItemTagListModel> GetAll()
+        {
+            return Mapper.ItemTagEntitiesToItemTagListModels(_dataContext.ItemTags.ToList());
+        }
+        public ItemTagListModel GetByName(string name)
+        {
+            var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Name == name);
+            return Mapper.ItemTagEntityToItemTagListModel(itemTag);
+        }
+ 
         public ItemTagEntity Add(ItemTagEntity item)
         {
-            _dataDontext.ItemTags.Add(item);
-            _dataDontext.SaveChanges();
-            return item;
+            var addedItem =_dataContext.ItemTags.Add(item);
+            _dataContext.SaveChanges();
+            return addedItem;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            var item = _dataDontext.ItemTags.FirstOrDefault(r => r.Id == id);
-            _dataDontext.ItemTags.Remove(item);
+            var item = _dataContext.ItemTags.FirstOrDefault(r => r.Id == id);
+            if (item == null) return false;
+            _dataContext.ItemTags.Remove(item);
+            _dataContext.SaveChanges();
+            return true;
         }
 
-        public void Update(ItemTagListModel item)
+        public bool Update(ItemTagDetailModel item)
         {
-        }
+            var itemTagEntity = _dataContext.ItemTags.SingleOrDefault(x => x.Id == item.Id);
+            if (itemTagEntity == null) return false;
 
-        public ICollection<PhotoListModel> GetPhotosPredicate(Expression<Func<ItemTagEntity, bool>> predicate, int pageIndex, int pageSize = 6)
-        {
-            return Mapper.PhotoEntitiesToPhotoListModels(_dataDontext.ItemTags.SingleOrDefault(predicate)?.Photos);
-        }
+            itemTagEntity.XPosition = item.XPosition;
+            itemTagEntity.YPosition = item.YPosition;
+            itemTagEntity.Name = item.Name;
 
+            _dataContext.SaveChanges();
+            return true;
+        }
     }
 }

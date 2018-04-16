@@ -34,7 +34,7 @@ namespace PhotoGallery.BL.Repositories
             return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos.ToList());
         }
 
-        public PhotoDetailModel FindByName(string name)
+        public PhotoDetailModel GetByName(string name)
         {
             var photo = _dataContext.Photos.FirstOrDefault(x => x.Name == name);
             return Mapper.PhotoEntityToPhotoDetailModel(photo);
@@ -43,9 +43,9 @@ namespace PhotoGallery.BL.Repositories
         // todo premysliet ci to neprerobit na PhotoModely
         public PhotoEntity Add(PhotoEntity photo)
         {
-            _dataContext.Photos.Add(photo);
+            var addedPhoto = _dataContext.Photos.Add(photo);
             _dataContext.SaveChanges();
-            return photo;
+            return addedPhoto;
         }
 
         public bool Delete(int id)

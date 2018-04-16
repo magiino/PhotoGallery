@@ -22,13 +22,13 @@ namespace Tests
         [Fact]
         public void FindByName_TestPhoto_NotNull()
         {
-            var photo = _photoRepository.FindByName("Testing photo");
+            var photo = _photoRepository.GetByName("Testing photo");
             Assert.NotNull(photo);
         }
         [Fact]
         public void FindByName_NonExistPhoto_Null()
         {
-            var photo = _photoRepository.FindByName("NonExisting Photo");
+            var photo = _photoRepository.GetByName("NonExisting Photo");
             Assert.Null(photo);
         }
         [Fact]
@@ -40,14 +40,14 @@ namespace Tests
         [Fact]
         public void FindByName_TestPhoto_ContainsNote()
         {
-            var photo = _photoRepository.FindByName("Testing photo");
+            var photo = _photoRepository.GetByName("Testing photo");
             var note = photo.Note.Contains("testing note");
             Assert.True(note);
         }
         [Fact]
         public void FindByName_TestPhoto_Resolution()
         {
-            var photo = _photoRepository.FindByName("Testing photo");
+            var photo = _photoRepository.GetByName("Testing photo");
             var resol = photo.Resolution.Height == 600;
             Assert.True(resol);
         }
