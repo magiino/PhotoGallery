@@ -19,21 +19,21 @@ namespace PhotoGallery.BL.Repositories
         public PersonTagModel GetById(int id)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
-            return Mapper.PersonTagEntityToPersonTagListModel(personTag);
+            return Mapper.PersonTagEntityToPersonTagModel(personTag);
         }
         public ICollection<PersonTagModel> GetAll()
         {
-            return Mapper.PersonTagEntitiesToPersonTagListModels(_dataContext.PersonTags.ToList());
+            return Mapper.PersonTagEntitiesToPersonTagModels(_dataContext.PersonTags.ToList());
         }
         public PersonTagModel GetByFirstName(string name)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.FirstName == name);
-            return Mapper.PersonTagEntityToPersonTagListModel(personTag);
+            return Mapper.PersonTagEntityToPersonTagModel(personTag);
         }
         public PersonTagModel GetByLastName(string name)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.LastName == name);
-            return Mapper.PersonTagEntityToPersonTagListModel(personTag);
+            return Mapper.PersonTagEntityToPersonTagModel(personTag);
         }
 
         public PersonTagEntity Add(PersonTagEntity person)

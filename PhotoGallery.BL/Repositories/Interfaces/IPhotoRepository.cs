@@ -17,6 +17,9 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         bool Delete(int id);
         bool Update(PhotoDetailModel photoDetail);
 
+        ICollection<PhotoListModel> GetPhotosByItemTag(ItemTagModel itemTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize);
+        ICollection<PhotoListModel> GetPhotosByPersonTag(PersonTagModel personTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize);
+
         ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize);
         ICollection<PhotoListModel> GetPhotosByPageFilter(Expression<Func<PhotoEntity, bool>> filter, int pageIndex, int pageSize = IoC.IoC.PageSize);
         ICollection<PhotoListModel> GetPhotosByPageFilterWithSort(Expression<Func<PhotoEntity, bool>> filter, Expression<Func<PhotoEntity, bool>> sort, int pageIndex, int pageSize = IoC.IoC.PageSize);

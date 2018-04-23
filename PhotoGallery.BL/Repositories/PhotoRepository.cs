@@ -71,6 +71,24 @@ namespace PhotoGallery.BL.Repositories
             return true;
         }
 
+        public ICollection<PhotoListModel> GetPhotosByItemTag(ItemTagModel itemTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize)
+        {
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
+                .Where(x => x.Tags.Contains(Mapper.ItemTagModelToItemTagEntity(itemTagModel)))
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList());
+        }
+
+        public ICollection<PhotoListModel> GetPhotosByPersonTag(PersonTagModel personTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize)
+        {
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
+                .Where(x => x.Tags.Contains(Mapper.PersonTagModelToPersonTagEntity(personTagModel)))
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList());
+        }
+
         public ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize)
         {
             return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
@@ -78,7 +96,6 @@ namespace PhotoGallery.BL.Repositories
                 .Take(pageSize)
                 .ToList());
         }
-
 
         public ICollection<PhotoListModel> GetPhotosByPageFilter(Expression<Func<PhotoEntity,bool>> filter, int pageIndex, int pageSize = IoC.IoC.PageSize)
         {

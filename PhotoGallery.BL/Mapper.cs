@@ -8,20 +8,31 @@ namespace PhotoGallery.BL
     public static class Mapper
     {
         #region ItemTag
-        public static ItemTagModel ItemTagEntityToItemTagListModel(ItemTagEntity itemTagEntity)
+        public static ItemTagModel ItemTagEntityToItemTagModel(ItemTagEntity itemTagEntity)
         {
             return new ItemTagModel
             {
                 Id = itemTagEntity.Id,
                 Name = itemTagEntity.Item.Name,
+                ItemId = itemTagEntity.ItemId,
                 YPosition = itemTagEntity.YPosition,
                 XPosition = itemTagEntity.XPosition
             };
         }
 
-        public static ICollection<ItemTagModel> ItemTagEntitiesToItemTagListModels(IEnumerable<ItemTagEntity> itemTagEntities)
+        public static ICollection<ItemTagModel> ItemTagEntitiesToItemTagModels(IEnumerable<ItemTagEntity> itemTagEntities)
         {
-            return itemTagEntities.Select(ItemTagEntityToItemTagListModel).ToList();
+            return itemTagEntities.Select(ItemTagEntityToItemTagModel).ToList();
+        }
+        public static ItemTagEntity ItemTagModelToItemTagEntity(ItemTagModel itemTagModel)
+        {
+            return new ItemTagEntity
+            {
+                Id = itemTagModel.Id,
+                ItemId = itemTagModel.ItemId,
+                XPosition = itemTagModel.XPosition,
+                YPosition = itemTagModel.YPosition,
+            };
         }
         #endregion
 
@@ -42,20 +53,31 @@ namespace PhotoGallery.BL
         #endregion
 
         #region PersonTag
-        public static PersonTagModel PersonTagEntityToPersonTagListModel(PersonTagEntity personTag)
+        public static PersonTagModel PersonTagEntityToPersonTagModel(PersonTagEntity personTagEntity)
         {
             return new PersonTagModel
             {
-                Id = personTag.Id,
-                FirstName = personTag.Person.FirstName,
-                LastName = personTag.Person.LastName,
-
+                Id = personTagEntity.Id,
+                PersonId = personTagEntity.PersonId,
+                FirstName = personTagEntity.Person.FirstName,
+                LastName = personTagEntity.Person.LastName,
             };
         }
 
-        public static ICollection<PersonTagModel> PersonTagEntitiesToPersonTagListModels(IEnumerable<PersonTagEntity> personTagEntities)
+        public static ICollection<PersonTagModel> PersonTagEntitiesToPersonTagModels(IEnumerable<PersonTagEntity> personTagEntities)
         {
-            return personTagEntities.Select(PersonTagEntityToPersonTagListModel).ToList();
+            return personTagEntities.Select(PersonTagEntityToPersonTagModel).ToList();
+        }
+
+        public static PersonTagEntity PersonTagModelToPersonTagEntity(PersonTagModel personTagModel)
+        {
+            return new PersonTagEntity
+            {
+                Id = personTagModel.Id,
+                PersonId = personTagModel.PersonId,
+                XPosition = personTagModel.XPosition,
+                YPosition = personTagModel.YPosition,
+            };
         }
         #endregion
 
