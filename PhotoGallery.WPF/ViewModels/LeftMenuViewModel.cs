@@ -90,6 +90,14 @@ namespace PhotoGallery.WPF.ViewModels
                 var album = Albums.FirstOrDefault(x => x.Id == msg.AlbumId);
                 album.NumberOfPhotos--;
             });
+            _messenger.Register<SendAddPhoto>(msg =>
+            {
+                if (SelectedAlbum == null) return;
+                var album = Albums.FirstOrDefault(x => x.Id == msg.AlbumId);
+                album.NumberOfPhotos++;
+            });
+
+            _messenger.Register<SendAlbum>(ChangeAlbum);
         }
 
         private void DeleteItem()
@@ -138,6 +146,15 @@ namespace PhotoGallery.WPF.ViewModels
         private bool DeleteAlbumCanUse()
         {
             return SelectedAlbum != null;
+        }
+
+        private void ChangeAlbum(SendAlbum msg)
+        {
+            var album = Albums.FirstOrDefault(x => x.Id == msg.AlbumModel.Id);
+
+            album.Title = msg.AlbumModel.Title;
+            album.CoverPhotoPath = msg.AlbumModel.CoverPhotoPath;
+            album.CoverPhotoId = msg.AlbumModel.CoverPhotoId;
         }
 
         private void OnLoad()

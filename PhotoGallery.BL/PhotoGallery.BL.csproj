@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="IAddPhoto.cs" />
     <Compile Include="IoC\IoC.cs" />
+    <Compile Include="MessengerFile\Messeges\SendAlbum.cs" />
+    <Compile Include="MessengerFile\Messeges\SendAddPhoto.cs" />
     <Compile Include="MessengerFile\Messeges\SendFilterSettings.cs" />
     <Compile Include="MessengerFile\Messeges\SendDeletePhoto.cs" />
     <Compile Include="MessengerFile\Messeges\SendFilterData.cs" />
