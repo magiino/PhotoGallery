@@ -1,6 +1,6 @@
 ﻿namespace PhotoGallery.BL.Models
 {
-    public class ItemTagListModel
+    public class ItemListModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

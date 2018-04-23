@@ -1,6 +1,6 @@
 ﻿namespace PhotoGallery.BL.Models
 {
-    public class PersonTagListModel
+    public class PersonListModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

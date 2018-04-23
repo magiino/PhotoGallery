@@ -28,6 +28,14 @@ namespace PhotoGallery.DAL.Migrations
                 FirstName = "Jozko",
                 LastName = "Mrkvièka",
             };
+
+            var item1 = new ItemEntity()
+            {
+                Id = 1,
+                Name = "Okno"
+            };
+
+
             var resolution = new ResolutionEntity()
             {
                 Id = 1,
@@ -38,7 +46,8 @@ namespace PhotoGallery.DAL.Migrations
             var itemTag1 = new ItemTagEntity()
             {
                 Id = 1,
-                Name = "Okno",
+                ItemId = 1,
+                //Item = item1,
                 XPosition = 200,
                 YPosition = 350,
             };

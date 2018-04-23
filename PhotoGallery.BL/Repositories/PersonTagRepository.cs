@@ -16,21 +16,21 @@ namespace PhotoGallery.BL.Repositories
             _dataContext = dataContext;
         }
 
-        public PersonTagListModel GetById(int id)
+        public PersonListModel GetById(int id)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
             return Mapper.PersonTagEntityToPersonTagListModel(personTag);
         }
-        public ICollection<PersonTagListModel> GetAll()
+        public ICollection<PersonListModel> GetAll()
         {
             return Mapper.PersonTagEntitiesToPersonTagListModels(_dataContext.PersonTags.ToList());
         }
-        public PersonTagListModel GetByFirstName(string name)
+        public PersonListModel GetByFirstName(string name)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.FirstName == name);
             return Mapper.PersonTagEntityToPersonTagListModel(personTag);
         }
-        public PersonTagListModel GetByLastName(string name)
+        public PersonListModel GetByLastName(string name)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.LastName == name);
             return Mapper.PersonTagEntityToPersonTagListModel(personTag);

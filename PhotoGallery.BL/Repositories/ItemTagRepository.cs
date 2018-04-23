@@ -16,18 +16,18 @@ namespace PhotoGallery.BL.Repositories
             _dataContext = dataContext;
         }
 
-        public ItemTagListModel GetById(int id)
+        public ItemTagDetailModel GetById(int id)
         {
             var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Id == id);
             return Mapper.ItemTagEntityToItemTagListModel(itemTag);
         }
-        public ICollection<ItemTagListModel> GetAll()
+        public ICollection<ItemTagDetailModel> GetAll()
         {
             return Mapper.ItemTagEntitiesToItemTagListModels(_dataContext.ItemTags.ToList());
         }
-        public ItemTagListModel GetByName(string name)
+        public ItemTagDetailModel GetByName(string name)
         {
-            var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Name == name);
+            var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Item.Name == name);
             return Mapper.ItemTagEntityToItemTagListModel(itemTag);
         }
  
@@ -54,7 +54,7 @@ namespace PhotoGallery.BL.Repositories
 
             itemTagEntity.XPosition = item.XPosition;
             itemTagEntity.YPosition = item.YPosition;
-            itemTagEntity.Name = item.Name;
+            itemTagEntity.Item.Name = item.Name;
 
             _dataContext.SaveChanges();
             return true;

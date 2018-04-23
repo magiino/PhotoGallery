@@ -6,10 +6,10 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 {
     public interface IPersonTagRepository
     {
-        PersonTagListModel GetById(int id);
-        ICollection<PersonTagListModel> GetAll();
-        PersonTagListModel GetByFirstName(string name);
-        PersonTagListModel GetByLastName(string name);
+        PersonListModel GetById(int id);
+        ICollection<PersonListModel> GetAll();
+        PersonListModel GetByFirstName(string name);
+        PersonListModel GetByLastName(string name);
 
         PersonTagEntity Add(PersonTagEntity person);
         bool Delete(int id);

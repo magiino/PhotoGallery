@@ -4,7 +4,7 @@ namespace PhotoGallery.DAL.Entities
 {
     public class ItemTagEntity : TagEntity
     {
-        [Required]
-        public string Name { get; set; }
+        public int ItemId { get; set; }
+        public ItemEntity Item { get; set; }
     }
 }
