@@ -1,8 +1,12 @@
-﻿using PhotoGallery.BL.Models;
+﻿using System;
+using PhotoGallery.BL.Models;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Ninject.Infrastructure.Language;
 using PhotoGallery.BL;
+using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
+using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.WPF.ViewModels
 {
@@ -14,6 +18,7 @@ namespace PhotoGallery.WPF.ViewModels
         private AlbumModel _selectedAlbum;
 
         public int PageIndex { get; set; } = 1;
+        public int AllPages { get; set; }
         private int Id { get; set; }
 
         public ObservableCollection<PhotoListModel> Photos { get; set; }
@@ -58,14 +63,21 @@ namespace PhotoGallery.WPF.ViewModels
             PageIndex = 1;
             if (item.IsTag)
             {
-                //Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosPredicate(x =>
-                //{
-                //    foreach (var tag in x.Tags)
-                //        return tag.Id == item.Id;
-                //},1));
+                var personTag = _unitOfWork.PersonTags.GetById(item.Id);
+
+                if (personTag == null)
+                {
+                    var itemTag = _unitOfWork.ItemTags.GetById(item.Id);
+                    Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosByItemTag(itemTag, PageIndex));
+                }
+                else
+                    Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosByPersonTag(personTag, PageIndex));
             }
             else
                 Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosByPageFilter(x => x.AlbumId == item.Id, PageIndex));
+
+            var num = (double)Photos.Count / IoC.PageSize;
+            AllPages = (int)Math.Ceiling(num);
         }
     }
 }

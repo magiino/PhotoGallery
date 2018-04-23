@@ -19,16 +19,17 @@ namespace PhotoGallery.BL.Repositories
         public ItemTagModel GetById(int id)
         {
             var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Id == id);
-            return Mapper.ItemTagEntityToItemTagListModel(itemTag);
+            return Mapper.ItemTagEntityToItemTagModel(itemTag);
         }
+
         public ICollection<ItemTagModel> GetAll()
         {
-            return Mapper.ItemTagEntitiesToItemTagListModels(_dataContext.ItemTags.ToList());
+            return Mapper.ItemTagEntitiesToItemTagModels(_dataContext.ItemTags.ToList());
         }
         public ItemTagModel GetByName(string name)
         {
             var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Item.Name == name);
-            return Mapper.ItemTagEntityToItemTagListModel(itemTag);
+            return Mapper.ItemTagEntityToItemTagModel(itemTag);
         }
  
         public ItemTagEntity Add(ItemTagEntity item)
