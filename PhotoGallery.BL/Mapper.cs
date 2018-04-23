@@ -7,23 +7,25 @@ namespace PhotoGallery.BL
 {
     public static class Mapper
     {
-        public static ItemTagListModel ItemTagEntityToItemTagListModel(ItemTagEntity itemTagEntity)
+        public static ItemTagDetailModel ItemTagEntityToItemTagListModel(ItemTagEntity itemTagEntity)
         {
-            return new ItemTagListModel
+            return new ItemTagDetailModel
             {
                 Id = itemTagEntity.Id,
-                Name = itemTagEntity.Name,
+                Name = itemTagEntity.Item.Name,
+                YPosition = itemTagEntity.YPosition,
+                XPosition = itemTagEntity.XPosition
             };
         }
 
-        public static  ICollection<ItemTagListModel> ItemTagEntitiesToItemTagListModels(IEnumerable<ItemTagEntity> itemTagEntities)
+        public static  ICollection<ItemTagDetailModel> ItemTagEntitiesToItemTagListModels(IEnumerable<ItemTagEntity> itemTagEntities)
         {
             return itemTagEntities.Select(ItemTagEntityToItemTagListModel).ToList();
         }
 
-        public static PersonTagListModel PersonTagEntityToPersonTagListModel(PersonTagEntity personTag)
+        public static PersonListModel PersonTagEntityToPersonTagListModel(PersonTagEntity personTag)
         {
-            return new PersonTagListModel
+            return new PersonListModel
             {
                 Id = personTag.Id,
                 FirstName = personTag.Person.FirstName,
@@ -31,7 +33,7 @@ namespace PhotoGallery.BL
             };
         }
 
-        public static ICollection<PersonTagListModel> PersonTagEntitiesToPersonTagListModels(IEnumerable<PersonTagEntity> personTagEntities)
+        public static ICollection<PersonListModel> PersonTagEntitiesToPersonTagListModels(IEnumerable<PersonTagEntity> personTagEntities)
         {
             return personTagEntities.Select(PersonTagEntityToPersonTagListModel).ToList();
         }

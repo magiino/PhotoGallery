@@ -12,8 +12,8 @@ namespace PhotoGallery.WPF.ViewModels
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
 
-        private ItemTagListModel _selectedItemTag;
-        private PersonTagListModel _selectedPersonTag;
+        private ItemListModel _selectedItemListTag;
+        private PersonListModel _selectedPerson;
         private AlbumModel _selectedAlbum;
 
         public ObservableCollection<AlbumModel> Albums { get; set; }
@@ -22,36 +22,36 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedAlbum;
             set
             {
-                SelectedItemTag = null;
-                SelectedPersonTag = null;
+                SelectedItemListTag = null;
+                SelectedPerson = null;
                 _messenger.Send(new SendChoosenItem(value.Id, false));
                 _selectedAlbum = value;
             }
         }
 
-        public ObservableCollection<ItemTagListModel> Items { get; set; }
-        public ItemTagListModel SelectedItemTag
+        public ObservableCollection<ItemListModel> Items { get; set; }
+        public ItemListModel SelectedItemListTag
         {
-            get => _selectedItemTag;
+            get => _selectedItemListTag;
             set
             {
                 SelectedAlbum = null;
-                SelectedPersonTag = null;
+                SelectedPerson = null;
                 _messenger.Send(new SendChoosenItem(value.Id, true));
-                _selectedItemTag = value;
+                _selectedItemListTag = value;
             }
         }
 
-        public ObservableCollection<PersonTagListModel> Persons { get; set; }
-        public PersonTagListModel SelectedPersonTag
+        public ObservableCollection<PersonListModel> Persons { get; set; }
+        public PersonListModel SelectedPerson
         {
-            get => _selectedPersonTag;
+            get => _selectedPerson;
             set
             {
                 SelectedAlbum = null;
-                _selectedItemTag = null;
+                _selectedItemListTag = null;
                 _messenger.Send(new SendChoosenItem(value.Id, true));
-                _selectedPersonTag = value;
+                _selectedPerson = value;
             }
         }
 
@@ -73,15 +73,15 @@ namespace PhotoGallery.WPF.ViewModels
 
         private bool DeleteTagCanUse()
         {
-            return _selectedPersonTag != null || _selectedItemTag != null;
+            return _selectedPerson != null || _selectedItemListTag != null;
         }
 
         private void DeleteTag()
         {
-            if(_selectedPersonTag != null)
-                _unitOfWork.PersonTags.Delete(_selectedPersonTag.Id);
-            if (_selectedItemTag != null)
-                _unitOfWork.PersonTags.Delete(_selectedItemTag.Id);
+            if(_selectedPerson != null)
+                _unitOfWork.PersonTags.Delete(_selectedPerson.Id);
+            if (_selectedItemListTag != null)
+                _unitOfWork.PersonTags.Delete(_selectedItemListTag.Id);
         }
 
         private void AddAlbum()
@@ -109,8 +109,9 @@ namespace PhotoGallery.WPF.ViewModels
         {
             // fetch data
             Albums = new ObservableCollection<AlbumModel>(_unitOfWork.Albums.GetAll());
-            Items = new ObservableCollection<ItemTagListModel>(_unitOfWork.ItemTags.GetAll());
-            Persons = new ObservableCollection<PersonTagListModel>(_unitOfWork.PersonTags.GetAll());
+
+            //Items = new ObservableCollection<ItemListModel>(_unitOfWork.ItemTags.GetAll());
+            Persons = new ObservableCollection<PersonListModel>(_unitOfWork.PersonTags.GetAll());
         }
     }
 }

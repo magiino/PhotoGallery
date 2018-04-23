@@ -6,9 +6,9 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 {
     public interface IItemTagRepository
     {
-        ItemTagListModel GetById(int id);
-        ICollection<ItemTagListModel> GetAll();
-        ItemTagListModel GetByName(string name);
+        ItemTagDetailModel GetById(int id);
+        ICollection<ItemTagDetailModel> GetAll();
+        ItemTagDetailModel GetByName(string name);
         
         ItemTagEntity Add(ItemTagEntity item);
         bool Delete(int id);

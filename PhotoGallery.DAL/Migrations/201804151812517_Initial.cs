@@ -16,7 +16,7 @@ namespace PhotoGallery.DAL.Migrations
                         CoverPhotoId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.PhotoEntities", t => t.CoverPhotoId, cascadeDelete: true)
+                .ForeignKey("dbo.PhotoEntities", t => t.CoverPhotoId)
                 .Index(t => t.CoverPhotoId);
 
             CreateTable(
