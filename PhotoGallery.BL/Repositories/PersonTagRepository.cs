@@ -16,21 +16,21 @@ namespace PhotoGallery.BL.Repositories
             _dataContext = dataContext;
         }
 
-        public PersonListModel GetById(int id)
+        public PersonTagModel GetById(int id)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
             return Mapper.PersonTagEntityToPersonTagListModel(personTag);
         }
-        public ICollection<PersonListModel> GetAll()
+        public ICollection<PersonTagModel> GetAll()
         {
             return Mapper.PersonTagEntitiesToPersonTagListModels(_dataContext.PersonTags.ToList());
         }
-        public PersonListModel GetByFirstName(string name)
+        public PersonTagModel GetByFirstName(string name)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.FirstName == name);
             return Mapper.PersonTagEntityToPersonTagListModel(personTag);
         }
-        public PersonListModel GetByLastName(string name)
+        public PersonTagModel GetByLastName(string name)
         {
             var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.LastName == name);
             return Mapper.PersonTagEntityToPersonTagListModel(personTag);
@@ -53,7 +53,7 @@ namespace PhotoGallery.BL.Repositories
             return true;
         }
 
-        public bool Update(PersonTagDetailModel person)
+        public bool Update(PersonTagModel person)
         {
             var personEntity = _dataContext.PersonTags.SingleOrDefault(x => x.Id == person.Id);
             if (personEntity == null) return false;

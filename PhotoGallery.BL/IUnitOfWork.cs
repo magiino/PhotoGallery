@@ -1,5 +1,6 @@
-﻿using System;
-using PhotoGallery.BL.Repositories.Interfaces;
+﻿using PhotoGallery.BL.Repositories.Interfaces;
+using System;
+using PhotoGallery.BL.Repositories;
 
 namespace PhotoGallery.BL
 {
@@ -9,6 +10,9 @@ namespace PhotoGallery.BL
         IPhotoRepository Photos { get; }
         IItemTagRepository ItemTags { get; }
         IPersonTagRepository PersonTags { get; }
+        // TODO dorobit interface
+        PersonRepository Persons { get; }
+        ItemRepository Items { get; }
 
         int Complete();
     }
