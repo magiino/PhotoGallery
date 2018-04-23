@@ -1,12 +1,11 @@
 ﻿using System;
 using PhotoGallery.BL.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
-using Ninject.Infrastructure.Language;
 using PhotoGallery.BL;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
-using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.WPF.ViewModels
 {
@@ -19,7 +18,6 @@ namespace PhotoGallery.WPF.ViewModels
 
         public int PageIndex { get; set; } = 1;
         public int AllPages { get; set; }
-        private int Id { get; set; }
 
         public ObservableCollection<PhotoListModel> Photos { get; set; }
 
@@ -33,18 +31,28 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        public ICommand PreviousPageCommand { get; set; }
-        public ICommand NextPageCommand { get; set; }
+        public ICommand PreviousPageCommand { get; }
+        public ICommand NextPageCommand { get; }
 
         public PhotoListViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
             _messenger = messenger;
             _unitOfWork = unitOfWork;
 
-            NextPageCommand = new RelayCommand(GetNextPhotos);
-            PreviousPageCommand = new RelayCommand(GetPreviousPhotos);
+            NextPageCommand = new RelayCommand(GetNextPhotos, GetNextPhotosCanUse);
+            PreviousPageCommand = new RelayCommand(GetPreviousPhotos, GetPreviousPhotosCanUse);
 
             _messenger.Register<SendChosenItem>(SelectedItemChanged);
+            _messenger.Register<SendFilterSettings>(FilterPhotos);
+            _messenger.Register<SendDeletePhoto>(msg =>
+            {
+                var photo = Photos.SingleOrDefault(x => x.Id == msg.PhotoId);
+                Photos.Remove(photo);
+            });
+        }
+
+        private void GetNextPhotos()
+        {
 
         }
 
@@ -53,18 +61,31 @@ namespace PhotoGallery.WPF.ViewModels
             
         }
 
-        private void GetNextPhotos()
+
+        public bool GetNextPhotosCanUse()
         {
-            throw new System.NotImplementedException();
+            return PageIndex <= AllPages;
         }
+
+        public bool GetPreviousPhotosCanUse()
+        {
+            return PageIndex != 0;
+        }
+
+        private void FilterPhotos(SendFilterSettings filterSettings)
+        {
+            // TODO filtracia
+        }
+
 
         private void SelectedItemChanged(SendChosenItem item)
         {
             PageIndex = 1;
             if (item.IsTag)
             {
-                var personTag = _unitOfWork.PersonTags.GetById(item.Id);
+                _selectedAlbum = null;
 
+                var personTag = _unitOfWork.PersonTags.GetById(item.Id);
                 if (personTag == null)
                 {
                     var itemTag = _unitOfWork.ItemTags.GetById(item.Id);
@@ -74,7 +95,12 @@ namespace PhotoGallery.WPF.ViewModels
                     Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosByPersonTag(personTag, PageIndex));
             }
             else
-                Photos = new ObservableCollection<PhotoListModel>(_unitOfWork.Photos.GetPhotosByPageFilter(x => x.AlbumId == item.Id, PageIndex));
+            {
+                Photos = new ObservableCollection<PhotoListModel>(
+                    _unitOfWork.Photos.GetPhotosByPageFilter(x => x.AlbumId == item.Id, PageIndex));
+
+                _selectedAlbum = _unitOfWork.Albums.GetById(item.Id);
+            }
 
             var num = (double)Photos.Count / IoC.PageSize;
             AllPages = (int)Math.Ceiling(num);

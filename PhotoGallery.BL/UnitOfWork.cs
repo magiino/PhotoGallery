@@ -14,6 +14,7 @@ namespace PhotoGallery.BL
         public IPersonTagRepository PersonTags { get; }
         public PersonRepository Persons { get; }
         public ItemRepository Items { get; }
+        public ResolutionRepository Resolutions { get; }
 
         public UnitOfWork(DataContext context)
         {
@@ -25,6 +26,7 @@ namespace PhotoGallery.BL
             PersonTags = new PersonTagRepository(_dataContext);
             Persons = new PersonRepository(_dataContext);
             Items = new ItemRepository(_dataContext);
+            Resolutions = new ResolutionRepository(_dataContext);
         }
 
         public int Complete()

@@ -163,7 +163,22 @@ namespace PhotoGallery.BL
         public static ICollection<PhotoListModel> PhotoEntitiesToPhotoListModels(IEnumerable<PhotoEntity> entities)
         {
             return entities.Select(PhotoEntityToPhotoListModel).ToList();
-        } 
+        }
         #endregion
+
+        public static ResolutionModel ResolutionEntityToResolutionModel(ResolutionEntity resolutionEntity)
+        {
+            return new ResolutionModel()
+            {
+                Id = resolutionEntity.Id,
+                Width = resolutionEntity.Width,
+                Height = resolutionEntity.Height
+            };
+        }
+
+        public static ICollection<ResolutionModel> ResolutionEntitiesToResolutionModels(IEnumerable<ResolutionEntity> resolutionEntities)
+        {
+            return resolutionEntities.Select(ResolutionEntityToResolutionModel).ToList();
+        }
     }
 }
