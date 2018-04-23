@@ -15,6 +15,7 @@ namespace PhotoGallery.BL.Models
         public ResolutionModel Resolution { get; set; }
         public string Note { get; set; }
         public string Location { get; set; }
+        // TODO TagEntity to TagModel asi 2 entity do 1 mdoelu
         public ICollection<TagEntity> Tags { get; set; }
     }
 }

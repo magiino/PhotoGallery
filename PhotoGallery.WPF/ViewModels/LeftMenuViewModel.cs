@@ -1,5 +1,6 @@
 ﻿using PhotoGallery.BL.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using PhotoGallery.BL;
 using PhotoGallery.BL.MessengerFile.Messeges;
@@ -82,6 +83,13 @@ namespace PhotoGallery.WPF.ViewModels
             AddAlbumCommand = new RelayCommand(AddAlbum, AddAlbumCanUse);
             DeleteItemCommand = new RelayCommand(DeleteItem, DeleteItemCanUse);
             DeletePersonCommand = new RelayCommand(DeletePerson, DeletePersonCanUse);
+
+            _messenger.Register<SendDeletePhoto>(msg =>
+            {
+                if (SelectedAlbum == null) return;
+                var album = Albums.FirstOrDefault(x => x.Id == msg.AlbumId);
+                album.NumberOfPhotos--;
+            });
         }
 
         private void DeleteItem()

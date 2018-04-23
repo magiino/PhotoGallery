@@ -13,6 +13,7 @@ namespace PhotoGallery.BL
         // TODO dorobit interface
         PersonRepository Persons { get; }
         ItemRepository Items { get; }
+        ResolutionRepository Resolutions { get; }
 
         int Complete();
     }
