@@ -16,16 +16,16 @@ namespace PhotoGallery.BL.Repositories
             _dataContext = dataContext;
         }
 
-        public ItemTagDetailModel GetById(int id)
+        public ItemTagModel GetById(int id)
         {
             var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Id == id);
             return Mapper.ItemTagEntityToItemTagListModel(itemTag);
         }
-        public ICollection<ItemTagDetailModel> GetAll()
+        public ICollection<ItemTagModel> GetAll()
         {
             return Mapper.ItemTagEntitiesToItemTagListModels(_dataContext.ItemTags.ToList());
         }
-        public ItemTagDetailModel GetByName(string name)
+        public ItemTagModel GetByName(string name)
         {
             var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Item.Name == name);
             return Mapper.ItemTagEntityToItemTagListModel(itemTag);
@@ -40,14 +40,14 @@ namespace PhotoGallery.BL.Repositories
 
         public bool Delete(int id)
         {
-            var item = _dataContext.ItemTags.FirstOrDefault(r => r.Id == id);
+            var item = _dataContext.ItemTags.FirstOrDefault(x => x.Id == id);
             if (item == null) return false;
             _dataContext.ItemTags.Remove(item);
             _dataContext.SaveChanges();
             return true;
         }
 
-        public bool Update(ItemTagDetailModel item)
+        public bool Update(ItemTagModel item)
         {
             var itemTagEntity = _dataContext.ItemTags.SingleOrDefault(x => x.Id == item.Id);
             if (itemTagEntity == null) return false;

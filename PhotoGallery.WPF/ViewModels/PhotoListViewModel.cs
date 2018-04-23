@@ -23,7 +23,7 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedPhoto;
             set
             {
-                _messenger.Send(new SendChoosenPhoto(SelectedPhoto.Id));
+                _messenger.Send(new SendChosenPhoto(SelectedPhoto.Id));
                 _selectedPhoto = value;
             }
         }
@@ -39,7 +39,7 @@ namespace PhotoGallery.WPF.ViewModels
             NextPageCommand = new RelayCommand(GetNextPhotos);
             PreviousPageCommand = new RelayCommand(GetPreviousPhotos);
 
-            _messenger.Register<SendChoosenItem>(SelectedItemChanged);
+            _messenger.Register<SendChosenItem>(SelectedItemChanged);
 
         }
 
@@ -53,7 +53,7 @@ namespace PhotoGallery.WPF.ViewModels
             throw new System.NotImplementedException();
         }
 
-        private void SelectedItemChanged(SendChoosenItem item)
+        private void SelectedItemChanged(SendChosenItem item)
         {
             PageIndex = 1;
             if (item.IsTag)

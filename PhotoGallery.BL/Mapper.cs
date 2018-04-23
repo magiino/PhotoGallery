@@ -7,9 +7,10 @@ namespace PhotoGallery.BL
 {
     public static class Mapper
     {
-        public static ItemTagDetailModel ItemTagEntityToItemTagListModel(ItemTagEntity itemTagEntity)
+        #region ItemTag
+        public static ItemTagModel ItemTagEntityToItemTagListModel(ItemTagEntity itemTagEntity)
         {
-            return new ItemTagDetailModel
+            return new ItemTagModel
             {
                 Id = itemTagEntity.Id,
                 Name = itemTagEntity.Item.Name,
@@ -18,26 +19,64 @@ namespace PhotoGallery.BL
             };
         }
 
-        public static  ICollection<ItemTagDetailModel> ItemTagEntitiesToItemTagListModels(IEnumerable<ItemTagEntity> itemTagEntities)
+        public static ICollection<ItemTagModel> ItemTagEntitiesToItemTagListModels(IEnumerable<ItemTagEntity> itemTagEntities)
         {
             return itemTagEntities.Select(ItemTagEntityToItemTagListModel).ToList();
         }
+        #endregion
 
-        public static PersonListModel PersonTagEntityToPersonTagListModel(PersonTagEntity personTag)
+        #region Item
+        public static ItemModel ItemEntityToItemModel(ItemEntity item)
         {
-            return new PersonListModel
+            return new ItemModel
+            {
+                Id = item.Id,
+                Name = item.Name,
+            };
+        }
+
+        public static ICollection<ItemModel> ItemEntitiesToItemModel(IEnumerable<ItemEntity> itemEntities)
+        {
+            return itemEntities.Select(ItemEntityToItemModel).ToList();
+        }
+        #endregion
+
+        #region PersonTag
+        public static PersonTagModel PersonTagEntityToPersonTagListModel(PersonTagEntity personTag)
+        {
+            return new PersonTagModel
             {
                 Id = personTag.Id,
                 FirstName = personTag.Person.FirstName,
                 LastName = personTag.Person.LastName,
+
             };
         }
 
-        public static ICollection<PersonListModel> PersonTagEntitiesToPersonTagListModels(IEnumerable<PersonTagEntity> personTagEntities)
+        public static ICollection<PersonTagModel> PersonTagEntitiesToPersonTagListModels(IEnumerable<PersonTagEntity> personTagEntities)
         {
             return personTagEntities.Select(PersonTagEntityToPersonTagListModel).ToList();
         }
+        #endregion
 
+        #region Person
+        public static PersonModel PersonEntityToPersonModel(PersonEntity person)
+        {
+            return new PersonModel
+            {
+                Id = person.Id,
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+            };
+        }
+
+        public static ICollection<PersonModel> PersonEntitiesToPersonModels(IEnumerable<PersonEntity> personEntities)
+        {
+            return personEntities.Select(PersonEntityToPersonModel).ToList();
+        }
+        #endregion
+
+        #region Album
         public static AlbumModel AlbumEntityToAlbumModel(AlbumEntity albumEntity)
         {
             return new AlbumModel
@@ -48,11 +87,21 @@ namespace PhotoGallery.BL
                 NumberOfPhotos = albumEntity.Photos.Count
             };
         }
-        public static  ICollection<AlbumModel> AlbumEntitiesToAlbumModels(IEnumerable<AlbumEntity> albumEntities)
+        public static ICollection<AlbumModel> AlbumEntitiesToAlbumModels(IEnumerable<AlbumEntity> albumEntities)
         {
             return albumEntities.Select(AlbumEntityToAlbumModel).ToList();
         }
 
+        public static AlbumEntity AlbumModelToAlbumEntity(AlbumModel albumModel)
+        {
+            return new AlbumEntity()
+            {
+                Title = albumModel.Title,
+            };
+        }
+        #endregion
+
+        #region Photo
         public static PhotoDetailModel PhotoEntityToPhotoDetailModel(PhotoEntity photoEntity)
         {
             return new PhotoDetailModel
@@ -78,7 +127,7 @@ namespace PhotoGallery.BL
         {
             return photoEntities.Select(PhotoEntityToPhotoDetailModel).ToList();
         }
-        
+
         public static PhotoListModel PhotoEntityToPhotoListModel(PhotoEntity photoEntity)
         {
             return new PhotoListModel
@@ -92,6 +141,7 @@ namespace PhotoGallery.BL
         public static ICollection<PhotoListModel> PhotoEntitiesToPhotoListModels(IEnumerable<PhotoEntity> entities)
         {
             return entities.Select(PhotoEntityToPhotoListModel).ToList();
-        }
+        } 
+        #endregion
     }
 }

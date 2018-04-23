@@ -12,6 +12,8 @@ namespace PhotoGallery.BL
         public IPhotoRepository Photos { get; }
         public IItemTagRepository ItemTags { get; }
         public IPersonTagRepository PersonTags { get; }
+        public PersonRepository Persons { get; }
+        public ItemRepository Items { get; }
 
         public UnitOfWork(DataContext context)
         {
@@ -21,6 +23,8 @@ namespace PhotoGallery.BL
             Photos = new PhotoRepository(_dataContext);
             ItemTags = new ItemTagRepository(_dataContext);
             PersonTags = new PersonTagRepository(_dataContext);
+            Persons = new PersonRepository(_dataContext);
+            Items = new ItemRepository(_dataContext);
         }
 
         public int Complete()

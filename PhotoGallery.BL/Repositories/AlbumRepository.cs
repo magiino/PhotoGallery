@@ -31,11 +31,12 @@ namespace PhotoGallery.BL.Repositories
             return Mapper.AlbumEntityToAlbumModel(album);
         }
 
-        public AlbumEntity Add(AlbumEntity album)
+        public AlbumModel Add(AlbumModel album)
         {
-            var addedAlbum = _dataContext.Albums.Add(album);
+            var addedAlbum = _dataContext.Albums.Add(Mapper.AlbumModelToAlbumEntity(album));
             _dataContext.SaveChanges();
-            return addedAlbum;
+            album.Id = addedAlbum.Id;
+            return album;
         }
 
         public bool Delete(int id)

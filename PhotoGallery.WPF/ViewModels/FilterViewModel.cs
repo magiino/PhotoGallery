@@ -56,8 +56,8 @@ namespace PhotoGallery.WPF.ViewModels
             AddPhotoCommand = new RelayCommand(AddPhoto, CanUseButton);
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
             
-            _messenger.Register<SendChoosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
-            _messenger.Register<SendChoosenItem>(SetAlbum);
+            _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
+            _messenger.Register<SendChosenItem>(SetAlbum);
         }
 
         private void AddPhoto()
@@ -82,7 +82,7 @@ namespace PhotoGallery.WPF.ViewModels
             return _selectedPhoto != null;
         }
 
-        private void SetAlbum(SendChoosenItem msg)
+        private void SetAlbum(SendChosenItem msg)
         {
             // TODO set album
             // msg.IsTag == false ?  : (_selectedAlbum = null)

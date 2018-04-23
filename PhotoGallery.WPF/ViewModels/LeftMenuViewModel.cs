@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using PhotoGallery.BL;
 using PhotoGallery.BL.MessengerFile.Messeges;
-using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.WPF.ViewModels
 {
@@ -12,52 +11,65 @@ namespace PhotoGallery.WPF.ViewModels
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
 
-        private ItemListModel _selectedItemListTag;
-        private PersonListModel _selectedPerson;
-        private AlbumModel _selectedAlbum;
-
+        #region Album
         public ObservableCollection<AlbumModel> Albums { get; set; }
+
+        private AlbumModel _selectedAlbum;
         public AlbumModel SelectedAlbum
         {
             get => _selectedAlbum;
             set
             {
-                SelectedItemListTag = null;
+                SelectedItem = null;
                 SelectedPerson = null;
-                _messenger.Send(new SendChoosenItem(value.Id, false));
+                _messenger.Send(new SendChosenItem(value.Id, false));
                 _selectedAlbum = value;
             }
         }
 
-        public ObservableCollection<ItemListModel> Items { get; set; }
-        public ItemListModel SelectedItemListTag
+        public string NewAlbumName { get; set; }
+        #endregion
+
+        #region Item
+        public ObservableCollection<ItemModel> Items { get; set; }
+        private ItemModel _selectedItem;
+        public ItemModel SelectedItem
         {
-            get => _selectedItemListTag;
+            get => _selectedItem;
             set
             {
                 SelectedAlbum = null;
                 SelectedPerson = null;
-                _messenger.Send(new SendChoosenItem(value.Id, true));
-                _selectedItemListTag = value;
+                _messenger.Send(new SendChosenItem(value.Id, true));
+                _selectedItem = value;
             }
         }
+        public string ItemSearch { get; set; }
+        #endregion
 
-        public ObservableCollection<PersonListModel> Persons { get; set; }
-        public PersonListModel SelectedPerson
+        #region Person
+        public ObservableCollection<PersonModel> Persons { get; set; }
+        private PersonModel _selectedPerson;
+        public PersonModel SelectedPerson
         {
             get => _selectedPerson;
             set
             {
                 SelectedAlbum = null;
-                _selectedItemListTag = null;
-                _messenger.Send(new SendChoosenItem(value.Id, true));
+                _selectedItem = null;
+                _messenger.Send(new SendChosenItem(value.Id, true));
                 _selectedPerson = value;
             }
         }
+        public string PersonSearch { get; set; } 
+        #endregion
 
         public ICommand DeleteAlbumCommand { get; }
         public ICommand AddAlbumCommand { get; }
-        public ICommand DeleteTagCommand { get; }
+
+        // TODO zmazat tak ze sa zmazu aj vsetky tagy a to iste aj ked zmazem album zmazu sa vsetkz fotky
+        public ICommand DeletePersonCommand { get; }
+        public ICommand DeleteItemCommand { get; }
 
         public LeftMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -67,36 +79,30 @@ namespace PhotoGallery.WPF.ViewModels
             OnLoad();
 
             DeleteAlbumCommand = new RelayCommand(DeleteAlbum, DeleteAlbumCanUse);
-            AddAlbumCommand = new RelayCommand(AddAlbum);
-            DeleteTagCommand = new RelayCommand(DeleteTag, DeleteTagCanUse);
+            AddAlbumCommand = new RelayCommand(AddAlbum, AddAlbumCanUse);
+            DeleteItemCommand = new RelayCommand(DeleteItem, DeleteItemCanUse);
+            DeletePersonCommand = new RelayCommand(DeletePerson, DeletePersonCanUse);
         }
 
-        private bool DeleteTagCanUse()
+        private void DeleteItem()
         {
-            return _selectedPerson != null || _selectedItemListTag != null;
+            _unitOfWork.PersonTags.Delete(_selectedItem.Id);
         }
 
-        private void DeleteTag()
+        private void DeletePerson()
         {
-            if(_selectedPerson != null)
-                _unitOfWork.PersonTags.Delete(_selectedPerson.Id);
-            if (_selectedItemListTag != null)
-                _unitOfWork.PersonTags.Delete(_selectedItemListTag.Id);
+            _unitOfWork.PersonTags.Delete(_selectedPerson.Id);
         }
 
         private void AddAlbum()
         {
-            // TODO upravovanie albumu
-            // TODO pridavanie albumu z ineho okna?
-            _unitOfWork.Albums.Add(new AlbumEntity()
+            var newAlbum = new AlbumModel()
             {
+                NumberOfPhotos = 0,
+                Title = NewAlbumName,
+            };
 
-            });
-        }
-
-        private bool DeleteAlbumCanUse()
-        {
-            return SelectedAlbum != null;
+            Albums.Add(_unitOfWork.Albums.Add(newAlbum));
         }
 
         private void DeleteAlbum()
@@ -105,13 +111,32 @@ namespace PhotoGallery.WPF.ViewModels
             Albums.Remove(_selectedAlbum);
         }
 
+
+        private bool DeleteItemCanUse()
+        {
+            return _selectedItem != null;
+        }
+
+        private bool DeletePersonCanUse()
+        {
+            return _selectedPerson != null;
+        }
+
+        public bool AddAlbumCanUse()
+        {
+            return !string.IsNullOrEmpty(NewAlbumName);
+        }
+
+        private bool DeleteAlbumCanUse()
+        {
+            return SelectedAlbum != null;
+        }
+
         private void OnLoad()
         {
-            // fetch data
             Albums = new ObservableCollection<AlbumModel>(_unitOfWork.Albums.GetAll());
-
-            //Items = new ObservableCollection<ItemListModel>(_unitOfWork.ItemTags.GetAll());
-            Persons = new ObservableCollection<PersonListModel>(_unitOfWork.PersonTags.GetAll());
+            Items = new ObservableCollection<ItemModel>(_unitOfWork.Items.GetAll());
+            Persons = new ObservableCollection<PersonModel>(_unitOfWork.Persons.GetAll());
         }
     }
 }

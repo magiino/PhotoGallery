@@ -10,7 +10,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         ICollection<AlbumModel> GetAll();
         AlbumModel GetByTitle(string title);
 
-        AlbumEntity Add(AlbumEntity album);
+        AlbumModel Add(AlbumModel album);
         bool Delete(int id);
         bool Update(AlbumModel album);
     }
