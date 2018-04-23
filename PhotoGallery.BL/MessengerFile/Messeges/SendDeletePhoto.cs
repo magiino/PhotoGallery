@@ -5,9 +5,10 @@
         public int PhotoId { get; set; }
         public int AlbumId { get; set; }
 
-        public SendDeletePhoto(int id)
+        public SendDeletePhoto(int photoId, int albumId)
         {
-            PhotoId = id;
+            PhotoId = photoId;
+            AlbumId = albumId;
         }
     }
 }

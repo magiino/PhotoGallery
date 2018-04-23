@@ -68,7 +68,6 @@ namespace PhotoGallery.WPF.ViewModels
         }
 
         private DateTime _dateFrom = DateTime.MinValue;
-
         public DateTime DateFrom
         {
             get => _dateFrom;
@@ -91,6 +90,7 @@ namespace PhotoGallery.WPF.ViewModels
         }
 
         public ICommand SetCoverPhotoCommand { get; }
+        public ICommand ChangeAlbumNameCommand { get; }
         public ICommand AddPhotoCommand { get; }
         public ICommand DeletePhotoCommand { get; }
 
@@ -101,6 +101,7 @@ namespace PhotoGallery.WPF.ViewModels
             OnLoad();
 
             SetCoverPhotoCommand = new RelayCommand(ChangeAlbumCoverPhoto, CanUseButton);
+            ChangeAlbumNameCommand = new RelayCommand(ChangeAlbumName, ChangeAlbumNameCanUse);
             AddPhotoCommand = new RelayCommand(AddPhoto, AddPhotoCanUse);
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
             
@@ -111,19 +112,32 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void AddPhoto()
         {
+            // TODO prerobit na model
             var photo = IoC.AddPhoto.ChoosePhoto(_selectedAlbum.Id);
             _unitOfWork.Photos.Add(photo);
-            // TODO zaradit fotku do listu
+
+            _messenger.Send(new SendAddPhoto(Mapper.PhotoEntityToPhotoListModel(photo), _selectedAlbum.Id));
         }
+
         private void DeletePhoto()
         {
             _unitOfWork.Photos.Delete(_selectedPhoto.Id);
-            _messenger.Send(new SendDeletePhoto(_selectedPhoto.Id));
+            _messenger.Send(new SendDeletePhoto(_selectedPhoto.Id, _selectedAlbum.Id));
         }
+
         private void ChangeAlbumCoverPhoto()
         {
             _selectedAlbum.CoverPhotoPath = _selectedPhoto.Path;
+            _selectedAlbum.CoverPhotoId = _selectedPhoto.Id;
             _unitOfWork.Albums.Update(_selectedAlbum);
+            _messenger.Send(new SendAlbum(_selectedAlbum));
+        }
+
+        private void ChangeAlbumName()
+        {
+            _selectedAlbum.Title = AlbumName;
+            _unitOfWork.Albums.Update(_selectedAlbum);
+            _messenger.Send(new SendAlbum(_selectedAlbum));
         }
 
 
@@ -135,6 +149,11 @@ namespace PhotoGallery.WPF.ViewModels
         public bool AddPhotoCanUse()
         {
             return _selectedAlbum != null;
+        }
+
+        public bool ChangeAlbumNameCanUse()
+        {
+            return !string.IsNullOrEmpty(AlbumName);
         }
 
 

@@ -49,6 +49,7 @@ namespace PhotoGallery.WPF.ViewModels
                 var photo = Photos.SingleOrDefault(x => x.Id == msg.PhotoId);
                 Photos.Remove(photo);
             });
+            _messenger.Register<SendAddPhoto>(msg => Photos.Add(msg.PhotoModel));
         }
 
         private void GetNextPhotos()
