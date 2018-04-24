@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PhotoGallery.DAL.Entities
+﻿namespace PhotoGallery.DAL.Entities
 {
     public class ItemTagEntity : TagEntity
     {

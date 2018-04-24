@@ -13,6 +13,6 @@ namespace PhotoGallery.WPF
         public PhotoListViewModel PhotoListViewModel => new PhotoListViewModel(_messenger, _unitOfWork);
         public RightMenuViewModel RightMenuViewModel => new RightMenuViewModel(_messenger, _unitOfWork);
         public PhotoDetailViewModel PhotoDetailViewModel => new PhotoDetailViewModel(_messenger, _unitOfWork);
-        public DetailsViewModel DetailsViewModel => new DetailsViewModel(_messenger, _unitOfWork); 
+        public DetailViewModel DetailViewModel => new DetailViewModel(_messenger, _unitOfWork); 
     }
 }

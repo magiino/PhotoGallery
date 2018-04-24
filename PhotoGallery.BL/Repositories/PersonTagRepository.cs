@@ -36,18 +36,46 @@ namespace PhotoGallery.BL.Repositories
             return Mapper.PersonTagEntityToPersonTagModel(personTag);
         }
 
-        public PersonTagEntity Add(PersonTagEntity person)
+
+        public int Add(TagModel person, PhotoDetailModel photoDetailModel)
         {
-            var addedPersonTag = _dataContext.PersonTags.Add(person);
+            var name = person.Name.Split(' ');
+            var personEntity = _dataContext.Persons.FirstOrDefault(x => x.FirstName == name[0]) ?? _dataContext.Persons.Add(new PersonEntity()
+            {
+                FirstName = name[0],
+                LastName = name[1]
+            });
             _dataContext.SaveChanges();
-            return addedPersonTag;
+
+            var addedPersonTag = _dataContext.PersonTags.Add(new PersonTagEntity()
+            {
+                Person = personEntity,
+                PersonId = personEntity.Id,
+                XPosition = person.XPosition,
+                YPosition = person.YPosition,
+                Photos = new List<PhotoEntity>() { Mapper.PhotoDetailModelToPhotoEntity(photoDetailModel) }
+            });
+            _dataContext.SaveChanges();
+            return addedPersonTag.Id;
         }
 
         public bool Delete(int id)
         {
+            // TODO v DB nastavit cascade delete z fotky
             var person = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
             if (person == null) return false;
 
+            var deletePersonEntity = true;
+            foreach (var personTag in _dataContext.PersonTags)
+            {
+                if (personTag.PersonId != person.PersonId) continue;
+                deletePersonEntity = false;
+                break;
+            }
+
+            if (deletePersonEntity)
+                _dataContext.Persons.Remove(person.Person);
+            
             _dataContext.PersonTags.Remove(person);
             _dataContext.SaveChanges();
             return true;

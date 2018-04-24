@@ -53,9 +53,13 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 var photo = Photos.SingleOrDefault(x => x.Id == msg.PhotoId);
                 Photos.Remove(photo);
-                CalcPages();
+                //CalcPages();
             });
-            _messenger.Register<SendAddPhoto>(msg => Photos.Add(msg.PhotoModel));
+            _messenger.Register<SendAddPhoto>(msg =>
+            {
+                Photos.Add(msg.PhotoModel);
+                //CalcPages();
+            });
         }
 
         private void GetNextPhotos()
@@ -118,7 +122,6 @@ namespace PhotoGallery.WPF.ViewModels
             else
             {
                 FetchAlbumPhotos(item.Id);
-
                  _selectedAlbum = _unitOfWork.Albums.GetById(item.Id);
             }
 

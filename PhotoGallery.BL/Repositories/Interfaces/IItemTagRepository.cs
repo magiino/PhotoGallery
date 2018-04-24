@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using PhotoGallery.BL.Models;
-using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL.Repositories.Interfaces
 {
@@ -9,8 +8,8 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         ItemTagModel GetById(int id);
         ICollection<ItemTagModel> GetAll();
         ItemTagModel GetByName(string name);
-        
-        ItemTagEntity Add(ItemTagEntity item);
+
+        int Add(TagModel item, PhotoDetailModel photoDetailModel);
         bool Delete(int id);
         bool Update(ItemTagModel item);
     }

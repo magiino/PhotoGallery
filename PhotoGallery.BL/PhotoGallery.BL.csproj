@@ -63,6 +63,7 @@
     <Compile Include="MessengerFile\Messeges\SendChosenPhoto.cs" />
     <Compile Include="MessengerFile\Messeges\ChosenItem.cs" />
     <Compile Include="Models\ItemTagModel.cs" />
+    <Compile Include="Models\TagModel.cs" />
     <Compile Include="Models\PersonTagModel.cs" />
     <Compile Include="Repositories\ItemRepository.cs" />
     <Compile Include="Repositories\ResolutionRepository.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="Repositories\AlbumRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPersonTagRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPhotoRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ItemTagRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IItemTagRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAlbumRepository.cs" />
     <Compile Include="Repositories\ItemTagRepository.cs" />
     <Compile Include="Repositories\PersonTagRepository.cs" />

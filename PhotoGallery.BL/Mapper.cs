@@ -98,8 +98,71 @@ namespace PhotoGallery.BL
         }
         #endregion
 
+        #region Tag
+
+        public static List<TagModel> TagEntitiesToTagModels(ICollection<TagEntity> tagEntities)
+        {
+            var tags = new List<TagModel>();
+            foreach (var tag in tagEntities)
+            {
+                switch (tag)
+                {
+                    case PersonTagEntity personTag:
+                        tags.Add(new TagModel()
+                        {
+                            Id = personTag.Id,
+                            PersonId = personTag.PersonId,
+                            Name = personTag.Person.FirstName + " " + personTag.Person.LastName,
+                            XPosition = personTag.XPosition,
+                            YPosition = personTag.YPosition
+                        });
+                        break;
+                    case ItemTagEntity itemTag:
+                        tags.Add(new TagModel()
+                        {
+                            IsItem = true,
+                            Id = itemTag.Id,
+                            ItemId = itemTag.ItemId,
+                            Name = itemTag.Item.Name,
+                            XPosition = itemTag.XPosition,
+                            YPosition = itemTag.YPosition
+                        });
+                        break;
+                }
+            }
+
+            return tags;
+        }
+
+        public static List<TagEntity> TagModelsToTagEntities(ICollection<TagModel> tagModels)
+        {
+            var tags = new List<TagEntity>();
+            foreach (var tag in tagModels)
+            {
+                if(tag.ItemId == 0)
+                    tags.Add(new PersonTagEntity()
+                    {
+                        Id = tag.Id,
+                        PersonId = tag.PersonId,
+                        XPosition = tag.XPosition,
+                        YPosition = tag.YPosition,
+                    });
+                else tags.Add(new ItemTagEntity()
+                    {
+                        Id = tag.Id,
+                        ItemId = tag.ItemId,
+                        XPosition = tag.XPosition,
+                        YPosition = tag.YPosition,
+                    });
+            }
+
+            return tags;
+        }
+
+        #endregion
+
         #region Album
-        public static AlbumModel AlbumEntityToAlbumModel(AlbumEntity albumEntity)
+            public static AlbumModel AlbumEntityToAlbumModel(AlbumEntity albumEntity)
         {
             return new AlbumModel
             {
@@ -126,7 +189,7 @@ namespace PhotoGallery.BL
         #region Photo
         public static PhotoDetailModel PhotoEntityToPhotoDetailModel(PhotoEntity photoEntity)
         {
-            return new PhotoDetailModel
+            var model = new PhotoDetailModel
             {
                 Id = photoEntity.Id,
                 Name = photoEntity.Name,
@@ -141,8 +204,12 @@ namespace PhotoGallery.BL
                 },
                 Note = photoEntity.Note,
                 Location = photoEntity.Location,
-                Tags = photoEntity.Tags
             };
+           
+            var tags = TagEntitiesToTagModels(photoEntity.Tags);
+           
+            model.Tags = tags;
+            return model;
         }
 
         public static ICollection<PhotoDetailModel> PhotoEntitiesToPhotoDetailModels(IEnumerable<PhotoEntity> photoEntities)
@@ -164,8 +231,26 @@ namespace PhotoGallery.BL
         {
             return entities.Select(PhotoEntityToPhotoListModel).ToList();
         }
+
+        public static PhotoEntity PhotoDetailModelToPhotoEntity(PhotoDetailModel photoDetailModel)
+        {
+            return new PhotoEntity()
+            {
+                Id = photoDetailModel.Id,
+                Name = photoDetailModel.Name,
+                AlbumId = photoDetailModel.Id,
+                Format = photoDetailModel.Format,
+                Note = photoDetailModel.Note,
+                Path = photoDetailModel.Path,
+                Location = photoDetailModel.Location,
+                ResolutionId = photoDetailModel.Resolution.Id,
+                CreatedTime = photoDetailModel.CreatedTime,
+            };
+        }
+
         #endregion
 
+        #region Resolution
         public static ResolutionModel ResolutionEntityToResolutionModel(ResolutionEntity resolutionEntity)
         {
             return new ResolutionModel()
@@ -180,5 +265,15 @@ namespace PhotoGallery.BL
         {
             return resolutionEntities.Select(ResolutionEntityToResolutionModel).ToList();
         }
+        public static ResolutionEntity ResolutionModelToResolutionEntity(ResolutionModel resolutionModel)
+        {
+            return new ResolutionEntity()
+            {
+                Id = resolutionModel.Id,
+                Width = resolutionModel.Width,
+                Height = resolutionModel.Height
+            };
+        }
+        #endregion
     }
 }

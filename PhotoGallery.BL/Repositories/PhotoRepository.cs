@@ -69,7 +69,7 @@ namespace PhotoGallery.BL.Repositories
             photoEntity.Name = photoDetail.Name;
             photoEntity.Note = photoDetail.Note;
             photoEntity.Location = photoDetail.Location;
-            photoEntity.Tags = photoDetail.Tags;
+            photoEntity.Tags = Mapper.TagModelsToTagEntities(photoDetail.Tags);
             _dataContext.SaveChanges();
             return true;
         }
