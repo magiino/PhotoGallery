@@ -98,6 +98,8 @@ namespace PhotoGallery.WPF.ViewModels
             });
 
             _messenger.Register<SendAlbum>(ChangeAlbum);
+
+            _messenger.Register<SendNewTag>(AddNewTagToList);
         }
 
         private void DeleteItem()
@@ -119,6 +121,23 @@ namespace PhotoGallery.WPF.ViewModels
             };
 
             Albums.Add(_unitOfWork.Albums.Add(newAlbum));
+        }
+
+        private void AddNewTagToList(SendNewTag newTag)
+        { 
+            var tag = newTag.TagModel;
+            if (tag.IsItem)
+            {
+                var item = Items.FirstOrDefault(x => x.Id == tag.ItemId);
+                if(item == null)
+                    Items.Add(_unitOfWork.Items.GetById(tag.ItemId));
+            }
+            else
+            {
+                var person = Persons.FirstOrDefault(x => x.Id == tag.PersonId);
+                if (person == null)
+                    Persons.Add(_unitOfWork.Persons.GetById(tag.PersonId));
+            }
         }
 
         private void DeleteAlbum()
