@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using PhotoGallery.BL;
 using PhotoGallery.BL.IoC;
+using PhotoGallery.WPF.ViewModels;
 
 namespace PhotoGallery.WPF
 {
@@ -22,6 +23,7 @@ namespace PhotoGallery.WPF
         private void SetUpApplication()
         {
             IoC.Kernel.Bind<IAddPhoto>().ToConstant(new AddPhoto());
+            IoC.Kernel.Bind<IApplicationViewModel>().ToConstant(new ApplicationViewModel());
 
             IoC.SetUp();
         }

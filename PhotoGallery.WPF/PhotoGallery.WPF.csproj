@@ -73,14 +73,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AddPhoto.cs" />
+    <Compile Include="AttachedProperties\Base\BaseAttachedProperty.cs" />
+    <Compile Include="AttachedProperties\NoFrameHistory.cs" />
+    <Compile Include="Converters\BaseValueConverter.cs" />
+    <Compile Include="Converters\ApplicationPageValueConverter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModelLocator.cs" />
+    <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\RightMenuViewModel.cs" />
     <Compile Include="ViewModels\PhotoDetailViewModel.cs" />
     <Compile Include="ViewModels\PhotoListViewModel.cs" />
     <Compile Include="ViewModels\LeftMenuViewModel.cs" />
+    <Compile Include="Views\PhotoDetailPage.xaml.cs">
+      <DependentUpon>PhotoDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhotoListPage.xaml.cs">
+      <DependentUpon>PhotoListPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,6 +104,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PhotoDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PhotoListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -132,8 +151,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Converters\" />
-    <Folder Include="Views\" />
+    <Folder Include="Views\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />

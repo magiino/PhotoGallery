@@ -1,5 +1,4 @@
 ﻿using System;
-using PhotoGallery.WPF.ViewModels.Base;
 using PhotoGallery.BL.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using PhotoGallery.BL;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
+using PhotoGallery.WPF.ViewModels.Base;
 
 namespace PhotoGallery.WPF.ViewModels
 {

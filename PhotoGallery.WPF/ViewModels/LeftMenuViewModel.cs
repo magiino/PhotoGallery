@@ -3,11 +3,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
+using PhotoGallery.DAL.Enums;
+using PhotoGallery.WPF.ViewModels.Base;
 
 namespace PhotoGallery.WPF.ViewModels
 {
-    public class LeftMenuViewModel
+    public class LeftMenuViewModel : BaseViewModel
     {
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
@@ -21,6 +24,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedAlbum;
             set
             {
+                GoToPage();
+
                 SelectedItem = null;
                 SelectedPerson = null;
                 _messenger.Send(new ChosenItem(value.Id, false));
@@ -39,6 +44,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedItem;
             set
             {
+                GoToPage();
+
                 SelectedAlbum = null;
                 SelectedPerson = null;
                 _messenger.Send(new ChosenItem(value.Id, true));
@@ -56,6 +63,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedPerson;
             set
             {
+                GoToPage();
+
                 SelectedAlbum = null;
                 _selectedItem = null;
                 _messenger.Send(new ChosenItem(value.Id, true));
@@ -96,20 +105,19 @@ namespace PhotoGallery.WPF.ViewModels
                 var album = Albums.FirstOrDefault(x => x.Id == msg.AlbumId);
                 album.NumberOfPhotos++;
             });
-
             _messenger.Register<SendAlbum>(ChangeAlbum);
-
             _messenger.Register<SendNewTag>(AddNewTagToList);
         }
 
+        // TODO ak sa zmaze osoba zmazu sa aj vsetky tagy
         private void DeleteItem()
         {
-            _unitOfWork.PersonTags.Delete(_selectedItem.Id);
+            _unitOfWork.Items.Delete(_selectedItem.Id);
         }
 
         private void DeletePerson()
         {
-            _unitOfWork.PersonTags.Delete(_selectedPerson.Id);
+            _unitOfWork.Persons.Delete(_selectedPerson.Id);
         }
 
         private void AddAlbum()
@@ -146,7 +154,6 @@ namespace PhotoGallery.WPF.ViewModels
             Albums.Remove(_selectedAlbum);
         }
 
-
         private bool DeleteItemCanUse()
         {
             return _selectedItem != null;
@@ -181,6 +188,12 @@ namespace PhotoGallery.WPF.ViewModels
             Albums = new ObservableCollection<AlbumModel>(_unitOfWork.Albums.GetAll());
             Items = new ObservableCollection<ItemModel>(_unitOfWork.Items.GetAll());
             Persons = new ObservableCollection<PersonModel>(_unitOfWork.Persons.GetAll());
+        }
+
+        private void GoToPage()
+        {
+            if (IoC.Application.CurrentPage != ApplicationPage.PhotoList)
+                IoC.Application.GoToPage(ApplicationPage.PhotoList);
         }
     }
 }

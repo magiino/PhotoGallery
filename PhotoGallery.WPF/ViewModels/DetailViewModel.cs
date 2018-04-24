@@ -6,10 +6,11 @@ using PhotoGallery.BL;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.BL.Models;
 using PhotoGallery.DAL.Enums;
+using PhotoGallery.WPF.ViewModels.Base;
 
 namespace PhotoGallery.WPF.ViewModels
 {
-    public class DetailViewModel
+    public class DetailViewModel : BaseViewModel
     {
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
