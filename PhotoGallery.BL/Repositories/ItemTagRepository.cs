@@ -32,17 +32,39 @@ namespace PhotoGallery.BL.Repositories
             return Mapper.ItemTagEntityToItemTagModel(itemTag);
         }
  
-        public ItemTagEntity Add(ItemTagEntity item)
+        public int Add(TagModel item, PhotoDetailModel photoDetailModel)
         {
-            var addedItem =_dataContext.ItemTags.Add(item);
+            var itemEntity = _dataContext.Items.FirstOrDefault(x => x.Name == item.Name) ?? _dataContext.Items.Add(new ItemEntity() {Name = item.Name});
             _dataContext.SaveChanges();
-            return addedItem;
+
+            var addedItemTag =_dataContext.ItemTags.Add(new ItemTagEntity()
+            {
+                Item = itemEntity,
+                ItemId = itemEntity.Id,
+                XPosition = item.XPosition,
+                YPosition = item.YPosition,
+                Photos = new List<PhotoEntity>() { Mapper.PhotoDetailModelToPhotoEntity(photoDetailModel) }
+            });
+            _dataContext.SaveChanges();
+            return addedItemTag.Id;
         }
 
         public bool Delete(int id)
         {
             var item = _dataContext.ItemTags.FirstOrDefault(x => x.Id == id);
             if (item == null) return false;
+
+            var deletePersonEntity = true;
+            foreach (var itemTag in _dataContext.ItemTags)
+            {
+                if (itemTag.ItemId != item.ItemId) continue;
+                deletePersonEntity = false;
+                break;
+            }
+
+            if (deletePersonEntity)
+                _dataContext.Items.Remove(item.Item);
+
             _dataContext.ItemTags.Remove(item);
             _dataContext.SaveChanges();
             return true;

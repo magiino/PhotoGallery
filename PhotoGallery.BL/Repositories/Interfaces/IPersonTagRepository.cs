@@ -11,7 +11,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         PersonTagModel GetByFirstName(string name);
         PersonTagModel GetByLastName(string name);
 
-        PersonTagEntity Add(PersonTagEntity person);
+        int Add(TagModel item, PhotoDetailModel photoDetailModel);
         bool Delete(int id);
         bool Update(PersonTagModel person);
     }

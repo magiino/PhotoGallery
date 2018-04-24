@@ -10,6 +10,7 @@ namespace PhotoGallery.WPF.ViewModels
     {
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
+
         public PhotoDetailModel Photo { get; set; }
         public List<int> PhotosIds { get; set; }
 
@@ -18,6 +19,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         public ICommand PreviousPhoto { get; set; }
         public ICommand NextPhoto { get; set; }
+
 
         // TODO oznacovanie tagov na fotke
         public PhotoDetailViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
@@ -43,6 +45,19 @@ namespace PhotoGallery.WPF.ViewModels
         {
             Photo = _unitOfWork.Photos.GetDetailModelById(PhotosIds[--CurrentPhotoIndex]);
             SendPhotoToDetailVm(Photo);
+        }
+
+        private void SaveChanges()
+        {
+            _unitOfWork.Photos.Update(new PhotoDetailModel());
+        }
+
+        private void DeleteTag()
+        {
+        }
+
+        private void AddTag()
+        {
         }
 
         public bool GetNextPhotosCanUse()
