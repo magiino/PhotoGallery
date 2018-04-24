@@ -57,6 +57,8 @@
     <Compile Include="MessengerFile\Messeges\SendAlbum.cs" />
     <Compile Include="MessengerFile\Messeges\SendAddPhoto.cs" />
     <Compile Include="MessengerFile\Messeges\FilterSortSettings.cs" />
+    <Compile Include="MessengerFile\Messeges\SendNewPhotoName.cs" />
+    <Compile Include="MessengerFile\Messeges\SendNewTag.cs" />
     <Compile Include="MessengerFile\Messeges\SendDetailPhotoModel.cs" />
     <Compile Include="MessengerFile\Messeges\SendDeletePhoto.cs" />
     <Compile Include="MessengerFile\Messeges\SendFilterWithPhoto.cs" />

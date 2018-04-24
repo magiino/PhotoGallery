@@ -43,14 +43,19 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void SaveChanges()
         {
-            _unitOfWork.Photos.Update(new PhotoDetailModel()
+            var photo = new PhotoDetailModel()
             {
                 Id = _id,
                 Name = Name,
                 Location = Location,
                 Note = Note,
                 Tags = Tags.ToList(),
-            });
+            };
+            _unitOfWork.Photos.Update(photo);
+
+            if(_photoDetailModel.Name != Name)
+                _messenger.Send(new SendNewPhotoName(Name));
+            _photoDetailModel = photo;
         }
 
         private void DeleteTag()
@@ -93,8 +98,7 @@ namespace PhotoGallery.WPF.ViewModels
             }
 
             Tags.Add(tag);
-            // TODO Pridat tag do detail VM
-            // TODO pridat novu osobu/item do leftVM
+            _messenger.Send(new SendNewTag(tag));
         }
 
         public bool DeleteTagCanUse()

@@ -83,6 +83,7 @@ namespace PhotoGallery.BL.Repositories
                 .ToList());
         }
 
+       
         public ICollection<PhotoListModel> GetPhotosByPersonTag(PersonTagModel personTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize)
         {
             return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
@@ -91,6 +92,19 @@ namespace PhotoGallery.BL.Repositories
                 .Take(pageSize)
                 .ToList());
         }
+
+        public int GetNumberOfPhotosWithThisTag(int id)
+        {
+            var personTag = _dataContext.PersonTags.SingleOrDefault(x => x.Id == id);
+            if (personTag == null)
+            {
+                var itemTag = _dataContext.ItemTags.SingleOrDefault(x => x.Id == id);
+                return _dataContext.Photos.Count(x => x.Tags.Contains(itemTag));
+            }
+            else
+                return _dataContext.Photos.Count(x => x.Tags.Contains(personTag));
+        }
+
 
         public ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize)
         {
@@ -112,8 +126,8 @@ namespace PhotoGallery.BL.Repositories
         public List<int> GetSortedFilteredPhotosIds(FilterSortSettings settings, ChosenItem item)
         {
             Expression<Func<PhotoEntity, bool>> filterExpression = x =>
-                x.Format == settings.Format
-                && x.ResolutionId == settings.ResolutionId
+                settings.Format != Format.None ? x.Format == settings.Format : true
+                && settings.ResolutionId > 0 ? x.ResolutionId == settings.ResolutionId : true
                 && string.IsNullOrEmpty(settings.SearchString) || x.Name.Contains(settings.SearchString)
                 && (x.CreatedTime >= settings.DateFrom && x.CreatedTime <= settings.DateTo);
 

@@ -20,6 +20,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
 
         ICollection<PhotoListModel> GetPhotosByItemTag(ItemTagModel itemTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize);
         ICollection<PhotoListModel> GetPhotosByPersonTag(PersonTagModel personTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize);
+        int GetNumberOfPhotosWithThisTag(int id);
 
         ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize);
         ICollection<PhotoListModel> GetPhotosByPageFilter(Expression<Func<PhotoEntity, bool>> filter, int pageIndex, int pageSize = IoC.IoC.PageSize);
