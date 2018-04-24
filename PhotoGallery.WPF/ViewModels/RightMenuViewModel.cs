@@ -106,7 +106,7 @@ namespace PhotoGallery.WPF.ViewModels
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
             
             _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
-            _messenger.Register<SendChosenItem>(SetAlbum);
+            _messenger.Register<ChosenItem>(SetAlbum);
         }
 
 
@@ -157,7 +157,7 @@ namespace PhotoGallery.WPF.ViewModels
         }
 
 
-        private void SetAlbum(SendChosenItem msg)
+        private void SetAlbum(ChosenItem msg)
         {
             _selectedAlbum = msg.IsTag == false ? _unitOfWork.Albums.GetById(msg.Id) : null;
         }
@@ -170,13 +170,13 @@ namespace PhotoGallery.WPF.ViewModels
         }
         private void Filter()
         {
-            _messenger.Send(new SendFilterSettings()
+            _messenger.Send(new FilterSortSettings()
             {
                 SearchString = FilterByName,
                 Sort = SelectedSort,
                 SortAscending = SortAscending,
                 Format = SelectedFormat,
-                ResolutionModel = SelectedResolution,
+                ResolutionId = SelectedResolution.Id,
                 DateFrom = DateFrom,
                 DateTo = DateTo
             });

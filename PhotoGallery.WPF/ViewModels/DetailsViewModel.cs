@@ -22,6 +22,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         public ICommand AddTagCommand { get; }
         public ICommand DeleteTagCommand { get; }
+        public ICommand SaveChangesCommand { get; }
 
         public DetailsViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {

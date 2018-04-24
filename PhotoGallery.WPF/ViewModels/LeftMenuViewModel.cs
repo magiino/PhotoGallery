@@ -23,7 +23,7 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 SelectedItem = null;
                 SelectedPerson = null;
-                _messenger.Send(new SendChosenItem(value.Id, false));
+                _messenger.Send(new ChosenItem(value.Id, false));
                 _selectedAlbum = value;
             }
         }
@@ -41,7 +41,7 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 SelectedAlbum = null;
                 SelectedPerson = null;
-                _messenger.Send(new SendChosenItem(value.Id, true));
+                _messenger.Send(new ChosenItem(value.Id, true));
                 _selectedItem = value;
             }
         }
@@ -58,7 +58,7 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 SelectedAlbum = null;
                 _selectedItem = null;
-                _messenger.Send(new SendChosenItem(value.Id, true));
+                _messenger.Send(new ChosenItem(value.Id, true));
                 _selectedPerson = value;
             }
         }

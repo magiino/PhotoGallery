@@ -56,11 +56,12 @@
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="MessengerFile\Messeges\SendAlbum.cs" />
     <Compile Include="MessengerFile\Messeges\SendAddPhoto.cs" />
-    <Compile Include="MessengerFile\Messeges\SendFilterSettings.cs" />
+    <Compile Include="MessengerFile\Messeges\FilterSortSettings.cs" />
+    <Compile Include="MessengerFile\Messeges\SendDetailPhotoModel.cs" />
     <Compile Include="MessengerFile\Messeges\SendDeletePhoto.cs" />
-    <Compile Include="MessengerFile\Messeges\SendFilterData.cs" />
+    <Compile Include="MessengerFile\Messeges\SendFilterWithPhoto.cs" />
     <Compile Include="MessengerFile\Messeges\SendChosenPhoto.cs" />
-    <Compile Include="MessengerFile\Messeges\SendChosenItem.cs" />
+    <Compile Include="MessengerFile\Messeges\ChosenItem.cs" />
     <Compile Include="Models\ItemTagModel.cs" />
     <Compile Include="Models\PersonTagModel.cs" />
     <Compile Include="Repositories\ItemRepository.cs" />
