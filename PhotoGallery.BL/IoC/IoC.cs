@@ -13,6 +13,7 @@ namespace PhotoGallery.BL.IoC
         public const int PageSize = 20;
 
         public static IKernel Kernel { get; } = new StandardKernel();
+        public static IApplicationViewModel Application => IoC.Get<IApplicationViewModel>();
         public static Messenger Messenger => IoC.Get<Messenger>();
         public static IUnitOfWork UnitOfWork => IoC.Get<IUnitOfWork>();
         public static IAddPhoto AddPhoto => IoC.Get<IAddPhoto>();
@@ -22,6 +23,7 @@ namespace PhotoGallery.BL.IoC
             BindMessenger(new Messenger());
             BindUnitOfWork(new UnitOfWork(new DataContext()));
         }
+
         private static void BindMessenger(Messenger messenger)
         {
             Kernel.Bind<Messenger>().ToConstant(messenger);

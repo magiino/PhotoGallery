@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using PhotoGallery.BL.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using PhotoGallery.BL;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
+using PhotoGallery.WPF.ViewModels.Base;
 
 namespace PhotoGallery.WPF.ViewModels
 {
-    public class PhotoListViewModel
+    public class PhotoListViewModel : BaseViewModel
     {
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
@@ -107,11 +107,9 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void ShowDetailPhoto()
         {
-            // TODO chod na druhu stranku (tj detail)
-            // Odosli filterSort a aktualnu fotku
+            IoC.Application.GoToPage(ApplicationPage.PhotoDetail);
             _messenger.Send(new SendFilterWithPhoto(_selectedPhoto.Id, _filterSortSettings, _chosenItem));
         }
-
 
         public bool GetNextPhotosCanUse()
         {
@@ -146,7 +144,6 @@ namespace PhotoGallery.WPF.ViewModels
         }
     }
 }
-
 
 // TODO tieto komentare nemazat este!!
 //private void SelectedItemChanged(ChosenItem item)
