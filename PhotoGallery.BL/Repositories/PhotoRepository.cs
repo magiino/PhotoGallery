@@ -5,7 +5,10 @@ using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using PhotoGallery.BL.MessengerFile.Messeges;
+using PhotoGallery.DAL.Enums;
 
 namespace PhotoGallery.BL.Repositories
 {
@@ -106,14 +109,45 @@ namespace PhotoGallery.BL.Repositories
                 .ToList());
         }
 
-        public ICollection<PhotoListModel> GetPhotosByPageFilterWithSort(Expression<Func<PhotoEntity,bool>> filter, Expression<Func<PhotoEntity,bool>> sort, int pageIndex, int pageSize = IoC.IoC.PageSize)
+        public List<int> GetSortedFilteredPhotosIds(FilterSortSettings settings, ChosenItem item)
         {
-            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
-                .Where(filter)
-                .OrderBy(sort)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToList());
+            Expression<Func<PhotoEntity, bool>> filterExpression = x =>
+                x.Format == settings.Format
+                && x.ResolutionId == settings.ResolutionId
+                && string.IsNullOrEmpty(settings.SearchString) || x.Name.Contains(settings.SearchString)
+                && (x.CreatedTime >= settings.DateFrom && x.CreatedTime <= settings.DateTo);
+
+            var photos = _dataContext.Photos.Where(filterExpression);
+
+            List<PhotoEntity> filteredPhotos;
+
+            if (item.IsTag)
+            {
+                var personTag = _dataContext.PersonTags.SingleOrDefault(x => x.Id == item.Id);
+                if (personTag == null)
+                {
+                    var itemTag = _dataContext.ItemTags.SingleOrDefault(x => x.Id == item.Id);
+                    filteredPhotos = photos.Where(x => x.Tags.Contains(itemTag)).ToList();
+                }
+                else
+                    filteredPhotos = photos.Where(x => x.Tags.Contains(personTag)).ToList();
+            }
+            else filteredPhotos = photos.Where(x => x.AlbumId == item.Id).ToList();
+
+
+        switch (settings.Sort)
+            {
+                case Sort.ByDateTime when settings.SortAscending:
+                    return filteredPhotos.OrderBy(x => x.CreatedTime).Select(x => x.Id).ToList();
+                case Sort.ByDateTime when !settings.SortAscending:
+                    return filteredPhotos.OrderByDescending(x => x.CreatedTime).Select(x => x.Id).ToList();
+                case Sort.ByName when settings.SortAscending:
+                    return filteredPhotos.OrderBy(x => x.Name).Select(x => x.Id).ToList();
+                case Sort.ByName when !settings.SortAscending:
+                    return filteredPhotos.OrderByDescending(x => x.Name).Select(x => x.Id).ToList();
+                default:
+                    return filteredPhotos.Select(x => x.Id).ToList();
+            }
         }
     }
 }
