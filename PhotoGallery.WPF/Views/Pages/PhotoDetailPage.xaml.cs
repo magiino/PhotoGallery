@@ -1,7 +1,6 @@
 ﻿using System.Windows.Controls;
 
-
-namespace PhotoGallery.WPF.Views
+namespace PhotoGallery.WPF.Views.Pages
 {
     /// <summary>
     /// Interaction logic for PhotoListPage.xaml

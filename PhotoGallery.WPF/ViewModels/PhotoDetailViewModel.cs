@@ -21,6 +21,8 @@ namespace PhotoGallery.WPF.ViewModels
     public List<int> PhotosIds { get; set; }
     public int CurrentPhotoIndex { get; set; }
     public int NumOfPhotos { get; set; }
+    // TODO
+    public string Pages { get; set; }
 
     public ICommand PreviousPhoto { get; set; }
     public ICommand NextPhoto { get; set; }
