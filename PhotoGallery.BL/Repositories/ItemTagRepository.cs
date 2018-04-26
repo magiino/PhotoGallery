@@ -43,7 +43,6 @@ namespace PhotoGallery.BL.Repositories
                 ItemId = itemEntity.Id,
                 XPosition = item.XPosition,
                 YPosition = item.YPosition,
-                Photos = new List<PhotoEntity>() { Mapper.PhotoDetailModelToPhotoEntity(photoDetailModel) }
             });
             _dataContext.SaveChanges();
             return addedItemTag.Id;
