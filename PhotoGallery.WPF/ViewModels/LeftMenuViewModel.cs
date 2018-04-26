@@ -176,8 +176,8 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void ChangeAlbum(SendAlbum msg)
         {
-            var album = Albums.FirstOrDefault(x => x.Id == msg.AlbumModel.Id);
-
+            var album = Albums.SingleOrDefault(x => x.Id == msg.AlbumModel.Id);
+            if (album == null) return;
             album.Title = msg.AlbumModel.Title;
             album.CoverPhotoPath = msg.AlbumModel.CoverPhotoPath;
             album.CoverPhotoId = msg.AlbumModel.CoverPhotoId;
