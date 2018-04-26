@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using PhotoGallery.BL.Models;
-using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL.Repositories.Interfaces
 {
     public interface IPersonTagRepository
     {
-        PersonTagModel GetById(int id);
-        ICollection<PersonTagModel> GetAll();
-        PersonTagModel GetByFirstName(string name);
-        PersonTagModel GetByLastName(string name);
+        //PersonTagModel GetById(int id);
+        //ICollection<PersonTagModel> GetAll();
+        //PersonTagModel GetByFirstName(string name);
+        //PersonTagModel GetByLastName(string name);
 
         int Add(TagModel item, PhotoDetailModel photoDetailModel);
         bool Delete(int id);
-        bool Update(PersonTagModel person);
+        //bool Update(PersonTagModel person);
     }
 }

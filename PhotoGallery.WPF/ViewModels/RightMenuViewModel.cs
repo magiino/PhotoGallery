@@ -2,7 +2,6 @@
 using PhotoGallery.BL.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows.Input;
 using PhotoGallery.BL;
 using PhotoGallery.BL.IoC;
@@ -112,11 +111,10 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void AddPhoto()
         {
-            // TODO prerobit na model
-            var photo = IoC.AddPhoto.ChoosePhoto(_selectedAlbum.Id);
-            _unitOfWork.Photos.Add(photo);
+            var photoDetailModel = IoC.AddPhoto.ChoosePhoto();
+            var photoListModel =_unitOfWork.Photos.Add(photoDetailModel);
 
-            _messenger.Send(new SendAddPhoto(Mapper.PhotoEntityToPhotoListModel(photo), _selectedAlbum.Id));
+            _messenger.Send(new SendAddPhoto(photoListModel, _selectedAlbum.Id));
         }
 
         private void DeletePhoto()

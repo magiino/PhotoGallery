@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201804261728460_InitialCreate.Designer.cs">
       <DependentUpon>201804261728460_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804261806555_resolutionRefactor.cs" />
+    <Compile Include="Migrations\201804261806555_resolutionRefactor.Designer.cs">
+      <DependentUpon>201804261806555_resolutionRefactor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\TagEntity.cs" />
@@ -75,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201804261728460_InitialCreate.resx">
       <DependentUpon>201804261728460_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804261806555_resolutionRefactor.resx">
+      <DependentUpon>201804261806555_resolutionRefactor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

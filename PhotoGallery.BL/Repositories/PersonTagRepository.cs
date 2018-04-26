@@ -16,25 +16,25 @@ namespace PhotoGallery.BL.Repositories
             _dataContext = dataContext;
         }
 
-        public PersonTagModel GetById(int id)
-        {
-            var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
-            return Mapper.PersonTagEntityToPersonTagModel(personTag);
-        }
-        public ICollection<PersonTagModel> GetAll()
-        {
-            return Mapper.PersonTagEntitiesToPersonTagModels(_dataContext.PersonTags.ToList());
-        }
-        public PersonTagModel GetByFirstName(string name)
-        {
-            var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.FirstName == name);
-            return Mapper.PersonTagEntityToPersonTagModel(personTag);
-        }
-        public PersonTagModel GetByLastName(string name)
-        {
-            var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.LastName == name);
-            return Mapper.PersonTagEntityToPersonTagModel(personTag);
-        }
+        //public PersonTagModel GetById(int id)
+        //{
+        //    var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
+        //    return Mapper.PersonTagEntityToPersonTagModel(personTag);
+        //}
+        //public ICollection<PersonTagModel> GetAll()
+        //{
+        //    return Mapper.PersonTagEntitiesToPersonTagModels(_dataContext.PersonTags.ToList());
+        //}
+        //public PersonTagModel GetByFirstName(string name)
+        //{
+        //    var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.FirstName == name);
+        //    return Mapper.PersonTagEntityToPersonTagModel(personTag);
+        //}
+        //public PersonTagModel GetByLastName(string name)
+        //{
+        //    var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.LastName == name);
+        //    return Mapper.PersonTagEntityToPersonTagModel(personTag);
+        //}
 
 
         public int Add(TagModel person, PhotoDetailModel photoDetailModel)
@@ -80,17 +80,17 @@ namespace PhotoGallery.BL.Repositories
             return true;
         }
 
-        public bool Update(PersonTagModel person)
-        {
-            var personEntity = _dataContext.PersonTags.SingleOrDefault(x => x.Id == person.Id);
-            if (personEntity == null) return false;
+        //public bool Update(PersonTagModel person)
+        //{
+        //    var personEntity = _dataContext.PersonTags.SingleOrDefault(x => x.Id == person.Id);
+        //    if (personEntity == null) return false;
 
-            personEntity.XPosition = person.XPosition;
-            personEntity.YPosition = person.YPosition;
-            personEntity.Person.FirstName = person.FirstName;
-            personEntity.Person.LastName = person.LastName;
-            _dataContext.SaveChanges();
-            return true;
-        }
+        //    personEntity.XPosition = person.XPosition;
+        //    personEntity.YPosition = person.YPosition;
+        //    personEntity.Person.FirstName = person.FirstName;
+        //    personEntity.Person.LastName = person.LastName;
+        //    _dataContext.SaveChanges();
+        //    return true;
+        //}
     }
 }
