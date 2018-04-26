@@ -19,9 +19,22 @@ namespace PhotoGallery.BL.Repositories
             var resolution = _dataContext.Resolutions.FirstOrDefault(x => x.Id == id);
             return Mapper.ResolutionEntityToResolutionModel(resolution);
         }
+
         public ICollection<ResolutionModel> GetAll()
         {
             return Mapper.ResolutionEntitiesToResolutionModels(_dataContext.Resolutions.ToList());
+        }
+
+        public ResolutionModel Add(ResolutionModel resolutionModel)
+        {
+            var resolution = _dataContext.Resolutions.Add(Mapper.ResolutionModelToResolutionEntity(resolutionModel));
+            return Mapper.ResolutionEntityToResolutionModel(resolution);
+        }
+
+        public ResolutionModel GetByWidthAndHeight(int height, int width)
+        {
+            var resolution = _dataContext.Resolutions.SingleOrDefault(x => x.Resolution == $"{height} {width}");
+            return resolution == null ? null : Mapper.ResolutionEntityToResolutionModel(resolution);
         }
     }
 }

@@ -5,10 +5,10 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using PhotoGallery.BL;
-using PhotoGallery.DAL.Entities;
+using PhotoGallery.BL.IoC;
+using PhotoGallery.BL.Models;
 using PhotoGallery.DAL.Enums;
 
 namespace PhotoGallery.WPF
@@ -17,8 +17,7 @@ namespace PhotoGallery.WPF
     {
         private static Regex r = new Regex(":");
 
-        // TODO prerobit na model
-        public PhotoEntity ChoosePhoto(int albumId)
+        public PhotoDetailModel ChoosePhoto()
         {
             var fileDialog = new OpenFileDialog
             {
@@ -31,12 +30,11 @@ namespace PhotoGallery.WPF
             if (fileDialog.ShowDialog() != true) return null;
             
             var path = fileDialog.FileName;
-            var photo = new PhotoEntity
+            var photo = new PhotoDetailModel()
             {
                 Name = Path.GetFileName(path),
                 Path = path,
                 Note = fileDialog.Title,
-                AlbumId = albumId,
                 Format = GetFileFormat(path),
                 CreatedTime = GetCreatedTime(path),
                 Resolution = GetResolution(path),
@@ -45,15 +43,19 @@ namespace PhotoGallery.WPF
             return photo;
         }
 
-        private ResolutionEntity GetResolution(string path)
+        private ResolutionModel GetResolution(string path)
         {
             var img = Image.FromFile(path);
+            var resolution = IoC.UnitOfWork.Resolutions.GetByWidthAndHeight(img.Height, img.Width);
+            if (resolution != null) return resolution;
 
-            return new ResolutionEntity()
+            var resolutionModel = new ResolutionModel()
             {
                 Height = img.Height,
                 Width = img.Width,
             };
+            resolutionModel.Id = IoC.UnitOfWork.Resolutions.Add(resolutionModel).Id;
+            return resolutionModel;
         }
 
         private DateTime GetCreatedTime(string path)
@@ -98,7 +100,7 @@ namespace PhotoGallery.WPF
                     return Format.Tiff;
                 default:
                     Debugger.Break();
-                    throw new NotImplementedException();
+                    return Format.None;
             }
         }
     }

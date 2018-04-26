@@ -33,7 +33,7 @@ namespace PhotoGallery.DAL.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AlbumEntities", t => t.AlbumId)
-                .ForeignKey("dbo.ResolutionEntities", t => t.ResolutionId, cascadeDelete: true)
+                .ForeignKey("dbo.ResolutionEntities", t => t.ResolutionId)
                 .Index(t => t.ResolutionId)
                 .Index(t => t.AlbumId);
             
@@ -57,12 +57,12 @@ namespace PhotoGallery.DAL.Migrations
                         ItemId = c.Int(),
                         PersonId = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                        PhotoEntity_Id = c.Int(),
+                        PhotoEntity_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.ItemEntities", t => t.ItemId)
                 .ForeignKey("dbo.PersonEntities", t => t.PersonId)
-                .ForeignKey("dbo.PhotoEntities", t => t.PhotoEntity_Id)
+                .ForeignKey("dbo.PhotoEntities", t => t.PhotoEntity_Id, cascadeDelete: true)
                 .Index(t => t.ItemId)
                 .Index(t => t.PersonId)
                 .Index(t => t.PhotoEntity_Id);

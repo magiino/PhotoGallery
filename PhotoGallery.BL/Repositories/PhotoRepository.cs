@@ -43,12 +43,11 @@ namespace PhotoGallery.BL.Repositories
             return Mapper.PhotoEntityToPhotoDetailModel(photo);
         }
 
-        // todo premysliet ci to neprerobit na PhotoModely
-        public PhotoEntity Add(PhotoEntity photo)
+        public PhotoListModel Add(PhotoDetailModel photoDetailModel)
         {
-            var addedPhoto = _dataContext.Photos.Add(photo);
+            var addedPhoto = _dataContext.Photos.Add(Mapper.PhotoDetailModelToPhotoEntity(photoDetailModel));
             _dataContext.SaveChanges();
-            return addedPhoto;
+            return Mapper.PhotoEntityToPhotoListModel(addedPhoto);
         }
 
         public bool Delete(int id)
