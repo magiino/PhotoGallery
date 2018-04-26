@@ -59,9 +59,9 @@
     <Compile Include="Entities\ItemTagEntity.cs" />
     <Compile Include="Entities\PersonTagEntity.cs" />
     <Compile Include="Enums\Sort.cs" />
-    <Compile Include="Migrations\201804151812517_Initial.cs" />
-    <Compile Include="Migrations\201804151812517_Initial.Designer.cs">
-      <DependentUpon>201804151812517_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201804261728460_InitialCreate.cs" />
+    <Compile Include="Migrations\201804261728460_InitialCreate.Designer.cs">
+      <DependentUpon>201804261728460_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,8 +73,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804151812517_Initial.resx">
-      <DependentUpon>201804151812517_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804261728460_InitialCreate.resx">
+      <DependentUpon>201804261728460_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,9 +9,8 @@ namespace PhotoGallery.DAL.Entities
     {
         [Required]
         public string Title { get; set; }
-        [ForeignKey("CoverPhoto")]
-        public int CoverPhotoId { get; set; }
-        public PhotoEntity CoverPhoto { get; set; }
+        public int? CoverPhotoId { get; set; }
+        [ForeignKey("AlbumId")]
         public virtual ICollection<PhotoEntity> Photos { get ; set; } = new List<PhotoEntity>();
     }
 }

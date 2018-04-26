@@ -7,36 +7,27 @@ using PhotoGallery.DAL.Enums;
 
 namespace PhotoGallery.DAL.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<PhotoGallery.DAL.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
         
-        protected override void Seed(PhotoGallery.DAL.DataContext context)
+        protected override void Seed(DataContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
-
-
             var person1 = new PersonEntity()
             {
                 Id = 1,
                 FirstName = "Jozko",
                 LastName = "Mrkvièka",
             };
-
             var item1 = new ItemEntity()
             {
                 Id = 1,
                 Name = "Okno"
             };
-
-
-            var resolution = new ResolutionEntity()
+            var resolution1 = new ResolutionEntity()
             {
                 Id = 1,
                 Height = 836,
@@ -47,7 +38,7 @@ namespace PhotoGallery.DAL.Migrations
             {
                 Id = 1,
                 ItemId = 1,
-                //Item = item1,
+                Item = item1,
                 XPosition = 200,
                 YPosition = 350,
             };
@@ -55,7 +46,7 @@ namespace PhotoGallery.DAL.Migrations
             {
                 Id = 2,
                 PersonId = 1,
-                //Person = person1,
+                Person = person1,
                 XPosition = 500,
                 YPosition = 700,
             };
@@ -70,8 +61,8 @@ namespace PhotoGallery.DAL.Migrations
                 Location = "Brno",
                 Format = Format.Jpg,
                 ResolutionId = 1,
-                //Resolution = resolution,
-                Tags = new List<TagEntity>(),
+                Resolution = resolution1,
+                Tags = new List<TagEntity>() { itemTag1, personTag1 },
                 AlbumId = 1,
             };
 
@@ -80,20 +71,18 @@ namespace PhotoGallery.DAL.Migrations
                 Id = 1,
                 Title = "Autá",
                 CoverPhotoId = 1,
-                //CoverPhoto = photo1,
             };
-            // TODO opytat sa na prednaske preco vychadzuje chyby pri seede
 
-            //photo1.Tags.Add(personTag1);
-            //photo1.Tags.Add(itemTag1);
+            photo1.Tags.Add(personTag1);
+            photo1.Tags.Add(itemTag1);
 
-            //context.Persons.AddOrUpdate(x => x.Id, person1);
-            //context.Resolutions.AddOrUpdate(x => x.Id, resolution);
+            context.Persons.AddOrUpdate(x => x.Id, person1);
+            context.Resolutions.AddOrUpdate(x => x.Id, resolution1);
 
-            //context.ItemTags.AddOrUpdate(x => x.Id, itemTag1);
-            //context.PersonTags.AddOrUpdate(x => x.Id, personTag1);
-            //context.Photos.AddOrUpdate(x => x.Id, photo1);
-            //context.Albums.AddOrUpdate(x => x.Id, album1);
+            context.ItemTags.AddOrUpdate(x => x.Id, itemTag1);
+            context.PersonTags.AddOrUpdate(x => x.Id, personTag1);
+            context.Photos.AddOrUpdate(x => x.Id, photo1);
+            context.Albums.AddOrUpdate(x => x.Id, album1);
         }
     }
 }

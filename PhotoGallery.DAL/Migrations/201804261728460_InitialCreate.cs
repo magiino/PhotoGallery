@@ -3,7 +3,7 @@ namespace PhotoGallery.DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -13,15 +13,13 @@ namespace PhotoGallery.DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        CoverPhotoId = c.Int(nullable: false),
+                        CoverPhotoId = c.Int(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.PhotoEntities", t => t.CoverPhotoId)
-                .Index(t => t.CoverPhotoId);
-
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
-                    "dbo.PhotoEntities",
-                    c => new
+                "dbo.PhotoEntities",
+                c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
@@ -35,7 +33,7 @@ namespace PhotoGallery.DAL.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AlbumEntities", t => t.AlbumId)
-                .ForeignKey("dbo.ResolutionEntities", t => t.ResolutionId)
+                .ForeignKey("dbo.ResolutionEntities", t => t.ResolutionId, cascadeDelete: true)
                 .Index(t => t.ResolutionId)
                 .Index(t => t.AlbumId);
             
@@ -56,13 +54,27 @@ namespace PhotoGallery.DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         XPosition = c.Int(nullable: false),
                         YPosition = c.Int(nullable: false),
-                        Name = c.String(),
+                        ItemId = c.Int(),
                         PersonId = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
+                        PhotoEntity_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ItemEntities", t => t.ItemId)
                 .ForeignKey("dbo.PersonEntities", t => t.PersonId)
-                .Index(t => t.PersonId);
+                .ForeignKey("dbo.PhotoEntities", t => t.PhotoEntity_Id)
+                .Index(t => t.ItemId)
+                .Index(t => t.PersonId)
+                .Index(t => t.PhotoEntity_Id);
+            
+            CreateTable(
+                "dbo.ItemEntities",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.PersonEntities",
@@ -74,37 +86,22 @@ namespace PhotoGallery.DAL.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateTable(
-                "dbo.TagEntityPhotoEntities",
-                c => new
-                    {
-                        TagEntity_Id = c.Int(nullable: false),
-                        PhotoEntity_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.TagEntity_Id, t.PhotoEntity_Id})
-                .ForeignKey("dbo.TagEntities", t => t.TagEntity_Id)
-                .ForeignKey("dbo.PhotoEntities", t => t.PhotoEntity_Id)
-                .Index(t => t.TagEntity_Id)
-                .Index(t => t.PhotoEntity_Id);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.AlbumEntities", "CoverPhotoId", "dbo.PhotoEntities");
+            DropForeignKey("dbo.TagEntities", "PhotoEntity_Id", "dbo.PhotoEntities");
             DropForeignKey("dbo.TagEntities", "PersonId", "dbo.PersonEntities");
-            DropForeignKey("dbo.TagEntityPhotoEntities", "PhotoEntity_Id", "dbo.PhotoEntities");
-            DropForeignKey("dbo.TagEntityPhotoEntities", "TagEntity_Id", "dbo.TagEntities");
+            DropForeignKey("dbo.TagEntities", "ItemId", "dbo.ItemEntities");
             DropForeignKey("dbo.PhotoEntities", "ResolutionId", "dbo.ResolutionEntities");
             DropForeignKey("dbo.PhotoEntities", "AlbumId", "dbo.AlbumEntities");
-            DropIndex("dbo.TagEntityPhotoEntities", new[] { "PhotoEntity_Id" });
-            DropIndex("dbo.TagEntityPhotoEntities", new[] { "TagEntity_Id" });
+            DropIndex("dbo.TagEntities", new[] { "PhotoEntity_Id" });
             DropIndex("dbo.TagEntities", new[] { "PersonId" });
+            DropIndex("dbo.TagEntities", new[] { "ItemId" });
             DropIndex("dbo.PhotoEntities", new[] { "AlbumId" });
             DropIndex("dbo.PhotoEntities", new[] { "ResolutionId" });
-            DropIndex("dbo.AlbumEntities", new[] { "CoverPhotoId" });
-            DropTable("dbo.TagEntityPhotoEntities");
             DropTable("dbo.PersonEntities");
+            DropTable("dbo.ItemEntities");
             DropTable("dbo.TagEntities");
             DropTable("dbo.ResolutionEntities");
             DropTable("dbo.PhotoEntities");
