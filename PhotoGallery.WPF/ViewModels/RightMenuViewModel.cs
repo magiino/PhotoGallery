@@ -167,6 +167,7 @@ namespace PhotoGallery.WPF.ViewModels
             Formats = Enum.GetValues(typeof(Format)).Cast<Format>();
             Resolutions = _unitOfWork.Resolutions.GetAll();
         }
+
         private void Filter()
         {
             _messenger.Send(new FilterSortSettings()

@@ -42,6 +42,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.4.0.1044, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.4.0.1044\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
@@ -86,10 +92,13 @@
     <Compile Include="ViewModels\PhotoDetailViewModel.cs" />
     <Compile Include="ViewModels\PhotoListViewModel.cs" />
     <Compile Include="ViewModels\LeftMenuViewModel.cs" />
-    <Compile Include="Views\PhotoDetailPage.xaml.cs">
+    <Compile Include="Views\Controls\DetailPhotoView.xaml.cs">
+      <DependentUpon>DetailPhotoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PhotoDetailPage.xaml.cs">
       <DependentUpon>PhotoDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PhotoListPage.xaml.cs">
+    <Compile Include="Views\Pages\PhotoListPage.xaml.cs">
       <DependentUpon>PhotoListPage.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -104,11 +113,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\PhotoDetailPage.xaml">
+    <Page Include="Views\Controls\DetailPhotoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PhotoDetailPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PhotoListPage.xaml">
+    <Page Include="Views\Pages\PhotoListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,9 +163,7 @@
       <Name>PhotoGallery.DAL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>

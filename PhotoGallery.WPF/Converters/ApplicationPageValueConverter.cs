@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using PhotoGallery.DAL.Enums;
-using PhotoGallery.WPF.Views;
+using PhotoGallery.WPF.Views.Pages;
 
 namespace PhotoGallery.WPF.Converters
 {
