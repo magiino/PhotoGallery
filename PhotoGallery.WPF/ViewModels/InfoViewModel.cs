@@ -10,7 +10,7 @@ using PhotoGallery.WPF.ViewModels.Base;
 
 namespace PhotoGallery.WPF.ViewModels
 {
-    public class DetailViewModel : BaseViewModel
+    public class InfoViewModel : BaseViewModel
     {
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
@@ -30,7 +30,7 @@ namespace PhotoGallery.WPF.ViewModels
         public ICommand DeleteTagCommand { get; }
         public ICommand SaveChangesCommand { get; }
 
-        public DetailViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
+        public InfoViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
             _messenger = messenger;
             _unitOfWork = unitOfWork;
