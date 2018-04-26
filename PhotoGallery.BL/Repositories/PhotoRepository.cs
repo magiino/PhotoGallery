@@ -6,7 +6,9 @@ using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq.Expressions;
+using Ninject.Infrastructure.Language;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
 
@@ -54,6 +56,18 @@ namespace PhotoGallery.BL.Repositories
         {
             var photo = _dataContext.Photos.SingleOrDefault(x => x.Id == id);
             if (photo == null) return false;
+
+            // Ak fotka ktoru mazeme ma ako psoledna toto resolution, tak ho zmazeme z databazy
+            var photoWithResolution = _dataContext.Photos.FirstOrDefault(x => x.ResolutionId == photo.ResolutionId);
+            if (photoWithResolution == null)
+            {
+                _dataContext.Resolutions.Remove(new ResolutionEntity()
+                {
+                    Id = photo.ResolutionId,
+                    Width = photo.Resolution.Width,
+                    Height = photo.Resolution.Height
+                });
+            }
 
             _dataContext.Photos.Remove(photo);
             _dataContext.SaveChanges();
@@ -130,20 +144,37 @@ namespace PhotoGallery.BL.Repositories
                 && string.IsNullOrEmpty(settings.SearchString) || x.Name.Contains(settings.SearchString)
                 && (x.CreatedTime >= settings.DateFrom && x.CreatedTime <= settings.DateTo);
 
-            var photos = _dataContext.Photos.Where(filterExpression);
+            var photos = _dataContext.Photos.Where(filterExpression).Include(x => x.Tags);
 
             List<PhotoEntity> filteredPhotos;
 
+            // TODO ZLE TO JE!!!!
             if (item.IsTag)
             {
-                var personTag = _dataContext.PersonTags.SingleOrDefault(x => x.Id == item.Id);
-                if (personTag == null)
+                var personTagg = _dataContext.PersonTags.SingleOrDefault(x => x.PersonId == item.Id);
+                if (personTagg == null)
                 {
-                    var itemTag = _dataContext.ItemTags.SingleOrDefault(x => x.Id == item.Id);
+                    var itemTag = _dataContext.ItemTags.SingleOrDefault(x => x.Item.Id == item.Id);
                     filteredPhotos = photos.Where(x => x.Tags.Contains(itemTag)).ToList();
+                    
+                    //filteredPhotos =
+                    //    photos.Select(x =>
+                    //    {
+                    //        foreach (var tag in x.Tags)
+                    //        {
+                    //            switch (tag)
+                    //            {
+                    //                case PersonTagEntity personTag when personTag.PersonId == item.Id:
+                    //                    return x;
+                    //                case ItemTagEntity itemTag when itemTag.ItemId == item.Id:
+                    //                    return x;
+                    //                default: return null;
+                    //            }
+                    //        }
+                    //    });
                 }
                 else
-                    filteredPhotos = photos.Where(x => x.Tags.Contains(personTag)).ToList();
+                    filteredPhotos = photos.Where(x => x.Tags.Contains(personTagg)).ToList();
             }
             else filteredPhotos = photos.Where(x => x.AlbumId == item.Id).ToList();
 

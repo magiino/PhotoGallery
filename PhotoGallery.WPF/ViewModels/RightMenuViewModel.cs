@@ -104,7 +104,7 @@ namespace PhotoGallery.WPF.ViewModels
             AddPhotoCommand = new RelayCommand(AddPhoto, AddPhotoCanUse);
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
             
-            _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
+            _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = _unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
             _messenger.Register<ChosenItem>(SetAlbum);
         }
 
@@ -121,6 +121,7 @@ namespace PhotoGallery.WPF.ViewModels
         {
             _unitOfWork.Photos.Delete(_selectedPhoto.Id);
             _messenger.Send(new SendDeletePhoto(_selectedPhoto.Id, _selectedAlbum.Id));
+            _selectedPhoto = null;
         }
 
         private void ChangeAlbumCoverPhoto()
