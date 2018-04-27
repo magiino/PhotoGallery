@@ -1,0 +1,319 @@
+﻿<UserControl x:Class="PhotoGallery.WPF.Views.Controls.LeftMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PhotoGallery.WPF.Views.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             DataContext="{Binding LeftMenuViewModel, Source={StaticResource ViewModelLocator}}" Height="313.473" Width="352.994">
+
+    <StackPanel Margin="0,0,0,-296">
+        <Expander
+          HorizontalAlignment="Stretch"
+          Header="Albums:" Margin="0,0,0,-342" Height="601">
+
+
+            <StackPanel
+            Orientation="Vertical"
+            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+            Margin="24,8,24,16">
+
+                <Grid
+                    Height="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox
+                         Text="{Binding NewAlbumName, Mode=TwoWay}"
+                        materialDesign:HintAssist.Hint="album name"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Margin="10,10,10,10"
+                        
+                        />
+
+                    <Button
+                     Grid.Column="1"
+                         Style="{StaticResource MaterialDesignRaisedLightButton}"
+                         Width="100"
+                         Height="auto"
+                         VerticalAlignment="Top"
+                         ToolTip="Resource name: MaterialDesignRaisedLightButton"
+                         Command="{Binding DeleteAlbumCommand}"
+                        >
+                        _Delete
+                    </Button>
+                    <Button
+                        Grid.Column="1"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Width="100"
+                        Height="auto"
+                        VerticalAlignment="Bottom"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"
+                        Command="{Binding AddAlbumCommand}"
+                        >
+                        _ADD
+                    </Button>
+                </Grid>
+
+                <ListView
+                    ItemsSource="{Binding Albums}"
+                    SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
+                    SelectionMode="Single"
+                    SelectedIndex="0"
+                    MinHeight="100"
+                    >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Grid
+                                    Height="80"
+                                    Width="auto"
+                        >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image  
+                                        Grid.Column="0"
+                                        Source="{Binding CoverPhotoPath}"
+                                        Height="auto" 
+                                        Width="auto"
+                                        HorizontalAlignment="Left"   
+                                        >
+                                    </Image>
+                                    <Grid
+                                        Grid.Column="1"
+                                        Width="auto"
+                                        MinWidth="100"
+                                        Height=" auto"
+                                        Margin="10"
+                                        >
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                            Text="{Binding Title}"
+                                            >
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                             Text="{Binding NumberOfPhotos}"
+                                            >
+                                           
+                                        </TextBlock>
+
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackPanel>
+        </Expander>
+        
+        
+        <Expander
+          HorizontalAlignment="Stretch"
+          Header="People">
+            <StackPanel
+                Orientation="Vertical"
+                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                Margin="24,0,24,8
+                ">
+                <Grid
+                    Height="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox
+                        Text="{Binding PersonSearch, Mode=TwoWay}"
+                        materialDesign:HintAssist.Hint="search"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Margin="5,5,5,5"
+                        />
+
+                    <Button
+                     Grid.Column="1"
+                         Style="{StaticResource MaterialDesignRaisedLightButton}"
+                         Width="100"
+                         Height="auto"
+                         VerticalAlignment="Center"
+                         ToolTip="Resource name: MaterialDesignRaisedLightButton"
+                         Command="{Binding SearchPersonCommand}"
+                        >
+                        Search
+                    </Button>
+                </Grid>
+                
+                <ListView
+                    ItemsSource="{Binding FilteredPersons}"
+                    SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
+                    SelectionMode="Single"
+                    SelectedIndex="0"
+                    MinHeight="100"
+                    >
+                    
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Grid
+                                    Height="80"
+                                    Width="auto"
+                        >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--TODO zde ikonka -->
+                                    
+                                    <Grid
+                                        Grid.Column="1"
+                                        Width="auto"
+                                        MinWidth="100"
+                                        Height=" auto"
+                                        Margin="10"
+                                        >
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                
+                                            Text="{Binding FirstName}"
+                                            >
+
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                             Text="{Binding LastName}"
+                                            >
+                                            vole jebka
+                                        </TextBlock>
+
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Expander>
+        <Expander
+          HorizontalAlignment="Stretch"
+          Header="Items">
+            <StackPanel
+                Orientation="Vertical"
+                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                Margin="24,0,24,8
+                ">
+                <Grid
+                    Height="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox
+                        Text="{Binding ItemSearch, Mode=TwoWay}"
+                        materialDesign:HintAssist.Hint="search"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Margin="5,5,5,5"
+                        />
+
+                    <Button
+                     Grid.Column="1"
+                         Style="{StaticResource MaterialDesignRaisedLightButton}"
+                         Width="100"
+                         Height="auto"
+                         VerticalAlignment="Center"
+                         ToolTip="Resource name: MaterialDesignRaisedLightButton"
+                         Command="{Binding SearchItemCommand}"
+                        >
+                        Search
+                    </Button>
+                </Grid>
+
+                <ListView
+                    ItemsSource="{Binding FilteredItems}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                    SelectionMode="Single"
+                    SelectedIndex="0"
+                    MinHeight="100"
+                    >
+
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Grid
+                                    Height="80"
+                                    Width="auto"
+                        >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--TODO zde ikonka -->
+
+                                    <Grid
+                                        Grid.Column="1"
+                                        Width="auto"
+                                        MinWidth="100"
+                                        Height=" auto"
+                                        Margin="10"
+                                        >
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                
+                                            Text="{Binding Name}"
+                                            >
+
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                             Text=""
+                                            >
+                                           
+                                        </TextBlock>
+
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Expander>
+    </StackPanel>
+
+
+</UserControl>
