@@ -38,6 +38,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         #region Item
         public ObservableCollection<ItemModel> Items { get; set; }
+        public ObservableCollection<ItemModel> FilteredItems { get; set; }
         private ItemModel _selectedItem;
         public ItemModel SelectedItem
         {
@@ -57,6 +58,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         #region Person
         public ObservableCollection<PersonModel> Persons { get; set; }
+        public ObservableCollection<PersonModel> FilteredPersons { get; set; }
         private PersonModel _selectedPerson;
         public PersonModel SelectedPerson
         {
@@ -81,6 +83,10 @@ namespace PhotoGallery.WPF.ViewModels
         public ICommand DeletePersonCommand { get; }
         public ICommand DeleteItemCommand { get; }
 
+        public ICommand SearchItemCommand { get; }
+        public ICommand SearchPersonCommand { get; }
+        
+
         public LeftMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
             _messenger = messenger;
@@ -92,6 +98,8 @@ namespace PhotoGallery.WPF.ViewModels
             AddAlbumCommand = new RelayCommand(AddAlbum, AddAlbumCanUse);
             DeleteItemCommand = new RelayCommand(DeleteItem, DeleteItemCanUse);
             DeletePersonCommand = new RelayCommand(DeletePerson, DeletePersonCanUse);
+            SearchItemCommand = new RelayCommand(SearchForItem, SearchForItemCanUse);
+            SearchPersonCommand = new RelayCommand(SearchForPerson, SearchForPersonCanUse);
 
             _messenger.Register<SendDeletePhoto>(msg =>
             {
@@ -109,6 +117,19 @@ namespace PhotoGallery.WPF.ViewModels
             _messenger.Register<SendNewTag>(AddNewTagToList);
         }
 
+
+        private void SearchForPerson()
+        {
+            FilteredPersons = new ObservableCollection<PersonModel>( Persons.Where(p => p.FirstName == PersonSearch || p.LastName == PersonSearch));
+            PersonSearch = "";
+        }
+
+        private void SearchForItem()
+        {
+
+            FilteredItems = new ObservableCollection<ItemModel>(Items.Where(i => i.Name == ItemSearch));
+            ItemSearch = "";
+        }
         // TODO ak sa zmaze osoba zmazu sa aj vsetky tagy
         private void DeleteItem()
         {
@@ -174,6 +195,15 @@ namespace PhotoGallery.WPF.ViewModels
             return SelectedAlbum != null;
         }
 
+        private bool SearchForItemCanUse()
+        {
+            return true;
+        }
+        private bool SearchForPersonCanUse()
+        {
+            return true;
+        }
+
         private void ChangeAlbum(SendAlbum msg)
         {
             var album = Albums.SingleOrDefault(x => x.Id == msg.AlbumModel.Id);
@@ -186,8 +216,8 @@ namespace PhotoGallery.WPF.ViewModels
         private void OnLoad()
         {
             Albums = new ObservableCollection<AlbumModel>(_unitOfWork.Albums.GetAll());
-            Items = new ObservableCollection<ItemModel>(_unitOfWork.Items.GetAll());
-            Persons = new ObservableCollection<PersonModel>(_unitOfWork.Persons.GetAll());
+            FilteredItems =  Items = new ObservableCollection<ItemModel>(_unitOfWork.Items.GetAll());
+            FilteredPersons = Persons = new ObservableCollection<PersonModel>(_unitOfWork.Persons.GetAll());
         }
 
         private void GoToPage()
