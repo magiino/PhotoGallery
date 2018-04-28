@@ -15,7 +15,7 @@ namespace PhotoGallery.BL.IoC
         public static IKernel Kernel { get; } = new StandardKernel();
         public static IApplicationViewModel Application => IoC.Get<IApplicationViewModel>();
         public static Messenger Messenger => IoC.Get<Messenger>();
-        public static IUnitOfWork UnitOfWork => IoC.Get<IUnitOfWork>();
+        public static IUnitOfWork UnitOfWork => IoC.Get<UnitOfWork>();
         public static IAddPhoto AddPhoto => IoC.Get<IAddPhoto>();
 
         public static void SetUp()
@@ -29,7 +29,7 @@ namespace PhotoGallery.BL.IoC
             Kernel.Bind<Messenger>().ToConstant(messenger);
         }
 
-        private static void BindUnitOfWork(IUnitOfWork unitOfWork)
+        private static void BindUnitOfWork(UnitOfWork unitOfWork)
         {
             Kernel.Bind<IUnitOfWork>().ToConstant(unitOfWork);
         }
