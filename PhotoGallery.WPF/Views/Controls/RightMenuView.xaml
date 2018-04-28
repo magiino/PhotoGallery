@@ -23,7 +23,7 @@
             </Grid.RowDefinitions>
 
             <GroupBox Header="Album Settings"
-                      Visibility="{Binding SelectedAlbum, Converter={converter:NullToVisibilityConverter }}"
+                      Visibility="{Binding SelectedAlbum, Converter={converter:NullToVisibilityConverter}}"
                       >
                 <StackPanel>
                     <Grid>
