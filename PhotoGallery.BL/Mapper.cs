@@ -168,8 +168,7 @@ namespace PhotoGallery.BL
             {
                 Id = albumEntity.Id,
                 Title = albumEntity.Title,
-                // TODO get photo path
-                //CoverPhotoPath = albumEntity.CoverPhoto.Path,
+                CoverPhotoId = albumEntity.CoverPhotoId ?? -1,
                 NumberOfPhotos = albumEntity.Photos.Count
             };
         }

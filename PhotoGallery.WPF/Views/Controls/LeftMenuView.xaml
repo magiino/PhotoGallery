@@ -8,14 +8,41 @@
              mc:Ignorable="d"
              d:DesignHeight="500"
              d:DesignWidth="300"
-             DataContext="{Binding LeftMenuViewModel, Source={StaticResource ViewModelLocator}}"
              >
+    <UserControl.Resources>
+        <DataTemplate x:Key="ImageItemTemplate">
+            <Grid Height="40"
+                  VerticalAlignment="Center"
+                  DataContext="{Binding}"
+                  >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0"
+                       Source="{Binding CoverPhotoPath}"
+                       Stretch="UniformToFill"
+                       />
+                <StackPanel Grid.Column="1"
+                            Margin="20 0 0 0"
+                            >
+                    <TextBlock Text="{Binding Title}"/>
+                    <TextBlock Text="{Binding NumberOfPhotos}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
 
     <materialDesign:Card Background="{DynamicResource MaterialDesignBackground}"
-                         VerticalAlignment="Stretch">
+                         VerticalAlignment="Stretch"
+                         Padding="0 0 0 5"
+                         >
         <StackPanel>
             <Expander HorizontalAlignment="Stretch"
-                      Header="Albums:"
+                      Header="Albums"
+                      IsExpanded="{Binding AlbumsAreExpanded}"
                       >
                 <StackPanel Orientation="Vertical">
                     <Grid>
@@ -31,8 +58,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding NewAlbumName, Mode=TwoWay}"
-                                     materialDesign:HintAssist.Hint="album name"
+                            <TextBox Text="{Binding NewAlbumName}"
+                                     materialDesign:HintAssist.Hint="Album name"
                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      />
                             <Button Grid.Column="1"
@@ -49,263 +76,192 @@
                                     Style="{DynamicResource MaterialDesignRaisedLightButton}"
                                     />
                         </Grid>
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="auto">
+
+                            <ListView ItemsSource="{Binding Albums}"
+                                      SelectedItem="{Binding SelectedAlbum}"
+                                      SelectionMode="Single"
+                                      ItemTemplate="{StaticResource ImageItemTemplate}"
+                                      >
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                            </ListView>
+                        </ScrollViewer>
                     </Grid>
-
-                    <ListView
-                    ItemsSource="{Binding Albums}"
-                    SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
-                    SelectionMode="Single"
-                    SelectedIndex="0"
-                    MinHeight="100"
-                    >
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical">
-                                    <Grid
-                                    Height="80"
-                                    Width="auto"
-                        >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Image  
-                                        Grid.Column="0"
-                                        Source="{Binding CoverPhotoPath}"
-                                        Height="auto" 
-                                        Width="auto"
-                                        HorizontalAlignment="Left"   
-                                        >
-                                        </Image>
-                                        <Grid
-                                        Grid.Column="1"
-                                        Width="auto"
-                                        MinWidth="100"
-                                        Height=" auto"
-                                        Margin="10"
-                                        >
-
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBlock
-                                            Text="{Binding Title}"
-                                            >
-                                            </TextBlock>
-
-                                            <TextBlock
-                                            Grid.Row="1"
-                                             Text="{Binding NumberOfPhotos}"
-                                            >
-
-                                            </TextBlock>
-
-                                        </Grid>
-                                    </Grid>
-                                </StackPanel>
-
-                            </DataTemplate>
-
-                        </ListView.ItemTemplate>
-                    </ListView>
-
                 </StackPanel>
             </Expander>
 
+            <Border Background="{DynamicResource MaterialDesignDivider}"
+                    Height="1"
+                    HorizontalAlignment="Stretch"
+                    SnapsToDevicePixels="True"
+                    />
 
-            <Expander
-          HorizontalAlignment="Stretch"
-          Header="People">
-                <StackPanel
-                Orientation="Vertical"
-                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                Margin="24,0,24,8
-                ">
-                    <Grid
-                    Height="auto">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+            <Expander HorizontalAlignment="Stretch"
+                      Header="People"
+                      IsExpanded="{Binding PersonsAreExpanded}"
+                      >
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                        <TextBox
-                        Text="{Binding PersonSearch, Mode=TwoWay}"
-                        materialDesign:HintAssist.Hint="search"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Margin="5,5,5,5"
-                        />
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Button
-                     Grid.Column="1"
-                         Style="{StaticResource MaterialDesignRaisedLightButton}"
-                         Width="100"
-                         Height="auto"
-                         VerticalAlignment="Center"
-                         ToolTip="Resource name: MaterialDesignRaisedLightButton"
-                         Command="{Binding SearchPersonCommand}"
-                        >
-                            Search
-                        </Button>
-                    </Grid>
+                            <TextBox Text="{Binding PersonSearch}"
+                                     materialDesign:HintAssist.Hint="Search"
+                                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                     />
+                            <Button Grid.Column="1"
+                                    Margin="10 0"
+                                    Content="Search"
+                                    Command="{Binding SearchPersonCommand}"
+                                    Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                                    />
+                        </Grid>
 
-                    <ListView
-                    ItemsSource="{Binding FilteredPersons}"
-                    SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
-                    SelectionMode="Single"
-                    SelectedIndex="0"
-                    MinHeight="100"
-                    >
+                        <Border Grid.Row="1"
+                                Background="{DynamicResource MaterialDesignDivider}"
+                                Height="2"
+                                HorizontalAlignment="Stretch"
+                                SnapsToDevicePixels="True"
+                                />
 
+                        <ListView Grid.Row="2"
+                                  ItemsSource="{Binding FilteredPersons}"
+                                  SelectedItem="{Binding SelectedPerson}"
+                                  SelectionMode="Single" 
+                                  >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="20"
+                                                VerticalAlignment="Center"
+                                                DataContext="{Binding}"
+                                                >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
 
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical">
-                                    <Grid
-                                    Height="80"
-                                    Width="auto"
-                        >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <!--TODO zde ikonka -->
-
-                                        <Grid
-                                        Grid.Column="1"
-                                        Width="auto"
-                                        MinWidth="100"
-                                        Height=" auto"
-                                        Margin="10"
-                                        >
-
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBlock
-                                
-                                            Text="{Binding FirstName}"
-                                            >
-
-                                            </TextBlock>
-
-                                            <TextBlock
-                                            Grid.Row="1"
-                                             Text="{Binding LastName}"
-                                            >
-                                            vole jebka
-                                            </TextBlock>
-
+                                            <materialDesign:PackIcon Kind ="Account"
+                                                                     Padding="0"
+                                                                     Margin="0"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     />
+                                            <StackPanel Grid.Column="1"
+                                                        Orientation="Horizontal"
+                                                        Margin="20 0 0 0"
+                                                        >
+                                                <TextBlock Text="{Binding FirstName}"/>
+                                                <TextBlock Text="{Binding LastName}"
+                                                           Margin="10 0 0 0"/>
+                                            </StackPanel>
                                         </Grid>
-                                    </Grid>
-                                </StackPanel>
-
-                            </DataTemplate>
-
-                        </ListView.ItemTemplate>
-                    </ListView>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </StackPanel>
             </Expander>
-            <Expander
-          HorizontalAlignment="Stretch"
-          Header="Items">
-                <StackPanel
-                Orientation="Vertical"
-                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                Margin="24,0,24,8
-                ">
-                    <Grid
-                    Height="auto">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
 
-                        <TextBox
-                        Text="{Binding ItemSearch, Mode=TwoWay}"
-                        materialDesign:HintAssist.Hint="search"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Margin="5,5,5,5"
-                        />
+            <Border Background="{DynamicResource MaterialDesignDivider}"
+                    Height="1"
+                    HorizontalAlignment="Stretch"
+                    SnapsToDevicePixels="True"
+                    />
 
-                        <Button
-                     Grid.Column="1"
-                         Style="{StaticResource MaterialDesignRaisedLightButton}"
-                         Width="100"
-                         Height="auto"
-                         VerticalAlignment="Center"
-                         ToolTip="Resource name: MaterialDesignRaisedLightButton"
-                         Command="{Binding SearchItemCommand}"
-                        >
-                            Search
-                        </Button>
-                    </Grid>
+            <Expander HorizontalAlignment="Stretch"
+                      Header="Items"
+                      IsExpanded="{Binding ItemsAreExpanded}"
+                      >
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <ListView
-                    ItemsSource="{Binding FilteredItems}"
-                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                    SelectionMode="Single"
-                    SelectedIndex="0"
-                    MinHeight="100"
-                    >
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
+                            <TextBox Text="{Binding ItemSearch}"
+                                     materialDesign:HintAssist.Hint="Search"
+                                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                     />
+                            <Button Grid.Column="1"
+                                    Margin="10 0"
+                                    Content="Search"
+                                    Command="{Binding SearchItemCommand}"
+                                    Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                                    />
 
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical">
-                                    <Grid
-                                    Height="80"
-                                    Width="auto"
-                        >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
+                        </Grid>
 
-                                        <!--TODO zde ikonka -->
+                        <ListView Grid.Row="1"
+                                  ItemsSource="{Binding FilteredItems}"
+                                  SelectedItem="{Binding SelectedItem}"
+                                  SelectionMode="Single"
+                                  >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="20"
+                                                VerticalAlignment="Center"
+                                                DataContext="{Binding}"
+                                                >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <Grid
-                                        Grid.Column="1"
-                                        Width="auto"
-                                        MinWidth="100"
-                                        Height=" auto"
-                                        Margin="10"
-                                        >
+                                            <materialDesign:PackIcon Kind ="Tag"
+                                                                     Padding="0"
+                                                                     Margin="0"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     />
 
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBlock
-                                
-                                            Text="{Binding Name}"
-                                            >
-
-                                            </TextBlock>
-
-                                            <TextBlock
-                                            Grid.Row="1"
-                                             Text=""
-                                            >
-
-                                            </TextBlock>
-
+                                            <TextBlock Grid.Column="1"
+                                                       Margin="20 0 0 0"
+                                                       Text="{Binding Name}"
+                                                       />
                                         </Grid>
-                                    </Grid>
-                                </StackPanel>
-
-                            </DataTemplate>
-
-                        </ListView.ItemTemplate>
-                    </ListView>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </StackPanel>
             </Expander>
+
+            <Border Background="{DynamicResource MaterialDesignDivider}"
+                    Height="1"
+                    HorizontalAlignment="Stretch"
+                    SnapsToDevicePixels="True"
+                    />
         </StackPanel>
     </materialDesign:Card>
 </UserControl>

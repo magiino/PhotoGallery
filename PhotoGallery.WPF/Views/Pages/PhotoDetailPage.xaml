@@ -16,6 +16,8 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <control:DetailPhotoView Grid.Column="0"/>
+        <control:DetailPhotoView Grid.Column="0"
+                                 DataContext="{Binding PhotoDetailViewModel, Source={StaticResource ViewModelLocator}}"
+                                 />
     </Grid>
 </Page>
