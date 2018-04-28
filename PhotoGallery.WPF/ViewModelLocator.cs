@@ -10,12 +10,10 @@ namespace PhotoGallery.WPF
         private readonly IUnitOfWork _unitOfWork = IoC.UnitOfWork;
 
         public IApplicationViewModel ApplicationViewModel { get; set; } = IoC.Application;
-
         public LeftMenuViewModel LeftMenuViewModel => new LeftMenuViewModel(_messenger, _unitOfWork);
         public PhotoListViewModel PhotoListViewModel => new PhotoListViewModel(_messenger, _unitOfWork);
         public RightMenuViewModel RightMenuViewModel => new RightMenuViewModel(_messenger, _unitOfWork);
         public PhotoDetailViewModel PhotoDetailViewModel => new PhotoDetailViewModel(_messenger, _unitOfWork);
         public InfoViewModel InfoViewModel => new InfoViewModel(_messenger, _unitOfWork);
-        
     }
 }

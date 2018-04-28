@@ -28,12 +28,27 @@ namespace PhotoGallery.WPF.ViewModels
 
                 SelectedItem = null;
                 SelectedPerson = null;
-                _messenger.Send(new ChosenItem(value.Id, false));
                 _selectedAlbum = value;
+                if (value == null) return;
+                _messenger.Send(new ChosenItem(value.Id, false));
             }
         }
 
         public string NewAlbumName { get; set; }
+        private bool _albumsAreExpanded;
+        public bool AlbumsAreExpanded
+        {
+            get => _albumsAreExpanded;
+            set
+            {
+                PersonsAreExpanded = false;
+                ItemsAreExpanded = false;
+                _albumsAreExpanded = value;
+            }
+        }
+
+        public ICommand DeleteAlbumCommand { get; }
+        public ICommand AddAlbumCommand { get; }
         #endregion
 
         #region Item
@@ -49,11 +64,27 @@ namespace PhotoGallery.WPF.ViewModels
 
                 SelectedAlbum = null;
                 SelectedPerson = null;
-                _messenger.Send(new ChosenItem(value.Id, true));
                 _selectedItem = value;
+
+                if (value == null) return;
+                _messenger.Send(new ChosenItem(value.Id, true));
             }
         }
         public string ItemSearch { get; set; }
+        private bool _itemsAreExpanded;
+        public bool ItemsAreExpanded
+        {
+            get => _itemsAreExpanded;
+            set
+            {
+                AlbumsAreExpanded = false;
+                PersonsAreExpanded = false;
+                _itemsAreExpanded = value;
+            }
+        }
+
+        public ICommand SearchItemCommand { get; }
+        public ICommand SearchPersonCommand { get; }
         #endregion
 
         #region Person
@@ -67,25 +98,31 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 GoToPage();
 
-                SelectedAlbum = null;
+                _selectedAlbum = null;
                 _selectedItem = null;
-                _messenger.Send(new ChosenItem(value.Id, true));
                 _selectedPerson = value;
+
+                if (value == null) return;
+                _messenger.Send(new ChosenItem(value.Id, true));
             }
         }
-        public string PersonSearch { get; set; } 
-        #endregion
-
-        public ICommand DeleteAlbumCommand { get; }
-        public ICommand AddAlbumCommand { get; }
+        public string PersonSearch { get; set; }
+        private bool _personsAreExpanded;
+        public bool PersonsAreExpanded
+        {
+            get => _personsAreExpanded;
+            set
+            {
+                AlbumsAreExpanded = false;
+                ItemsAreExpanded = false;
+                _personsAreExpanded = value;
+            }
+        }
 
         // TODO zmazat tak ze sa zmazu aj vsetky tagy a to iste aj ked zmazem album zmazu sa vsetkz fotky
         public ICommand DeletePersonCommand { get; }
         public ICommand DeleteItemCommand { get; }
-
-        public ICommand SearchItemCommand { get; }
-        public ICommand SearchPersonCommand { get; }
-        
+        #endregion
 
         public LeftMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -120,16 +157,16 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void SearchForPerson()
         {
-            FilteredPersons = new ObservableCollection<PersonModel>( Persons.Where(p => p.FirstName == PersonSearch || p.LastName == PersonSearch));
+            FilteredPersons = new ObservableCollection<PersonModel>(Persons.Where(p => p.FirstName.Contains(PersonSearch) || p.LastName.Contains(PersonSearch)));
             PersonSearch = "";
         }
 
         private void SearchForItem()
         {
-
-            FilteredItems = new ObservableCollection<ItemModel>(Items.Where(i => i.Name == ItemSearch));
+            FilteredItems = new ObservableCollection<ItemModel>(Items.Where(i => i.Name.Contains(ItemSearch)));
             ItemSearch = "";
         }
+
         // TODO ak sa zmaze osoba zmazu sa aj vsetky tagy
         private void DeleteItem()
         {
@@ -197,11 +234,11 @@ namespace PhotoGallery.WPF.ViewModels
 
         private bool SearchForItemCanUse()
         {
-            return true;
+            return !string.IsNullOrEmpty(ItemSearch);
         }
         private bool SearchForPersonCanUse()
         {
-            return true;
+            return !string.IsNullOrEmpty(PersonSearch); ;
         }
 
         private void ChangeAlbum(SendAlbum msg)

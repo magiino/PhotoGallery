@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PhotoGallery.WPF"
         xmlns:attachedProperties="clr-namespace:PhotoGallery.WPF.AttachedProperties"
         xmlns:converters="clr-namespace:PhotoGallery.WPF.Converters"
+        xmlns:control="clr-namespace:PhotoGallery.WPF.Views.Controls"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450"
@@ -16,6 +17,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
+
+        <control:LeftMenuView Grid.Column="0"
+                              DataContext="{Binding LeftMenuViewModel, Source={StaticResource ViewModelLocator}}"
+                              />
 
         <Frame Grid.Column="1"
                attachedProperties:NoFrameHistory.Value="True"

@@ -3,7 +3,6 @@ using System.Linq;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
-using PhotoGallery.DAL.Entities;
 
 namespace PhotoGallery.BL.Repositories
 {
@@ -23,7 +22,14 @@ namespace PhotoGallery.BL.Repositories
         }
         public ICollection<AlbumModel> GetAll()
         {
-            return Mapper.AlbumEntitiesToAlbumModels(_dataContext.Albums.ToList());
+            var albums = Mapper.AlbumEntitiesToAlbumModels(_dataContext.Albums.ToList());
+            foreach (var album in albums)
+            {
+                if (album.CoverPhotoId > 0)
+                    album.CoverPhotoPath = _dataContext.Photos.SingleOrDefault(x => x.Id == album.CoverPhotoId)?.Path;
+            }
+
+            return albums;
         }
         public AlbumModel GetByTitle(string title)
         {
