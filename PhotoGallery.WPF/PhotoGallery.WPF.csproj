@@ -98,6 +98,9 @@
     <Compile Include="Views\Controls\LeftMenuView.xaml.cs">
       <DependentUpon>LeftMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\RightMenuView.xaml.cs">
+      <DependentUpon>RightMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\PhotoDetailPage.xaml.cs">
       <DependentUpon>PhotoDetailPage.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
     <Page Include="Views\Controls\LeftMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\RightMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Pages\PhotoDetailPage.xaml">
       <Generator>MSBuild:Compile</Generator>
