@@ -4,173 +4,174 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PhotoGallery.WPF.Views.Controls"
+             xmlns:converter="clr-namespace:PhotoGallery.WPF.Converters"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             Width="1000"
-             Height="1000"
+             d:DesignWidth="300"
+             d:DesignHeight="500"
              DataContext="{Binding RightMenuViewModel, Source={StaticResource ViewModelLocator}}"
              >
-    <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height ="auto"/>
-        </Grid.RowDefinitions>
+    <materialDesign:Card Background="{DynamicResource MaterialDesignBackground}"
+                         VerticalAlignment="Stretch"
+                         MaxWidth="300"
+                         MinWidth="300"
+                         >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height ="auto"/>
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
-                    Orientation="Vertical"
-                    >
-            <TextBlock Style="{DynamicResource MaterialDesignHeadlineTextBlock}"
-                       Text="Album Settings"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Margin="10,5,0,0"
-                       />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-                           Text="Name: "
-                           VerticalAlignment="Center"
-                           Margin="10,10,0,0"
-                           />
-                <TextBox Grid.Column="1"
-                         materialDesign:HintAssist.Hint="Album name"
-                         Text="{Binding AlbumName, Mode=TwoWay}"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         />
+            <GroupBox Header="Album Settings"
+                      Visibility="{Binding SelectedAlbum, Converter={converter:NullToVisibilityConverter }}"
+                      >
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{DynamicResource MaterialDesignSubheadingTextBlock}"
+                                   Text="Name:"
+                                   VerticalAlignment="Center"
+                                   Margin="10,10,0,0"
+                                   />
+                        <TextBox Grid.Column="1"
+                                 materialDesign:HintAssist.Hint="Album name"
+                                 Text="{Binding AlbumName, Mode=TwoWay}"
+                                 Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                 />
 
-            </Grid>
-            <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Width="250"
-                    ToolTip="Sets selected photo as cover photo for this album"
-                    Margin="10,10,0,0"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Command="{Binding SetCoverPhotoCommand}"
-                    >
-                _Set cover photo
-            </Button>
-            <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Width="250"
-                    ToolTip="Add photo to this album"
-                    Margin="10,10,0,0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    Command="{Binding AddPhotoCommand}"
-                    >
-                _Add photo
-            </Button>
-            <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Width="250"
-                    ToolTip="Deletes selected photo from this album"
-                    Margin="10,10,0,0"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Left"
-                    Command="{Binding DeletePhotoCommand}"
-                    >
-                _Delete photo
-            </Button>
-        </StackPanel>
+                    </Grid>
+                    <Button Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                            ToolTip="Sets selected photo as cover photo for this album."
+                            Margin="10 10 0 0"
+                            Command="{Binding SetCoverPhotoCommand}"
+                            Content="Set cover photo"
+                            >
+                    </Button>
+                    <Button Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                            ToolTip="Add photo to album."
+                            Margin="10 10 0 0"
+                            Command="{Binding AddPhotoCommand}"
+                            Content="Add photo"
+                            />
+                    <Button Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                            ToolTip="Deletes selected photo from this album"
+                            Margin="10 10 0 0"
+                            Command="{Binding DeletePhotoCommand}"
+                            Content="Delete Photo"
+                            />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Filter"
+                      Grid.Row="1"
+                      VerticalAlignment="Stretch"
+                      x:Name="FilterBox"
+                      >
+                <StackPanel Height="{Binding Height, ElementName=FilterBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="94*"/>
+                            <ColumnDefinition Width="34*"/>
+                            <ColumnDefinition Width="13*"/>
+                        </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           Style="{StaticResource MaterialDesignHeadlineTextBlock}"
-                           Text="Filter / Sort"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Margin="10,10,0,0"
-                           />
-                <ToggleButton Grid.Column="1"
-                              Style="{StaticResource MaterialDesignActionToggleButton}"
-                              ToolTip="Ascending / Descending"
-                              IsChecked="{Binding SortAscending}"
-                              Margin="0,10,0,0">
-                    <ToggleButton.Content>
-                        <materialDesign:PackIcon Kind="ArrowDownDropCircleOutline" />
-                    </ToggleButton.Content>
-                    <materialDesign:ToggleButtonAssist.OnContent>
-                        <materialDesign:PackIcon Kind="ArrowUpDropCircleOutline" />
-                    </materialDesign:ToggleButtonAssist.OnContent>
-                </ToggleButton>
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding FilterByName}"
+                                 materialDesign:HintAssist.Hint="Search by name"
+                                 Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                 Margin="10,5,5,5"
+                                 />
 
-                <TextBox Text="{Binding FilterByName}"
-                         materialDesign:HintAssist.Hint="Search by name"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Margin="10,5,5,5"
-                         />
+                        <Button Grid.Column="1"
+                                Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                                Width="100"
+                                Height="auto"
+                                VerticalAlignment="Center"
+                                Command="{Binding }" Grid.ColumnSpan="2" Margin="0,10,-6,10"
+                                >
+                            <!--ToDo add command for search-->
+                            _Search
+                        </Button>
+                    </Grid>
 
-                <Button Grid.Column="1"
-                        Style="{StaticResource MaterialDesignRaisedLightButton}"
-                        Width="100"
-                        Height="auto"
-                        VerticalAlignment="Center"
-                        Command="{Binding }"
-                        >
-                    <!--ToDo add command for search-->
-                    _Search
-                </Button>
-            </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
 
-            <ComboBox materialDesign:HintAssist.Hint="Sort by"
-                      Margin="10,5,5,10" SelectionChanged="ComboBox_SelectionChanged"
-                      ItemsSource="{Binding Sorts}"
-                      SelectedItem="{Binding SelectedSort}"
-                      />
+                        <ComboBox materialDesign:HintAssist.Hint="Sort by"
+                                  Margin="10,5,5,10"
+                                  ItemsSource="{Binding Sorts}"
+                                  SelectedItem="{Binding SelectedSort}"
+                                  />
+                        <StackPanel Grid.Column="1">
+                            <ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+                                          ToolTip="MaterialDesignActionLightToggleButton"
+                                          IsChecked="{Binding SortAscending}"
+                                          >
+                                <ToggleButton.Content>
+                                    <materialDesign:PackIcon Kind="ArrowUpDropCircleOutline"
+                                                             ToolTip="Ascending"
+                                                             />
+                                </ToggleButton.Content>
+                                <materialDesign:ToggleButtonAssist.OnContent>
+                                    <materialDesign:PackIcon Kind="ArrowDown"
+                                                             ToolTip="ArrowDownDropCircleOutline"
+                                                             />
+                                </materialDesign:ToggleButtonAssist.OnContent>
+                            </ToggleButton>
+                            <!--<ToggleButton 
+                                          Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                          ToolTip="MaterialDesignSwitchToggleButton"
+                                          IsChecked="True"
+                                          />-->
+                        </StackPanel>
+                       
+                    </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
 
-                <DatePicker Grid.Column="0"
-                        Width="100"
-                        Margin="10,0,0,0"
-                        SelectedDate="{Binding DateFrom, Mode=TwoWay}"
-                        materialDesign:HintAssist.Hint="Pick Date"
-                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                        />
-                <TextBlock  Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        Style="{StaticResource MaterialDesignBody2TextBlock}"
-                        Text="to"
-                        />
-                <DatePicker Grid.Column="2"
-                        Width="100"
-                        Margin="0,0,10,0"
-                        SelectedDate="{Binding DateTo, Mode=TwoWay}"
-                        materialDesign:HintAssist.Hint="Pick Date"
-                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                        />
-            </Grid>
+                        <DatePicker Grid.Column="0"
+                                Width="100"
+                                Margin="10,0,0,0"
+                                SelectedDate="{Binding DateFrom, Mode=TwoWay}"
+                                materialDesign:HintAssist.Hint="Pick Date"
+                                Style="{DynamicResource MaterialDesignFloatingHintDatePicker}" 
+                                />
+                        <TextBlock  Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Style="{DynamicResource MaterialDesignBody2TextBlock}"
+                                Text="to"
+                                />
+                        <DatePicker Grid.Column="2"
+                                Width="100"
+                                Margin="0,0,10,0"
+                                SelectedDate="{Binding DateTo, Mode=TwoWay}"
+                                materialDesign:HintAssist.Hint="Pick Date"
+                                Style="{DynamicResource MaterialDesignFloatingHintDatePicker}" 
+                                />
+                    </Grid>
 
-            <ComboBox materialDesign:HintAssist.Hint="Format"
-                      Margin="10,5,5,10" SelectionChanged="ComboBox_SelectionChanged"
-                      ItemsSource="{Binding Formats}"
-                      SelectedItem="{Binding SelectedFormat}"
-                      />
-            <ComboBox materialDesign:HintAssist.Hint="Resolution"
-                      Margin="10,5,5,10" SelectionChanged="ComboBox_SelectionChanged"
-                      ItemsSource="{Binding Resolutions}"
-                      SelectedItem="{Binding SelectedResolution}"
-                      />
+                    <ComboBox materialDesign:HintAssist.Hint="Format"
+                              Margin="10,5,5,10"
+                              ItemsSource="{Binding Formats}"
+                              SelectedItem="{Binding SelectedFormat}"
+                              />
+                    <ComboBox materialDesign:HintAssist.Hint="Resolution"
+                              Margin="10,5,5,10"
+                              ItemsSource="{Binding Resolutions}"
+                              SelectedItem="{Binding SelectedResolution}"
+                              />
+                </StackPanel>
+            </GroupBox>
+        </Grid>
 
-        </StackPanel>
-
-
-    </Grid>
+    </materialDesign:Card>
 </UserControl>

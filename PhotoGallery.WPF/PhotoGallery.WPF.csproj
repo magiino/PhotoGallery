@@ -81,6 +81,7 @@
     <Compile Include="AddPhoto.cs" />
     <Compile Include="AttachedProperties\Base\BaseAttachedProperty.cs" />
     <Compile Include="AttachedProperties\NoFrameHistory.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\BaseValueConverter.cs" />
     <Compile Include="Converters\ApplicationPageValueConverter.cs" />
     <Compile Include="RelayCommand.cs" />

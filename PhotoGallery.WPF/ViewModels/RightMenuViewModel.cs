@@ -17,8 +17,8 @@ namespace PhotoGallery.WPF.ViewModels
         private readonly IUnitOfWork _unitOfWork;
 
         private PhotoDetailModel _selectedPhoto;
-        private AlbumModel _selectedAlbum;
 
+        public AlbumModel SelectedAlbum { get; set; }
         public string AlbumName { get; set; }
 
         // Zoradenie
@@ -66,7 +66,7 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        private DateTime _dateFrom = DateTime.MinValue;
+        private DateTime _dateFrom = DateTime.Now - TimeSpan.FromDays(365);
         public DateTime DateFrom
         {
             get => _dateFrom;
@@ -77,7 +77,7 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        private DateTime _dateTo = DateTime.MaxValue;
+        private DateTime _dateTo = DateTime.Today;
         public DateTime DateTo
         {
             get => _dateTo;
@@ -114,29 +114,29 @@ namespace PhotoGallery.WPF.ViewModels
             var photoDetailModel = IoC.AddPhoto.ChoosePhoto();
             var photoListModel =_unitOfWork.Photos.Add(photoDetailModel);
 
-            _messenger.Send(new SendAddPhoto(photoListModel, _selectedAlbum.Id));
+            _messenger.Send(new SendAddPhoto(photoListModel, SelectedAlbum.Id));
         }
 
         private void DeletePhoto()
         {
             _unitOfWork.Photos.Delete(_selectedPhoto.Id);
-            _messenger.Send(new SendDeletePhoto(_selectedPhoto.Id, _selectedAlbum.Id));
+            _messenger.Send(new SendDeletePhoto(_selectedPhoto.Id, SelectedAlbum.Id));
             _selectedPhoto = null;
         }
 
         private void ChangeAlbumCoverPhoto()
         {
-            _selectedAlbum.CoverPhotoPath = _selectedPhoto.Path;
-            _selectedAlbum.CoverPhotoId = _selectedPhoto.Id;
-            _unitOfWork.Albums.Update(_selectedAlbum);
-            _messenger.Send(new SendAlbum(_selectedAlbum));
+            SelectedAlbum.CoverPhotoPath = _selectedPhoto.Path;
+            SelectedAlbum.CoverPhotoId = _selectedPhoto.Id;
+            _unitOfWork.Albums.Update(SelectedAlbum);
+            _messenger.Send(new SendAlbum(SelectedAlbum));
         }
 
         private void ChangeAlbumName()
         {
-            _selectedAlbum.Title = AlbumName;
-            _unitOfWork.Albums.Update(_selectedAlbum);
-            _messenger.Send(new SendAlbum(_selectedAlbum));
+            SelectedAlbum.Title = AlbumName;
+            _unitOfWork.Albums.Update(SelectedAlbum);
+            _messenger.Send(new SendAlbum(SelectedAlbum));
         }
 
 
@@ -147,7 +147,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         public bool AddPhotoCanUse()
         {
-            return _selectedAlbum != null;
+            return SelectedAlbum != null;
         }
 
         public bool ChangeAlbumNameCanUse()
@@ -158,7 +158,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void SetAlbum(ChosenItem msg)
         {
-            _selectedAlbum = msg.IsTag == false ? _unitOfWork.Albums.GetById(msg.Id) : null;
+            SelectedAlbum = msg.IsTag == false ? _unitOfWork.Albums.GetById(msg.Id) : null;
         }
 
         private void OnLoad()
@@ -176,7 +176,7 @@ namespace PhotoGallery.WPF.ViewModels
                 Sort = SelectedSort,
                 SortAscending = SortAscending,
                 Format = SelectedFormat,
-                ResolutionId = SelectedResolution.Id,
+                ResolutionId = SelectedResolution?.Id ?? -1,
                 DateFrom = DateFrom,
                 DateTo = DateTo
             });
