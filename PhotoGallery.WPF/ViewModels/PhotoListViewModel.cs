@@ -151,15 +151,15 @@ namespace PhotoGallery.WPF.ViewModels
 
 //    if (item.IsTag)
 //    {
-//        _selectedAlbum = null;
+//        SelectedAlbum = null;
 //        FetchTagPhotos(item.Id);
 //        NumOfPhotos = _unitOfWork.Photos.GetNumberOfPhotosWithThisTag(item.Id);
 //    }
 //    else
 //    {
 //        FetchAlbumPhotos(item.Id);
-//        _selectedAlbum = _unitOfWork.Albums.GetById(item.Id);
-//        NumOfPhotos = _selectedAlbum.NumberOfPhotos;
+//        SelectedAlbum = _unitOfWork.Albums.GetById(item.Id);
+//        NumOfPhotos = SelectedAlbum.NumberOfPhotos;
 //    }
 //}
 

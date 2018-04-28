@@ -37,7 +37,6 @@
 
     <materialDesign:Card Background="{DynamicResource MaterialDesignBackground}"
                          VerticalAlignment="Stretch"
-                         Padding="0 0 0 5"
                          >
         <StackPanel>
             <Expander HorizontalAlignment="Stretch"
