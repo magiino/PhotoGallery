@@ -196,6 +196,7 @@ namespace PhotoGallery.BL
                 Path = photoEntity.Path,
                 CreatedTime = photoEntity.CreatedTime,
                 Format = photoEntity.Format,
+                AlbumId = photoEntity.AlbumId,
                 Resolution = new ResolutionModel()
                 {
                     Height = photoEntity.Resolution.Height,
@@ -205,10 +206,10 @@ namespace PhotoGallery.BL
                 Note = photoEntity.Note,
                 Location = photoEntity.Location,
             };
-           
+            if (photoEntity.Tags == null) return model;
             var tags = TagEntitiesToTagModels(photoEntity.Tags);
-           
             model.Tags = tags;
+
             return model;
         }
 
@@ -224,6 +225,7 @@ namespace PhotoGallery.BL
                 Id = photoEntity.Id,
                 Name = photoEntity.Name,
                 Path = photoEntity.Path,
+                CreatedTime = photoEntity.CreatedTime
             };
         }
 
@@ -238,7 +240,7 @@ namespace PhotoGallery.BL
             {
                 Id = photoDetailModel.Id,
                 Name = photoDetailModel.Name,
-                AlbumId = photoDetailModel.Id,
+                AlbumId = photoDetailModel.AlbumId,
                 Format = photoDetailModel.Format,
                 Note = photoDetailModel.Note,
                 Path = photoDetailModel.Path,

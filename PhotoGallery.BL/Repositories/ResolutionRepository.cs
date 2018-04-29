@@ -28,12 +28,13 @@ namespace PhotoGallery.BL.Repositories
         public ResolutionModel Add(ResolutionModel resolutionModel)
         {
             var resolution = _dataContext.Resolutions.Add(Mapper.ResolutionModelToResolutionEntity(resolutionModel));
+            _dataContext.SaveChanges();
             return Mapper.ResolutionEntityToResolutionModel(resolution);
         }
 
         public ResolutionModel GetByWidthAndHeight(int height, int width)
         {
-            var resolution = _dataContext.Resolutions.SingleOrDefault(x => x.Resolution == $"{height} {width}");
+            var resolution = _dataContext.Resolutions.ToList().SingleOrDefault(x => x.Resolution == $"{height} {width}");
             return resolution == null ? null : Mapper.ResolutionEntityToResolutionModel(resolution);
         }
     }

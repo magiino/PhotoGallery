@@ -9,7 +9,6 @@
       d:DesignHeight="450"
       d:DesignWidth="800"
       >
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -19,5 +18,19 @@
         <control:DetailPhotoView Grid.Column="0"
                                  DataContext="{Binding PhotoDetailViewModel, Source={StaticResource ViewModelLocator}}"
                                  />
+        <Expander Grid.Column="1"
+                  ExpandDirection="left"
+                  >
+            <Expander.Header>
+                <TextBlock
+                    Text="Settings"
+                    RenderTransformOrigin=".5,.5">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="90"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </Expander.Header>
+            <control:InfoView DataContext="{Binding InfoViewModel, Source={StaticResource ViewModelLocator}}"/>
+        </Expander>
     </Grid>
 </Page>

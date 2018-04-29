@@ -122,6 +122,7 @@ namespace PhotoGallery.WPF.ViewModels
         // TODO zmazat tak ze sa zmazu aj vsetky tagy a to iste aj ked zmazem album zmazu sa vsetkz fotky
         public ICommand DeletePersonCommand { get; }
         public ICommand DeleteItemCommand { get; }
+        public ICommand ShowListPageCommand { get; }
         #endregion
 
         public LeftMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
@@ -137,6 +138,7 @@ namespace PhotoGallery.WPF.ViewModels
             DeletePersonCommand = new RelayCommand(DeletePerson, DeletePersonCanUse);
             SearchItemCommand = new RelayCommand(SearchForItem, SearchForItemCanUse);
             SearchPersonCommand = new RelayCommand(SearchForPerson, SearchForPersonCanUse);
+            ShowListPageCommand = new RelayCommand(GoToPage);
 
             _messenger.Register<SendDeletePhoto>(msg =>
             {
