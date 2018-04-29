@@ -39,7 +39,11 @@
                                  materialDesign:HintAssist.Hint="Album name"
                                  Text="{Binding AlbumName, Mode=TwoWay}"
                                  Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                                 />
+                                 >
+                            <TextBox.InputBindings>
+                                <KeyBinding Gesture="Enter" Command="{Binding ChangeAlbumNameCommand}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
 
                     </Grid>
                     <Button Style="{DynamicResource MaterialDesignRaisedLightButton}"
@@ -71,27 +75,28 @@
                 <StackPanel Height="{Binding Height, ElementName=FilterBox}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="94*"/>
-                            <ColumnDefinition Width="34*"/>
-                            <ColumnDefinition Width="13*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBox Text="{Binding FilterByName}"
                                  materialDesign:HintAssist.Hint="Search by name"
                                  Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                  Margin="10,5,5,5"
-                                 />
+                                 >
+                            <TextBox.InputBindings>
+                                <KeyBinding Gesture="Enter" Command="{Binding ChangeAlbumNameCommand}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
 
-                        <Button Grid.Column="1"
+                        <!--<Button Grid.Column="1"
                                 Style="{DynamicResource MaterialDesignRaisedLightButton}"
                                 Width="100"
                                 Height="auto"
                                 VerticalAlignment="Center"
-                                Command="{Binding }" Grid.ColumnSpan="2" Margin="0,10,-6,10"
+                                HorizontalAlignment="Stretch"
                                 >
-                            <!--ToDo add command for search-->
-                            _Search
-                        </Button>
+                        </Button>-->
                     </Grid>
 
                     <Grid>

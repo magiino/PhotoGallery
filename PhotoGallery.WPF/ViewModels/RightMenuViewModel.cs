@@ -30,8 +30,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedSort;
             set
             {
-                Filter();
                 _selectedSort = value;
+                Filter();
             }
         }
 
@@ -48,8 +48,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedFormat;
             set
             {
-                Filter();
                 _selectedFormat = value;
+                Filter();
             }
         }
 
@@ -61,8 +61,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _selectedResolution;
             set
             {
-                Filter();
                 _selectedResolution = value;
+                Filter();
             }
         }
 
@@ -72,8 +72,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _dateFrom;
             set
             {
-                Filter();
                 _dateFrom = value;
+                Filter();
             }
         }
 
@@ -83,8 +83,8 @@ namespace PhotoGallery.WPF.ViewModels
             get => _dateTo;
             set
             {
-                Filter();
                 _dateTo = value;
+                Filter();
             }
         }
 
@@ -92,6 +92,7 @@ namespace PhotoGallery.WPF.ViewModels
         public ICommand ChangeAlbumNameCommand { get; }
         public ICommand AddPhotoCommand { get; }
         public ICommand DeletePhotoCommand { get; }
+        public ICommand RunFilterCommand { get; }
 
         public RightMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -103,7 +104,13 @@ namespace PhotoGallery.WPF.ViewModels
             ChangeAlbumNameCommand = new RelayCommand(ChangeAlbumName, ChangeAlbumNameCanUse);
             AddPhotoCommand = new RelayCommand(AddPhoto, AddPhotoCanUse);
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
-            
+            RunFilterCommand = new RelayCommand(() =>
+            {
+                if (string.IsNullOrEmpty(FilterByName)) return;
+                Filter();
+            });
+
+
             _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = _unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
             _messenger.Register<ChosenItem>(SetAlbum);
         }

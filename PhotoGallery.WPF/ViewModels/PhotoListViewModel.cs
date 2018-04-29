@@ -127,6 +127,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void FetchPhotos()
         {
+            Photos.Clear();
             foreach (var photoId in _photoIds.Skip((PageIndex - 1) * IoC.PageSize).Take(IoC.PageSize))
                 Photos.Add(_unitOfWork.Photos.GetListModelById(photoId));
         }
