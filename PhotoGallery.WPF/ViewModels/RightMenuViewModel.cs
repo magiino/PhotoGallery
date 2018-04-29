@@ -66,7 +66,7 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        private DateTime _dateFrom = DateTime.Now - TimeSpan.FromDays(365);
+        private DateTime _dateFrom = DateTime.Now - TimeSpan.FromDays(365*10);
         public DateTime DateFrom
         {
             get => _dateFrom;
@@ -112,6 +112,7 @@ namespace PhotoGallery.WPF.ViewModels
         private void AddPhoto()
         {
             var photoDetailModel = IoC.AddPhoto.ChoosePhoto();
+            photoDetailModel.AlbumId = SelectedAlbum.Id;
             var photoListModel =_unitOfWork.Photos.Add(photoDetailModel);
 
             _messenger.Send(new SendAddPhoto(photoListModel, SelectedAlbum.Id));
@@ -159,6 +160,7 @@ namespace PhotoGallery.WPF.ViewModels
         private void SetAlbum(ChosenItem msg)
         {
             SelectedAlbum = msg.IsTag == false ? _unitOfWork.Albums.GetById(msg.Id) : null;
+            AlbumName = SelectedAlbum?.Title;
         }
 
         private void OnLoad()

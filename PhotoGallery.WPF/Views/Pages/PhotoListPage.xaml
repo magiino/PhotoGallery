@@ -16,6 +16,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        <control:PhotoListView DataContext="{Binding PhotoListViewModel, Source={StaticResource ViewModelLocator}}"/>
         <Expander Grid.Column="1"
                   ExpandDirection="left"
                   >
@@ -28,7 +29,7 @@
                     </TextBlock.LayoutTransform>
                 </TextBlock>
             </Expander.Header>
-            <control:RightMenuView />
+            <control:RightMenuView DataContext="{Binding RightMenuViewModel, Source={StaticResource ViewModelLocator}}"/>
         </Expander>
     </Grid>
 </Page>

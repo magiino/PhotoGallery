@@ -48,6 +48,7 @@ namespace PhotoGallery.BL.Repositories
         public PhotoListModel Add(PhotoDetailModel photoDetailModel)
         {
             var addedPhoto = _dataContext.Photos.Add(Mapper.PhotoDetailModelToPhotoEntity(photoDetailModel));
+
             _dataContext.SaveChanges();
             return Mapper.PhotoEntityToPhotoListModel(addedPhoto);
         }
@@ -146,37 +147,24 @@ namespace PhotoGallery.BL.Repositories
 
             var photos = _dataContext.Photos.Where(filterExpression).Include(x => x.Tags);
 
-            List<PhotoEntity> filteredPhotos;
+            var filteredPhotos = new List<PhotoEntity>();
 
-            // TODO ZLE TO JE!!!!
             if (item.IsTag)
             {
-                var personTagg = _dataContext.PersonTags.SingleOrDefault(x => x.PersonId == item.Id);
-                if (personTagg == null)
+                var personTags = _dataContext.PersonTags.Where(x => x.PersonId == item.Id).ToList();
+                if (personTags.Count == 0)
                 {
-                    var itemTag = _dataContext.ItemTags.SingleOrDefault(x => x.Item.Id == item.Id);
-                    filteredPhotos = photos.Where(x => x.Tags.Contains(itemTag)).ToList();
-                    
-                    //filteredPhotos =
-                    //    photos.Select(x =>
-                    //    {
-                    //        foreach (var tag in x.Tags)
-                    //        {
-                    //            switch (tag)
-                    //            {
-                    //                case PersonTagEntity personTag when personTag.PersonId == item.Id:
-                    //                    return x;
-                    //                case ItemTagEntity itemTag when itemTag.ItemId == item.Id:
-                    //                    return x;
-                    //                default: return null;
-                    //            }
-                    //        }
-                    //    });
+                    var itemTags = _dataContext.ItemTags.Where(x => x.Item.Id == item.Id);
+                    foreach (var tag in itemTags)
+                        filteredPhotos.AddRange(photos.Include(x => x.Tags).Where(x => x.Tags.Contains(tag)).ToList());
                 }
                 else
-                    filteredPhotos = photos.Where(x => x.Tags.Contains(personTagg)).ToList();
+                {
+                    foreach (var tag in personTags)
+                        filteredPhotos.AddRange(photos.Include(x => x.Tags).Where(x => x.Tags.Contains(tag)).ToList());
+                }
             }
-            else filteredPhotos = photos.Where(x => x.AlbumId == item.Id).ToList();
+            else filteredPhotos.AddRange(photos.Where(x => x.AlbumId == item.Id).ToList());
 
 
         switch (settings.Sort)

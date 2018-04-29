@@ -37,7 +37,7 @@ namespace PhotoGallery.WPF.ViewModels
 
             AddTagCommand = new RelayCommand(AddTag);
             DeleteTagCommand = new RelayCommand(DeleteTag, DeleteTagCanUse);
-            SaveChangesCommand = new RelayCommand(SaveChanges);
+            SaveChangesCommand = new RelayCommand(SaveChanges, SaveChangesCanUse);
 
             _messenger.Register<SendDetailPhotoModel>(PhotoDetailChanged);
         }
@@ -57,6 +57,11 @@ namespace PhotoGallery.WPF.ViewModels
             if(_photoDetailModel.Name != Name)
                 _messenger.Send(new SendNewPhotoName(Name));
             _photoDetailModel = photo;
+        }
+
+        public bool SaveChangesCanUse()
+        {
+            return _photoDetailModel.Name != Name && _photoDetailModel.Note != Note;
         }
 
         private void DeleteTag()

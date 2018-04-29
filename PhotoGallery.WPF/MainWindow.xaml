@@ -14,8 +14,10 @@
         >
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="200"
+                              MinWidth="200"
+                              />
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
         <control:LeftMenuView Grid.Column="0"
