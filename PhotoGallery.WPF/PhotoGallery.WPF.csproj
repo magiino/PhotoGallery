@@ -60,6 +60,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -102,6 +103,9 @@
     <Compile Include="Views\Controls\LeftMenuView.xaml.cs">
       <DependentUpon>LeftMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\PhotoListView.xaml.cs">
+      <DependentUpon>PhotoListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\RightMenuView.xaml.cs">
       <DependentUpon>RightMenuView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\LeftMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\PhotoListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
