@@ -37,7 +37,6 @@
                         VerticalAlignment="Center"
                         >
                 <Button Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
-                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
                         Command="{Binding PreviousPhoto}"
                         >
                     <materialDesign:PackIcon Kind="ArrowLeftBold"
@@ -51,7 +50,6 @@
                            Margin="10 0 10 0"
                            />
                 <Button Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
-                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
                         Command="{Binding NextPhoto}"
                         >
                     <materialDesign:PackIcon Kind="ArrowRightBold"

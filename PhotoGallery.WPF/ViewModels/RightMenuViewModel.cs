@@ -166,7 +166,7 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void SetAlbum(ChosenItem msg)
         {
-            SelectedAlbum = msg.IsTag == false ? _unitOfWork.Albums.GetById(msg.Id) : null;
+            SelectedAlbum = msg.ItemType == ItemType.Album ? _unitOfWork.Albums.GetById(msg.Id) : null;
             AlbumName = SelectedAlbum?.Title;
         }
 

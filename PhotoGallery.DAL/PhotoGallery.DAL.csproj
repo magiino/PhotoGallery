@@ -58,6 +58,7 @@
     <Compile Include="Entities\PhotoEntity.cs" />
     <Compile Include="Entities\ItemTagEntity.cs" />
     <Compile Include="Entities\PersonTagEntity.cs" />
+    <Compile Include="Enums\ItemType.cs" />
     <Compile Include="Enums\Sort.cs" />
     <Compile Include="Migrations\201804261728460_InitialCreate.cs" />
     <Compile Include="Migrations\201804261728460_InitialCreate.Designer.cs">

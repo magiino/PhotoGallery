@@ -21,7 +21,7 @@ namespace PhotoGallery.WPF.ViewModels
         private List<int> _photosIds;
         public int CurrentPhotoIndex { get; set; }
         public int NumOfPhotos { get; set; }
-        public string Pages => $"{CurrentPhotoIndex} / {NumOfPhotos}";
+        public string Pages => $"{CurrentPhotoIndex+1} / {NumOfPhotos}";
 
         public ICommand PreviousPhoto { get; set; }
         public ICommand NextPhoto { get; set; }
@@ -42,26 +42,26 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void GetPreviousPhoto()
         {
-            _photo = _unitOfWork.Photos.GetDetailModelById(_photosIds[++CurrentPhotoIndex]);
+            _photo = _unitOfWork.Photos.GetDetailModelById(_photosIds[--CurrentPhotoIndex]);
             SendPhotoToDetailVm(_photo);
             SetPhotoProperties(_photo);
         }
 
+        public bool GetPreviousPhotosCanUse()
+        {
+            return CurrentPhotoIndex > 0 && NumOfPhotos > 1;
+        }
+
         private void GetNextPhoto()
         {
-            _photo = _unitOfWork.Photos.GetDetailModelById(_photosIds[--CurrentPhotoIndex]);
+            _photo = _unitOfWork.Photos.GetDetailModelById(_photosIds[++CurrentPhotoIndex]);
             SendPhotoToDetailVm(_photo);
             SetPhotoProperties(_photo);
         }
 
         public bool GetNextPhotosCanUse()
         {
-            return CurrentPhotoIndex <= NumOfPhotos && NumOfPhotos > 1;
-        }
-
-        public bool GetPreviousPhotosCanUse()
-        {
-            return CurrentPhotoIndex >= 0 && NumOfPhotos > 1;
+            return CurrentPhotoIndex < NumOfPhotos-1 && NumOfPhotos > 1;
         }
 
         private void OnLoad(SendFilterWithPhoto filterAndPhoto)
@@ -73,7 +73,7 @@ namespace PhotoGallery.WPF.ViewModels
             _photosIds = _unitOfWork.Photos.GetSortedFilteredPhotosIds(filterAndPhoto.FilterSortSettings,
                 filterAndPhoto.ChosenItem);
             // Zistenie aktualneho indexu
-            CurrentPhotoIndex = _photosIds.IndexOf(_photo.Id) + 1;
+            CurrentPhotoIndex = _photosIds.IndexOf(_photo.Id);
             // Zistenie poctu fotiek
             NumOfPhotos = _photosIds.Count;
         }

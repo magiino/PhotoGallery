@@ -7,6 +7,7 @@ using PhotoGallery.DAL.Entities;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using Ninject.Infrastructure.Language;
 using PhotoGallery.BL.MessengerFile.Messeges;
@@ -145,29 +146,31 @@ namespace PhotoGallery.BL.Repositories
                 && string.IsNullOrEmpty(settings.SearchString) || x.Name.Contains(settings.SearchString)
                 && (x.CreatedTime >= settings.DateFrom && x.CreatedTime <= settings.DateTo);
 
-            var photos = _dataContext.Photos.Where(filterExpression).Include(x => x.Tags);
+            var photos = _dataContext.Photos.Where(filterExpression).Include(x => x.Tags).ToList();
 
             var filteredPhotos = new List<PhotoEntity>();
 
-            if (item.IsTag)
+            switch (item.ItemType)
             {
-                var personTags = _dataContext.PersonTags.Where(x => x.PersonId == item.Id).ToList();
-                if (personTags.Count == 0)
-                {
+                case ItemType.Album:
+                    filteredPhotos.AddRange(photos.Where(x => x.AlbumId == item.Id).ToList());
+                    break;
+                case ItemType.Person:
+                    var personTags = _dataContext.PersonTags.Where(x => x.PersonId == item.Id).ToList();
+                    foreach (var tag in personTags)
+                        filteredPhotos.AddRange(photos.Where(x => x.Tags.Contains(tag)).ToList());
+                    break;
+                case ItemType.Item:
                     var itemTags = _dataContext.ItemTags.Where(x => x.Item.Id == item.Id);
                     foreach (var tag in itemTags)
-                        filteredPhotos.AddRange(photos.Include(x => x.Tags).Where(x => x.Tags.Contains(tag)).ToList());
-                }
-                else
-                {
-                    foreach (var tag in personTags)
-                        filteredPhotos.AddRange(photos.Include(x => x.Tags).Where(x => x.Tags.Contains(tag)).ToList());
-                }
+                        filteredPhotos.AddRange(photos.Where(x => x.Tags.Contains(tag)).ToList());
+                    break;
+                default:
+                    Debugger.Break();
+                    throw new ArgumentOutOfRangeException();
             }
-            else filteredPhotos.AddRange(photos.Where(x => x.AlbumId == item.Id).ToList());
 
-
-        switch (settings.Sort)
+            switch (settings.Sort)
             {
                 case Sort.ByDateTime when settings.SortAscending:
                     return filteredPhotos.OrderBy(x => x.CreatedTime).Select(x => x.Id).ToList();
@@ -177,8 +180,11 @@ namespace PhotoGallery.BL.Repositories
                     return filteredPhotos.OrderBy(x => x.Name).Select(x => x.Id).ToList();
                 case Sort.ByName when !settings.SortAscending:
                     return filteredPhotos.OrderByDescending(x => x.Name).Select(x => x.Id).ToList();
-                default:
+                case Sort.None:
                     return filteredPhotos.Select(x => x.Id).ToList();
+                default:
+                    Debugger.Break();
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
