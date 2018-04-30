@@ -5,11 +5,9 @@ using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL.Entities;
 using System;
-using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using Ninject.Infrastructure.Language;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
 
@@ -59,20 +57,20 @@ namespace PhotoGallery.BL.Repositories
             var photo = _dataContext.Photos.SingleOrDefault(x => x.Id == id);
             if (photo == null) return false;
 
-            // Ak fotka ktoru mazeme ma ako psoledna toto resolution, tak ho zmazeme z databazy
-            var photoWithResolution = _dataContext.Photos.FirstOrDefault(x => x.ResolutionId == photo.ResolutionId);
-            if (photoWithResolution == null)
-            {
-                _dataContext.Resolutions.Remove(new ResolutionEntity()
-                {
-                    Id = photo.ResolutionId,
-                    Width = photo.Resolution.Width,
-                    Height = photo.Resolution.Height
-                });
-            }
-
+            var resolutionId = photo.ResolutionId;
             _dataContext.Photos.Remove(photo);
             _dataContext.SaveChanges();
+
+            // Ak fotka ktoru mazeme ma ako psoledna toto resolution, tak ho zmazeme z databazy
+            var photoWithResolution = _dataContext.Photos.FirstOrDefault(x => x.ResolutionId == resolutionId);
+
+            if (photoWithResolution != null) return true;
+            var resolution = _dataContext.Resolutions.SingleOrDefault(x => x.Id == resolutionId);
+
+            if (resolution == null) return true;
+            _dataContext.Resolutions.Remove(resolution);
+            _dataContext.SaveChanges();
+
             return true;
         }
 
