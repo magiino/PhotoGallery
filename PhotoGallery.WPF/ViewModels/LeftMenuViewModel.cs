@@ -30,7 +30,7 @@ namespace PhotoGallery.WPF.ViewModels
                 SelectedPerson = null;
                 _selectedAlbum = value;
                 if (value == null) return;
-                _messenger.Send(new ChosenItem(value.Id, false));
+                _messenger.Send(new ChosenItem(value.Id, ItemType.Album));
             }
         }
 
@@ -67,7 +67,7 @@ namespace PhotoGallery.WPF.ViewModels
                 _selectedItem = value;
 
                 if (value == null) return;
-                _messenger.Send(new ChosenItem(value.Id, true));
+                _messenger.Send(new ChosenItem(value.Id, ItemType.Item));
             }
         }
         public string ItemSearch { get; set; }
@@ -98,12 +98,11 @@ namespace PhotoGallery.WPF.ViewModels
             {
                 GoToPage();
 
-                _selectedAlbum = null;
-                _selectedItem = null;
+                SelectedAlbum = null;
+                SelectedItem = null;
                 _selectedPerson = value;
-
                 if (value == null) return;
-                _messenger.Send(new ChosenItem(value.Id, true));
+                _messenger.Send(new ChosenItem(value.Id, ItemType.Person));
             }
         }
         public string PersonSearch { get; set; }

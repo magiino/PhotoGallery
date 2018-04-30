@@ -1,14 +1,16 @@
-﻿namespace PhotoGallery.BL.MessengerFile.Messeges
+﻿using PhotoGallery.DAL.Enums;
+
+namespace PhotoGallery.BL.MessengerFile.Messeges
 {
     public class ChosenItem
     {
         public int Id { get; set; }
-        public bool IsTag { get; set; }
+        public ItemType ItemType { get; set; }
 
-        public ChosenItem(int id, bool isTag)
+        public ChosenItem(int id, ItemType itemType)
         {
             Id = id;
-            IsTag = isTag;
+            ItemType = itemType;
         }
     }
 }
