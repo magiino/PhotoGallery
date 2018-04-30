@@ -37,15 +37,20 @@ namespace PhotoGallery.BL.Repositories
             var itemEntity = _dataContext.Items.FirstOrDefault(x => x.Name == item.Name) ?? _dataContext.Items.Add(new ItemEntity() {Name = item.Name});
             _dataContext.SaveChanges();
 
-            var addedItemTag =_dataContext.ItemTags.Add(new ItemTagEntity()
+            var photoEntity = _dataContext.Photos.SingleOrDefault(x => x.Id == photo.Id);
+
+            if (photoEntity == null) return -1;
+
+            var newItemTag = new ItemTagEntity()
             {
                 Item = itemEntity,
                 ItemId = itemEntity.Id,
                 XPosition = item.XPosition,
                 YPosition = item.YPosition,
-            });
+            };
+            photoEntity.Tags.Add(newItemTag);
             _dataContext.SaveChanges();
-            return addedItemTag.Id;
+            return newItemTag.Id;
         }
 
         public bool Delete(int id)

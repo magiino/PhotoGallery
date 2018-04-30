@@ -49,22 +49,17 @@ namespace PhotoGallery.WPF.ViewModels
         {
             tag.XPosition = (int)_mousePoint.X;
             tag.YPosition = (int)_mousePoint.Y;
-            Tags.Add(tag);
+            
+            tag.Id = tag.IsItem ? _unitOfWork.ItemTags.Add(tag, _photo) : _unitOfWork.PersonTags.Add(tag, _photo);
 
-            if (tag.IsItem)
-                _unitOfWork.ItemTags.Add(tag, _photo);
-            else
-                _unitOfWork.PersonTags.Add(tag, _photo);
+            Tags.Add(tag);
         }
 
         private void ShowPopup(object obj)
         {
             if (obj == null) return;
             _mousePoint = Mouse.GetPosition(obj as UIElement);
-            IoC.Ui.ShowAddTag(new AddTagDialogViewModel(_messenger, _unitOfWork)
-            {
-                Title = "Add Tag",
-            });
+            IoC.Ui.ShowAddTag(new AddTagDialogViewModel(_messenger){ Title = "Add Tag" });
         }
 
         private void GetPreviousPhoto()
