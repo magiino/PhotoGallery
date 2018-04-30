@@ -35,7 +35,16 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        public bool SortAscending { get; set; } = true;
+        private bool _sortAscending = true;
+        public bool SortAscending
+        {
+            get => _sortAscending;
+            set
+            {
+                _sortAscending = value;
+                Filter();
+            }
+        } 
 
         // Filtrovanie
         public string FilterByName { get; set; }
@@ -53,7 +62,7 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        public IEnumerable<ResolutionModel> Resolutions { get; set; }
+        public List<ResolutionModel> Resolutions { get; set; } = new List<ResolutionModel>();
 
         private ResolutionModel _selectedResolution;
         public ResolutionModel SelectedResolution
@@ -104,11 +113,7 @@ namespace PhotoGallery.WPF.ViewModels
             ChangeAlbumNameCommand = new RelayCommand(ChangeAlbumName, ChangeAlbumNameCanUse);
             AddPhotoCommand = new RelayCommand(AddPhoto, AddPhotoCanUse);
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
-            RunFilterCommand = new RelayCommand(() =>
-            {
-                if (string.IsNullOrEmpty(FilterByName)) return;
-                Filter();
-            });
+            RunFilterCommand = new RelayCommand(Filter);
 
 
             _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = _unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
@@ -174,16 +179,24 @@ namespace PhotoGallery.WPF.ViewModels
         {
             Sorts = Enum.GetValues(typeof(Sort)).Cast<Sort>();
             Formats = Enum.GetValues(typeof(Format)).Cast<Format>();
-            Resolutions = _unitOfWork.Resolutions.GetAll();
+            // Add dummy resolution
+            Resolutions.Add(new ResolutionModel()
+            {
+                Id = -1,
+            });
+            Resolutions.AddRange(_unitOfWork.Resolutions.GetAll());
         }
 
         private void Filter()
         {
+            if (DateFrom > DateTo)
+                DateTo = DateFrom;
+
             _messenger.Send(new FilterSortSettings()
             {
                 SearchString = FilterByName,
                 Sort = SelectedSort,
-                SortAscending = SortAscending,
+                SortAscending = _sortAscending,
                 Format = SelectedFormat,
                 ResolutionId = SelectedResolution?.Id ?? -1,
                 DateFrom = DateFrom,
