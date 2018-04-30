@@ -17,6 +17,7 @@ namespace PhotoGallery.BL.IoC
         public static Messenger Messenger => IoC.Get<Messenger>();
         public static IUnitOfWork UnitOfWork => IoC.Get<UnitOfWork>();
         public static IAddPhoto AddPhoto => IoC.Get<IAddPhoto>();
+        public static IUiManager Ui => IoC.Get<IUiManager>();
 
         public static void SetUp()
         {

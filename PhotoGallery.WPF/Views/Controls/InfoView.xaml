@@ -21,8 +21,8 @@
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -82,7 +82,7 @@
                                    Style="{DynamicResource MaterialDesignSubheadingTextBlock}"
                                    Text="Resolution:"
                                    HorizontalAlignment="Left"
-                                   Margin="10, 10, 0, 0"
+                                   Margin="10, 10, 10, 0"
                                    />
                         <TextBlock Grid.Row="3"
                                    Grid.Column="1"
@@ -126,38 +126,19 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Button Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
-                                ToolTip="MaterialDesignFloatingActionMiniLightButton"
-                                Command="{Binding AddTagCommand}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Width="24"
-                                Height="24">
-                                <materialDesign:PackIcon Kind="PlusCircleOutline"
-                                                         Height="12"
-                                                         Width="12"
-                                                         />
-                        </Button>
-                        <Button Grid.Column="1"
-                                Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
-                                ToolTip="MaterialDesignFloatingActionMiniLightButton"
+
+                        <Button Grid.Row="0"
+                                Style="{DynamicResource MaterialDesignRaisedLightButton}"
                                 Command="{Binding DeleteTagCommand}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Width="24"
-                                Height="24"
+                                Width="100"
                                 >
-                                <materialDesign:PackIcon Kind="MinusCircleOutline"
-                                                         Height="12"
-                                                         Width="12"
+                                <materialDesign:PackIcon Kind="Delete"
+                                                         Height="30"
+                                                         Width="30"
                                                          />
                     </Button>
-                    </Grid>
                     <ListView Grid.Row="1"
                               ItemsSource="{Binding Tags}"
                               SelectedItem="{Binding SelectedTagModel}"

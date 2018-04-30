@@ -26,7 +26,6 @@ namespace PhotoGallery.WPF.ViewModels
         public ObservableCollection<TagModel> Tags { get; set; }
         public TagModel SelectedTagModel { get; set; }
 
-        public ICommand AddTagCommand { get; }
         public ICommand DeleteTagCommand { get; }
         public ICommand SaveChangesCommand { get; }
 
@@ -35,11 +34,11 @@ namespace PhotoGallery.WPF.ViewModels
             _messenger = messenger;
             _unitOfWork = unitOfWork;
 
-            AddTagCommand = new RelayCommand(AddTag);
             DeleteTagCommand = new RelayCommand(DeleteTag, DeleteTagCanUse);
             SaveChangesCommand = new RelayCommand(SaveChanges, SaveChangesCanUse);
 
             _messenger.Register<SendDetailPhotoModel>(PhotoDetailChanged);
+            _messenger.Register<SendNewTag>(msg => Tags.Add(msg.TagModel));
         }
 
         private void SaveChanges()
@@ -61,11 +60,12 @@ namespace PhotoGallery.WPF.ViewModels
 
         public bool SaveChangesCanUse()
         {
-            return _photoDetailModel.Name != Name && _photoDetailModel.Note != Note;
+            return _photoDetailModel.Name != Name || _photoDetailModel.Note != Note;
         }
 
         private void DeleteTag()
         {
+            // TODO oznamit dalsim VM
             if (SelectedTagModel.IsItem)
                 _unitOfWork.ItemTags.Delete(SelectedTagModel.Id);
             else
@@ -73,38 +73,6 @@ namespace PhotoGallery.WPF.ViewModels
 
             Tags.Remove(SelectedTagModel);
             SelectedTagModel = null;
-        }
-
-        private void AddTag()
-        {
-            var r = new Random();
-            TagModel tag;
-
-            if (r.Next(50, 150) > 100)
-            {
-                tag = new TagModel()
-                {
-                    IsItem = true,
-                    Name = "Okno",
-                    XPosition = r.Next(100, 300),
-                    YPosition = r.Next(100, 300),
-                };
-
-                tag.Id = _unitOfWork.ItemTags.Add(tag, _photoDetailModel);
-            }
-            else
-            {
-                tag = new TagModel()
-                {
-                    Name = "Jozef Ale",
-                    XPosition = r.Next(100, 300),
-                    YPosition = r.Next(100, 300),
-                };
-                tag.Id = _unitOfWork.PersonTags.Add(tag, _photoDetailModel);
-            }
-
-            Tags.Add(tag);
-            _messenger.Send(new SendNewTag(tag));
         }
 
         public bool DeleteTagCanUse()

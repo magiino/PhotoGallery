@@ -109,7 +109,6 @@
                                   />
                         <StackPanel Grid.Column="1">
                             <ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-                                          ToolTip="MaterialDesignActionLightToggleButton"
                                           IsChecked="{Binding SortAscending}"
                                           >
                                 <ToggleButton.Content>
@@ -123,11 +122,6 @@
                                                              />
                                 </materialDesign:ToggleButtonAssist.OnContent>
                             </ToggleButton>
-                            <!--<ToggleButton 
-                                          Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                          ToolTip="MaterialDesignSwitchToggleButton"
-                                          IsChecked="True"
-                                          />-->
                         </StackPanel>
                        
                     </Grid>

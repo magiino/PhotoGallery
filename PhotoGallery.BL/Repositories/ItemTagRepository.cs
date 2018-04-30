@@ -32,7 +32,7 @@ namespace PhotoGallery.BL.Repositories
             return Mapper.ItemTagEntityToItemTagModel(itemTag);
         }
  
-        public int Add(TagModel item, PhotoDetailModel photoDetailModel)
+        public int Add(TagModel item, PhotoDetailModel photo)
         {
             var itemEntity = _dataContext.Items.FirstOrDefault(x => x.Name == item.Name) ?? _dataContext.Items.Add(new ItemEntity() {Name = item.Name});
             _dataContext.SaveChanges();

@@ -24,6 +24,7 @@ namespace PhotoGallery.WPF
         {
             IoC.Kernel.Bind<IAddPhoto>().ToConstant(new AddPhoto());
             IoC.Kernel.Bind<IApplicationViewModel>().ToConstant(new ApplicationViewModel());
+            IoC.Kernel.Bind<IUiManager>().ToConstant(new UiManager());
 
             IoC.SetUp();
         }

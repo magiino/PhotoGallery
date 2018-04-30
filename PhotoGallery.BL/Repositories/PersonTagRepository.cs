@@ -37,14 +37,21 @@ namespace PhotoGallery.BL.Repositories
         //}
 
 
-        public int Add(TagModel person, PhotoDetailModel photoDetailModel)
+        public int Add(TagModel person, PhotoDetailModel photo)
         {
             var name = person.Name.Split(' ');
-            var personEntity = _dataContext.Persons.FirstOrDefault(x => x.FirstName == name[0]) ?? _dataContext.Persons.Add(new PersonEntity()
+            var fisrt = name[0];
+            var last = name[1];
+            var personEntity = _dataContext.Persons.FirstOrDefault(x => x.FirstName == fisrt);
+            if (personEntity == null)
             {
-                FirstName = name[0],
-                LastName = name[1]
-            });
+                personEntity = new PersonEntity()
+                {
+                    FirstName = fisrt,
+                    LastName = last
+                };
+                _dataContext.Persons.Add(personEntity);
+            }
             _dataContext.SaveChanges();
 
             var addedPersonTag = _dataContext.PersonTags.Add(new PersonTagEntity()

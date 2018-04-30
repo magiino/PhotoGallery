@@ -9,7 +9,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         ICollection<ItemTagModel> GetAll();
         ItemTagModel GetByName(string name);
 
-        int Add(TagModel item, PhotoDetailModel photoDetailModel);
+        int Add(TagModel item, PhotoDetailModel photo);
         bool Delete(int id);
         bool Update(ItemTagModel item);
     }

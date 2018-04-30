@@ -59,7 +59,9 @@
   <ItemGroup>
     <Compile Include="IApplicationViewModel.cs" />
     <Compile Include="IAddPhoto.cs" />
+    <Compile Include="IBaseDialogViewModel.cs" />
     <Compile Include="IoC\IoC.cs" />
+    <Compile Include="IoC\IUiManager.cs" />
     <Compile Include="MessengerFile\Messeges\SendAlbum.cs" />
     <Compile Include="MessengerFile\Messeges\SendAddPhoto.cs" />
     <Compile Include="MessengerFile\Messeges\FilterSortSettings.cs" />
