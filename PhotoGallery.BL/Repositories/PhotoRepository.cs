@@ -54,13 +54,20 @@ namespace PhotoGallery.BL.Repositories
 
         public bool Delete(int id)
         {
-            var photo = _dataContext.Photos.SingleOrDefault(x => x.Id == id);
+            var photo = _dataContext.Photos.Include(x => x.Tags).SingleOrDefault(x => x.Id == id);
             if (photo == null) return false;
 
             var resolutionId = photo.ResolutionId;
+            var tags = photo.Tags;
             _dataContext.Photos.Remove(photo);
             _dataContext.SaveChanges();
 
+            foreach (var tag in tags)
+            {
+                if (tag is ItemTagEntity itemTag)
+                    _dataContext.ItemTags.Remove(itemTag);
+                else _dataContext.PersonTags.Remove(tag as PersonTagEntity);
+            }
             // Ak fotka ktoru mazeme ma ako psoledna toto resolution, tak ho zmazeme z databazy
             var photoWithResolution = _dataContext.Photos.FirstOrDefault(x => x.ResolutionId == resolutionId);
 
