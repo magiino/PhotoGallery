@@ -9,8 +9,11 @@
         xmlns:control="clr-namespace:PhotoGallery.WPF.Views.Controls"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="450"
-        Width="800"
+        d:DesignHeight="500"
+        d:DesignWidth="900"
+        MinHeight="500"
+        MinWidth="900"
+        x:Name="Window"
         >
     <Grid>
         <Grid.ColumnDefinitions>

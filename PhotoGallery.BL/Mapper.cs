@@ -206,7 +206,7 @@ namespace PhotoGallery.BL
                 Note = photoEntity.Note,
                 Location = photoEntity.Location,
             };
-            if (photoEntity.Tags == null) return model;
+            if (photoEntity?.Tags == null) return model;
             var tags = TagEntitiesToTagModels(photoEntity.Tags);
             model.Tags = tags;
 

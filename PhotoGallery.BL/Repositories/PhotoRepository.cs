@@ -23,19 +23,19 @@ namespace PhotoGallery.BL.Repositories
 
         public PhotoDetailModel GetDetailModelById(int id)
         {
-            var photo = _dataContext.Photos.FirstOrDefault(x => x.Id == id);
+            var photo = _dataContext.Photos.Include(x => x.Resolution).Include(x => x.Tags).FirstOrDefault(x => x.Id == id);
             return Mapper.PhotoEntityToPhotoDetailModel(photo);
         }
 
         public PhotoListModel GetListModelById(int id)
         {
-            var photo = _dataContext.Photos.FirstOrDefault(x => x.Id == id);
+            var photo = _dataContext.Photos.Include(x => x.Resolution).Include(x => x.Tags).FirstOrDefault(x => x.Id == id);
             return Mapper.PhotoEntityToPhotoListModel(photo);
         }
 
         public ICollection<PhotoListModel> GetAll()
         {
-            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos.ToList());
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos.Include(x => x.Resolution).ToList());
         }
 
         public PhotoDetailModel GetByName(string name)
@@ -139,10 +139,11 @@ namespace PhotoGallery.BL.Repositories
         public List<int> GetSortedFilteredPhotosIds(FilterSortSettings settings, ChosenItem item)
         {
             Expression<Func<PhotoEntity, bool>> filterExpression = x =>
-                settings.Format != Format.None ? x.Format == settings.Format : true
-                && settings.ResolutionId > 0 ? x.ResolutionId == settings.ResolutionId : true
-                && string.IsNullOrEmpty(settings.SearchString) || x.Name.Contains(settings.SearchString)
-                && (x.CreatedTime >= settings.DateFrom && x.CreatedTime <= settings.DateTo);
+                (settings.Format == Format.None || x.Format == settings.Format)
+                && (settings.ResolutionId <= 0 || x.ResolutionId == settings.ResolutionId)
+                && (string.IsNullOrEmpty(settings.SearchString) || x.Name.Contains(settings.SearchString))
+                && x.CreatedTime >= settings.DateFrom 
+                && x.CreatedTime <= settings.DateTo;
 
             var photos = _dataContext.Photos.Where(filterExpression).Include(x => x.Tags).ToList();
 

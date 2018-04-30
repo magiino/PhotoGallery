@@ -83,20 +83,17 @@
                                  materialDesign:HintAssist.Hint="Search by name"
                                  Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                  Margin="10,5,5,5"
-                                 >
-                            <TextBox.InputBindings>
-                                <KeyBinding Gesture="Enter" Command="{Binding ChangeAlbumNameCommand}"/>
-                            </TextBox.InputBindings>
-                        </TextBox>
+                                 />
 
-                        <!--<Button Grid.Column="1"
+                        <Button Grid.Column="1"
+                                Content="Search"
                                 Style="{DynamicResource MaterialDesignRaisedLightButton}"
                                 Width="100"
                                 Height="auto"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"
-                                >
-                        </Button>-->
+                                Command="{Binding RunFilterCommand}"
+                                />
                     </Grid>
 
                     <Grid>
@@ -116,13 +113,13 @@
                                           IsChecked="{Binding SortAscending}"
                                           >
                                 <ToggleButton.Content>
-                                    <materialDesign:PackIcon Kind="ArrowUpDropCircleOutline"
+                                    <materialDesign:PackIcon Kind="ArrowUp"
                                                              ToolTip="Ascending"
                                                              />
                                 </ToggleButton.Content>
                                 <materialDesign:ToggleButtonAssist.OnContent>
                                     <materialDesign:PackIcon Kind="ArrowDown"
-                                                             ToolTip="ArrowDownDropCircleOutline"
+                                                             ToolTip="Descending"
                                                              />
                                 </materialDesign:ToggleButtonAssist.OnContent>
                             </ToggleButton>
