@@ -54,15 +54,20 @@ namespace PhotoGallery.BL.Repositories
             }
             _dataContext.SaveChanges();
 
-            var addedPersonTag = _dataContext.PersonTags.Add(new PersonTagEntity()
+            var photoEntity = _dataContext.Photos.SingleOrDefault(x => x.Id == photo.Id);
+
+            if (photoEntity == null) return -1;
+            var newPersonTag = new PersonTagEntity()
             {
                 Person = personEntity,
                 PersonId = personEntity.Id,
                 XPosition = person.XPosition,
                 YPosition = person.YPosition,
-            });
+            };
+            photoEntity.Tags.Add(newPersonTag);
             _dataContext.SaveChanges();
-            return addedPersonTag.Id;
+
+            return newPersonTag.Id;
         }
 
         public bool Delete(int id)

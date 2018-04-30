@@ -9,7 +9,5 @@ namespace PhotoGallery.DAL.Entities
         public int XPosition { get; set; }
         [Required]
         public int YPosition { get; set; }
-        public int PhotoId { get; set; }
-        public PersonEntity Photo { get; set; }
     }
 }

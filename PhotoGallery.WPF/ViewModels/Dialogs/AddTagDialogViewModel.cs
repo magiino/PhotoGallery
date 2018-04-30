@@ -11,27 +11,18 @@ namespace PhotoGallery.WPF.ViewModels.Dialogs
     public class AddTagDialogViewModel : BaseDialogViewModel
     {
         private readonly IMessenger _messenger;
-        private readonly IUnitOfWork _unitOfWork;
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Name { get; set; }
         public bool IsThing { get; set; }
 
-        // TODO dat na vyber z existujucich osob
-        public ObservableCollection<ItemModel> Items;
-        public ObservableCollection<PersonModel> Persons;
-
         public ICommand AddItemCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public AddTagDialogViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
+        public AddTagDialogViewModel(IMessenger messenger)
         {
             _messenger = messenger;
-            _unitOfWork = unitOfWork;
-
-            Items = new ObservableCollection<ItemModel>(unitOfWork.Items.GetAll());
-            Persons = new ObservableCollection<PersonModel>(unitOfWork.Persons.GetAll());
 
             AddItemCommand = new RelayCommand(AddItem);
             CancelCommand = new RelayCommand(CloseAction);
