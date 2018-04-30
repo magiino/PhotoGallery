@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using PhotoGallery.DAL.Entities.Base.Implementation;
 using PhotoGallery.DAL.Enums;
 
@@ -21,6 +22,7 @@ namespace PhotoGallery.DAL.Entities
         public string Location { get; set; }
         public int AlbumId { get; set; }
         public AlbumEntity Album { get; set; }
+        [ForeignKey("PhotoId")]
         public virtual ICollection<TagEntity> Tags { get; set; } = new List<TagEntity>();
     }
 }

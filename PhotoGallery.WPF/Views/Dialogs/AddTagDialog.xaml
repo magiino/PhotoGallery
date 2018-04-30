@@ -1,0 +1,94 @@
+﻿<base:BaseDialogUserControl x:Class="PhotoGallery.WPF.Views.Dialogs.AddTagDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PhotoGallery.WPF.Views.Dialogs"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:PhotoGallery.WPF.Converters"
+             xmlns:base="clr-namespace:PhotoGallery.WPF.Views.Dialogs.Base"
+             mc:Ignorable="d" 
+             >
+    <materialDesign:Card Background="{DynamicResource MaterialDesignBackground}"
+                         VerticalAlignment="Stretch"
+                         Padding="20"
+                         >
+        <StackPanel Margin="0 10 0 0">
+            <ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+                          IsChecked="{Binding IsThing, Mode=TwoWay}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Height="60"
+                          Width="60"
+                          x:Name="TagType"
+                          >
+                <ToggleButton.Content>
+                    <materialDesign:PackIcon Kind="Account"
+                                             ToolTip="Person"
+                                             Height="40"
+                                             Width="40"
+                                             />
+                </ToggleButton.Content>
+                <materialDesign:ToggleButtonAssist.OnContent>
+                    <materialDesign:PackIcon Kind="Tag"
+                                             ToolTip="Item"
+                                             Height="40"
+                                             Width="40"
+                                             />
+                </materialDesign:ToggleButtonAssist.OnContent>
+            </ToggleButton>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="150"
+                        Visibility="{Binding IsChecked, ElementName=TagType, Converter={converters:BoolToVisibilityConverter}, ConverterParameter=true}"
+                        >
+                <TextBox materialDesign:HintAssist.Hint="FirstName"
+                         Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                         Margin="0 6 0 0"
+                         FontSize="18"
+                         Text="{Binding FirstName}"
+                         />
+                    <TextBox materialDesign:HintAssist.Hint="LastName"
+                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                             Margin="0 6 0 0"
+                             FontSize="16"
+                             Text="{Binding LastName}"
+                             />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="150"
+                        Visibility="{Binding IsChecked, ElementName=TagType, Converter={converters:BoolToVisibilityConverter}}"
+                        >
+                <TextBox materialDesign:HintAssist.Hint="Name"
+                         Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                         Margin="0 6 0 0"
+                         FontSize="18"
+                         Text="{Binding Name}"
+                         />
+            </StackPanel>
+
+            <Grid HorizontalAlignment="Stretch"
+                  Margin="0 10 0 0"
+                  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Command="{Binding AddItemCommand}"
+                        Content="Add"
+                        />
+
+                <Button Grid.Column="2"
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Command="{Binding CancelCommand}"
+                        Content="Cancel"
+                        />
+            </Grid>
+        </StackPanel>
+    </materialDesign:Card>
+</base:BaseDialogUserControl>

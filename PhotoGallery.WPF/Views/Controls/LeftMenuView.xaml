@@ -205,6 +205,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
@@ -227,7 +228,14 @@
 
                         </Grid>
 
-                        <ListView Grid.Row="1"
+                        <Border Grid.Row="1"
+                                Background="{DynamicResource MaterialDesignDivider}"
+                                Height="2"
+                                HorizontalAlignment="Stretch"
+                                SnapsToDevicePixels="True"
+                        />
+
+                        <ListView Grid.Row="2"
                                   ItemsSource="{Binding FilteredItems}"
                                   SelectedItem="{Binding SelectedItem}"
                                   SelectionMode="Single"

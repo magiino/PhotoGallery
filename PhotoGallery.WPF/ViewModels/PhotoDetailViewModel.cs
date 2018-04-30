@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.BL.Models;
 using PhotoGallery.WPF.ViewModels.Base;
+using PhotoGallery.WPF.ViewModels.Dialogs;
 
 namespace PhotoGallery.WPF.ViewModels
 {
@@ -12,7 +15,7 @@ namespace PhotoGallery.WPF.ViewModels
     {
         private readonly IMessenger _messenger;
         private readonly IUnitOfWork _unitOfWork;
-
+        private Point _mousePoint;
         private PhotoDetailModel _photo;
         public string PhotoPath { get; set; }
         public string PhotoName { get; set; }
@@ -23,8 +26,9 @@ namespace PhotoGallery.WPF.ViewModels
         public int NumOfPhotos { get; set; }
         public string Pages => $"{CurrentPhotoIndex+1} / {NumOfPhotos}";
 
-        public ICommand PreviousPhoto { get; set; }
-        public ICommand NextPhoto { get; set; }
+        public ICommand PreviousPhotoCommand { get; set; }
+        public ICommand NextPhotoCommand { get; set; }
+        public ICommand AddTagCommand { get; set; }
 
         // TODO oznacovanie tagov na fotke
         public PhotoDetailViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
@@ -32,12 +36,35 @@ namespace PhotoGallery.WPF.ViewModels
             _messenger = messenger;
             _unitOfWork = unitOfWork;
 
-            PreviousPhoto = new RelayCommand(GetPreviousPhoto, GetPreviousPhotosCanUse);
-            NextPhoto = new RelayCommand(GetNextPhoto, GetNextPhotosCanUse);
+            PreviousPhotoCommand = new RelayCommand(GetPreviousPhoto, GetPreviousPhotosCanUse);
+            NextPhotoCommand = new RelayCommand(GetNextPhoto, GetNextPhotosCanUse);
+            AddTagCommand = new RelayCommand(ShowPopup);
 
             _messenger.Register<SendFilterWithPhoto>(OnLoad);
-            _messenger.Register<SendNewTag>(msg => Tags.Add(msg.TagModel));
             _messenger.Register<SendNewPhotoName>(msg => PhotoName = msg.PhotoName);
+            _messenger.Register<SendNewTag>(msg => AddTag(msg.TagModel));
+        }
+
+        public void AddTag(TagModel tag)
+        {
+            tag.XPosition = (int)_mousePoint.X;
+            tag.YPosition = (int)_mousePoint.Y;
+            Tags.Add(tag);
+
+            if (tag.IsItem)
+                _unitOfWork.ItemTags.Add(tag, _photo);
+            else
+                _unitOfWork.PersonTags.Add(tag, _photo);
+        }
+
+        private void ShowPopup(object obj)
+        {
+            if (obj == null) return;
+            _mousePoint = Mouse.GetPosition(obj as UIElement);
+            IoC.Ui.ShowAddTag(new AddTagDialogViewModel(_messenger, _unitOfWork)
+            {
+                Title = "Add Tag",
+            });
         }
 
         private void GetPreviousPhoto()
