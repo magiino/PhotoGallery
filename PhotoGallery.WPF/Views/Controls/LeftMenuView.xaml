@@ -33,7 +33,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding NewAlbumName, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding NewAlbumName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                      Margin="0 0 5 0"
                                      materialDesign:HintAssist.Hint="Album name"
                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
@@ -136,7 +136,7 @@
 
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding PersonSearch}"
+                            <TextBox Text="{Binding PersonSearch, UpdateSourceTrigger=PropertyChanged}"
                                      Margin="0 0 5 0"
                                      materialDesign:HintAssist.Hint="Search"
                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
@@ -239,7 +239,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding ItemSearch}"
+                            <TextBox Text="{Binding ItemSearch, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="Search"
                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      />

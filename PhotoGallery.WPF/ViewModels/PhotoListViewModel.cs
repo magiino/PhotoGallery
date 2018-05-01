@@ -85,6 +85,15 @@ namespace PhotoGallery.WPF.ViewModels
                 ++_numOfPhotos;
                 CalcPages();
             });
+            _messenger.Register<SendAlbum>(msg =>
+            {
+                if (!msg.Delete) return;
+                _photoIds.Clear();
+                _numOfPhotos = 0;
+                PageIndex = 0;
+                AllPages = 0;
+                Photos.Clear();
+            });
         }
 
         private void GetNextPhotos()

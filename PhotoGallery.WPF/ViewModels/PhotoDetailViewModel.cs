@@ -30,7 +30,6 @@ namespace PhotoGallery.WPF.ViewModels
         public ICommand NextPhotoCommand { get; set; }
         public ICommand AddTagCommand { get; set; }
 
-        // TODO oznacovanie tagov na fotke
         public PhotoDetailViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
             _messenger = messenger;

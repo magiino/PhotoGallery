@@ -22,7 +22,7 @@ namespace PhotoGallery.BL.Repositories.Interfaces
         ICollection<PhotoListModel> GetPhotosByPersonTag(PersonTagModel personTagModel, int pageIndex, int pageSize = IoC.IoC.PageSize);
         int GetNumberOfPhotosWithThisTag(int id);
 
-        ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize);
+        ICollection<PhotoListModel> GetPhotosByPredicate(Expression<Func<PhotoEntity, bool>> predicate);
         ICollection<PhotoListModel> GetPhotosByPageFilter(Expression<Func<PhotoEntity, bool>> filter, int pageIndex, int pageSize = IoC.IoC.PageSize);
         List<int> GetSortedFilteredPhotosIds(FilterSortSettings settings, ChosenItem item);
     }

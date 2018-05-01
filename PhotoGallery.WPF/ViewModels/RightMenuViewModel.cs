@@ -115,7 +115,6 @@ namespace PhotoGallery.WPF.ViewModels
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
             RunFilterCommand = new RelayCommand(Filter);
 
-
             _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = _unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
             _messenger.Register<ChosenItem>(SetAlbum);
         }
@@ -183,10 +182,7 @@ namespace PhotoGallery.WPF.ViewModels
             Sorts = Enum.GetValues(typeof(Sort)).Cast<Sort>();
             Formats = Enum.GetValues(typeof(Format)).Cast<Format>();
             // Add dummy resolution
-            Resolutions.Add(new ResolutionModel()
-            {
-                Id = -1,
-            });
+            Resolutions.Add(new ResolutionModel() { Id = -1 } );
             Resolutions.AddRange(_unitOfWork.Resolutions.GetAll());
         }
 
