@@ -124,10 +124,13 @@ namespace PhotoGallery.WPF.ViewModels
         private void AddPhoto()
         {
             var photoDetailModel = IoC.AddPhoto.ChoosePhoto();
-            photoDetailModel.AlbumId = SelectedAlbum.Id;
-            var photoListModel =_unitOfWork.Photos.Add(photoDetailModel);
+            if(photoDetailModel != null)
+            { 
+                photoDetailModel.AlbumId = SelectedAlbum.Id;
+                var photoListModel =_unitOfWork.Photos.Add(photoDetailModel);
 
-            _messenger.Send(new SendAddPhoto(photoListModel, SelectedAlbum.Id));
+                _messenger.Send(new SendAddPhoto(photoListModel, SelectedAlbum.Id));
+            }
         }
 
         private void DeletePhoto()
