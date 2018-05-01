@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PhotoGallery.BL
+namespace PhotoGallery.BL.Interfaces
 {
     public interface IBaseDialogViewModel
     {

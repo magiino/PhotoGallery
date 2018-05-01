@@ -1,6 +1,6 @@
 ﻿using PhotoGallery.BL.Models;
 
-namespace PhotoGallery.BL
+namespace PhotoGallery.BL.Interfaces
 {
     public interface IAddPhoto
     {

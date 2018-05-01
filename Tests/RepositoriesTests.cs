@@ -9,15 +9,14 @@ namespace Tests
     {
         public void DbConnectionTest()
         {
-            using (var DataContext = new DataContext())
+            using (var dataContext = new DataContext())
             {
-                DataContext.Photos.Any();
+                dataContext.Photos.Any();
             }
         }
 
         private readonly AlbumRepository _albumRepository = new AlbumRepository(new DataContext());
         private readonly PhotoRepository _photoRepository = new PhotoRepository(new DataContext());
-        private readonly ItemTagRepository _itemTagRepository = new ItemTagRepository(new DataContext());
 
         [Fact]
         public void FindByName_TestPhoto_NotNull()
@@ -51,32 +50,5 @@ namespace Tests
             var resol = photo.Resolution.Height == 600;
             Assert.True(resol);
         }
-        [Fact]
-        public void FindByName_TestItemTag_NotNull()
-        {
-            var tag = _itemTagRepository.GetByName("Testing tag");
-            Assert.NotNull(tag);
-        }
-
-
     }
 }
-
-
-//        [Fact]
-//        public void FindByName_ChocolateCake_ContainsEgg()
-//        {
-//            var recipe = recipeRepositorySUT.FindByName("Čokoládová torta");
-//            var containsEgg = recipe.Ingredients.Any(ingredient => ingredient.Ingredient.Name == "Vajíčko");
-//            Assert.True(containsEgg);
-//        }
-
-//        [Fact]
-//        public void FindByName_Ingredient_NotNull()
-//        {
-//            var recipe = recipeRepositorySUT.FindByName("Čokoládová torta");
-//            var containsEgg = recipe.Ingredients.Any(ingredient => ingredient.Ingredient.Name == "Vajíčko");
-//            Assert.True(containsEgg);
-//        }
-//    }
-//}

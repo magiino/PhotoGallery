@@ -57,9 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IApplicationViewModel.cs" />
-    <Compile Include="IAddPhoto.cs" />
-    <Compile Include="IBaseDialogViewModel.cs" />
+    <Compile Include="Interfaces\IApplicationViewModel.cs" />
+    <Compile Include="Interfaces\IAddPhoto.cs" />
+    <Compile Include="Interfaces\IBaseDialogViewModel.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="IoC\IUiManager.cs" />
     <Compile Include="MessengerFile\Messeges\SendAlbum.cs" />
@@ -75,11 +75,14 @@
     <Compile Include="Models\ItemTagModel.cs" />
     <Compile Include="Models\TagModel.cs" />
     <Compile Include="Models\PersonTagModel.cs" />
+    <Compile Include="Repositories\Interfaces\IItemRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPersonTagRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IResolutionRepository.cs" />
     <Compile Include="Repositories\ItemRepository.cs" />
     <Compile Include="Repositories\ResolutionRepository.cs" />
     <Compile Include="Repositories\PersonRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
-    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="MessengerFile\IMessenger.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="MessengerFile\Messenger.cs" />
@@ -91,7 +94,7 @@
     <Compile Include="Models\ResolutionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AlbumRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IPersonTagRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPersonRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPhotoRepository.cs" />
     <Compile Include="Repositories\Interfaces\IItemTagRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAlbumRepository.cs" />

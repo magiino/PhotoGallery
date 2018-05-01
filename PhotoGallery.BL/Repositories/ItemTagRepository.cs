@@ -26,10 +26,10 @@ namespace PhotoGallery.BL.Repositories
         {
             return Mapper.ItemTagEntitiesToItemTagModels(_dataContext.ItemTags.ToList());
         }
-        public ItemTagModel GetByName(string name)
+        public ICollection<ItemTagModel> GetByItemId(int itemId)
         {
-            var itemTag = _dataContext.ItemTags.FirstOrDefault(x => x.Item.Name == name);
-            return Mapper.ItemTagEntityToItemTagModel(itemTag);
+            var itemTags = _dataContext.ItemTags.Where(x => x.ItemId == itemId).ToList();
+            return Mapper.ItemTagEntitiesToItemTagModels(itemTags);
         }
  
         public int Add(TagModel item, PhotoDetailModel photo)
@@ -70,19 +70,6 @@ namespace PhotoGallery.BL.Repositories
                 _dataContext.Items.Remove(item.Item);
 
             _dataContext.ItemTags.Remove(item);
-            _dataContext.SaveChanges();
-            return true;
-        }
-
-        public bool Update(ItemTagModel item)
-        {
-            var itemTagEntity = _dataContext.ItemTags.SingleOrDefault(x => x.Id == item.Id);
-            if (itemTagEntity == null) return false;
-
-            itemTagEntity.XPosition = item.XPosition;
-            itemTagEntity.YPosition = item.YPosition;
-            itemTagEntity.Item.Name = item.Name;
-
             _dataContext.SaveChanges();
             return true;
         }

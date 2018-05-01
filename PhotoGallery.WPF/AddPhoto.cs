@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.Models;
 using PhotoGallery.DAL.Enums;

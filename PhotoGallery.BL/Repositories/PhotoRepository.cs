@@ -57,8 +57,9 @@ namespace PhotoGallery.BL.Repositories
             var photo = _dataContext.Photos.Include(x => x.Tags).SingleOrDefault(x => x.Id == id);
             if (photo == null) return false;
 
+
             var resolutionId = photo.ResolutionId;
-            var tags = photo.Tags;
+            var tags = photo.Tags.ToList();
             _dataContext.Photos.Remove(photo);
             _dataContext.SaveChanges();
 
@@ -68,6 +69,7 @@ namespace PhotoGallery.BL.Repositories
                     _dataContext.ItemTags.Remove(itemTag);
                 else _dataContext.PersonTags.Remove(tag as PersonTagEntity);
             }
+            _dataContext.SaveChanges();
             // Ak fotka ktoru mazeme ma ako psoledna toto resolution, tak ho zmazeme z databazy
             var photoWithResolution = _dataContext.Photos.FirstOrDefault(x => x.ResolutionId == resolutionId);
 
@@ -89,7 +91,7 @@ namespace PhotoGallery.BL.Repositories
             photoEntity.Name = photoDetail.Name;
             photoEntity.Note = photoDetail.Note;
             photoEntity.Location = photoDetail.Location;
-            photoEntity.Tags = Mapper.TagModelsToTagEntities(photoDetail.Tags);
+            //photoEntity.Tags = Mapper.TagModelsToTagEntities(photoDetail.Tags);
             _dataContext.SaveChanges();
             return true;
         }
@@ -126,12 +128,9 @@ namespace PhotoGallery.BL.Repositories
         }
 
 
-        public ICollection<PhotoListModel> GetPhotosByPage(int pageIndex, int pageSize = IoC.IoC.PageSize)
+        public ICollection<PhotoListModel> GetPhotosByPredicate(Expression<Func<PhotoEntity, bool>> predicate)
         {
-            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToList());
+            return Mapper.PhotoEntitiesToPhotoListModels(_dataContext.Photos.Where(predicate).ToList());
         }
 
         public ICollection<PhotoListModel> GetPhotosByPageFilter(Expression<Func<PhotoEntity,bool>> filter, int pageIndex, int pageSize = IoC.IoC.PageSize)
