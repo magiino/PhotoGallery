@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.DAL;
 
 namespace PhotoGallery.BL.IoC

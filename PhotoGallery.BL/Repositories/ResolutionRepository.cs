@@ -2,10 +2,11 @@
 using System.Linq;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
+using PhotoGallery.BL.Repositories.Interfaces;
 
 namespace PhotoGallery.BL.Repositories
 {
-    public class ResolutionRepository //: IResolutionRepository
+    public class ResolutionRepository : IResolutionRepository
     {
         private readonly DataContext _dataContext;
 

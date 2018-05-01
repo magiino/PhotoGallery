@@ -1,5 +1,6 @@
 ﻿using System;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.WPF.ViewModels.Base;
 
 namespace PhotoGallery.WPF.ViewModels.Dialogs.Base

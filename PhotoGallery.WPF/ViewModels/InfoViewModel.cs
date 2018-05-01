@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.BL.Models;
 using PhotoGallery.DAL.Enums;
@@ -65,7 +66,6 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void DeleteTag()
         {
-            // TODO oznamit dalsim VM
             if (SelectedTagModel.IsItem)
                 _unitOfWork.ItemTags.Delete(SelectedTagModel.Id);
             else

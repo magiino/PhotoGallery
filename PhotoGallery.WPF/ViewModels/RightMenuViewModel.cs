@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
