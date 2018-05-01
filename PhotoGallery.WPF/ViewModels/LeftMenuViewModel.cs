@@ -118,7 +118,6 @@ namespace PhotoGallery.WPF.ViewModels
             }
         }
 
-        // TODO zmazat tak ze sa zmazu aj vsetky tagy a to iste aj ked zmazem album zmazu sa vsetkz fotky
         public ICommand DeletePersonCommand { get; }
         public ICommand DeleteItemCommand { get; }
         public ICommand ShowListPageCommand { get; }
@@ -168,7 +167,6 @@ namespace PhotoGallery.WPF.ViewModels
             ItemSearch = "";
         }
 
-        // TODO ak sa zmaze osoba zmazu sa aj vsetky tagy
         private void DeleteItem()
         {
             _unitOfWork.Items.Delete(_selectedItem.Id);
@@ -204,12 +202,12 @@ namespace PhotoGallery.WPF.ViewModels
 
         private bool DeleteItemCanUse()
         {
-            return _selectedItem != null;
+            return _selectedItem != null && _unitOfWork.ItemTags.GetByItemId(_selectedItem.Id).Count == 0;
         }
 
         private bool DeletePersonCanUse()
         {
-            return _selectedPerson != null;
+            return _selectedPerson != null && _unitOfWork.PersonTags.GetByPersonId(_selectedPerson.Id).Count == 0; ;
         }
 
         public bool AddAlbumCanUse()
