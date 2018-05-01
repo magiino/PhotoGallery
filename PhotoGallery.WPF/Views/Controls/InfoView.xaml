@@ -43,7 +43,7 @@
                                  Grid.Column="1"
                                  Margin="0 0 10 0"
                                  materialDesign:HintAssist.Hint="Photo name"
-                                 Text="{Binding Name, Mode=TwoWay}"
+                                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                  />
 
@@ -105,7 +105,7 @@
                                 TextWrapping="Wrap"
                                 AcceptsReturn="True"
                                 VerticalScrollBarVisibility="Auto"
-                                Text="{Binding Note}"
+                                Text="{Binding Note, UpdateSourceTrigger=PropertyChanged}"
                                 materialDesign:HintAssist.Hint="Note"
                                 Margin="10, 10, 5, 0"
                                 />
