@@ -25,7 +25,12 @@ namespace PhotoGallery.WPF.ViewModels.Dialogs
             _messenger = messenger;
 
             AddItemCommand = new RelayCommand(AddItem);
-            CancelCommand = new RelayCommand(CloseAction);
+            CancelCommand = new RelayCommand(Cancel);
+        }
+
+        private void Cancel()
+        {
+            CloseAction();
         }
 
         private void AddItem(object parameter)
