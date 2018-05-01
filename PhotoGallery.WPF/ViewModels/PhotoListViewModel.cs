@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
@@ -84,6 +85,15 @@ namespace PhotoGallery.WPF.ViewModels
                 Photos.Add(msg.PhotoModel);
                 ++_numOfPhotos;
                 CalcPages();
+            });
+            _messenger.Register<SendAlbum>(msg =>
+            {
+                if (!msg.Delete) return;
+                _photoIds.Clear();
+                _numOfPhotos = 0;
+                PageIndex = 0;
+                AllPages = 0;
+                Photos.Clear();
             });
         }
 

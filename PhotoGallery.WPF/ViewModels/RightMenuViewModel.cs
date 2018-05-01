@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
@@ -115,7 +116,6 @@ namespace PhotoGallery.WPF.ViewModels
             DeletePhotoCommand = new RelayCommand(DeletePhoto, CanUseButton);
             RunFilterCommand = new RelayCommand(Filter);
 
-
             _messenger.Register<SendChosenPhoto>(msg => _selectedPhoto = _unitOfWork.Photos.GetDetailModelById(msg.PhotoId));
             _messenger.Register<ChosenItem>(SetAlbum);
         }
@@ -124,10 +124,13 @@ namespace PhotoGallery.WPF.ViewModels
         private void AddPhoto()
         {
             var photoDetailModel = IoC.AddPhoto.ChoosePhoto();
-            photoDetailModel.AlbumId = SelectedAlbum.Id;
-            var photoListModel =_unitOfWork.Photos.Add(photoDetailModel);
+            if(photoDetailModel != null)
+            { 
+                photoDetailModel.AlbumId = SelectedAlbum.Id;
+                var photoListModel =_unitOfWork.Photos.Add(photoDetailModel);
 
-            _messenger.Send(new SendAddPhoto(photoListModel, SelectedAlbum.Id));
+                _messenger.Send(new SendAddPhoto(photoListModel, SelectedAlbum.Id));
+            }
         }
 
         private void DeletePhoto()
@@ -180,10 +183,7 @@ namespace PhotoGallery.WPF.ViewModels
             Sorts = Enum.GetValues(typeof(Sort)).Cast<Sort>();
             Formats = Enum.GetValues(typeof(Format)).Cast<Format>();
             // Add dummy resolution
-            Resolutions.Add(new ResolutionModel()
-            {
-                Id = -1,
-            });
+            Resolutions.Add(new ResolutionModel() { Id = -1 } );
             Resolutions.AddRange(_unitOfWork.Resolutions.GetAll());
         }
 

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.DAL.Enums;
@@ -84,7 +85,7 @@ namespace PhotoGallery.WPF.ViewModels
         }
 
         public ICommand SearchItemCommand { get; }
-        public ICommand SearchPersonCommand { get; }
+        public ICommand DeleteItemCommand { get; }
         #endregion
 
         #region Person
@@ -117,12 +118,11 @@ namespace PhotoGallery.WPF.ViewModels
                 _personsAreExpanded = value;
             }
         }
-
-        // TODO zmazat tak ze sa zmazu aj vsetky tagy a to iste aj ked zmazem album zmazu sa vsetkz fotky
+        public ICommand SearchPersonCommand { get; }
         public ICommand DeletePersonCommand { get; }
-        public ICommand DeleteItemCommand { get; }
-        public ICommand ShowListPageCommand { get; }
         #endregion
+
+        public ICommand ShowListPageCommand { get; }
 
         public LeftMenuViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
@@ -135,8 +135,8 @@ namespace PhotoGallery.WPF.ViewModels
             AddAlbumCommand = new RelayCommand(AddAlbum, AddAlbumCanUse);
             DeleteItemCommand = new RelayCommand(DeleteItem, DeleteItemCanUse);
             DeletePersonCommand = new RelayCommand(DeletePerson, DeletePersonCanUse);
-            SearchItemCommand = new RelayCommand(SearchForItem, SearchForItemCanUse);
-            SearchPersonCommand = new RelayCommand(SearchForPerson, SearchForPersonCanUse);
+            SearchItemCommand = new RelayCommand(SearchForItem);
+            SearchPersonCommand = new RelayCommand(SearchForPerson);
             ShowListPageCommand = new RelayCommand(GoToPage);
 
             _messenger.Register<SendDeletePhoto>(msg =>
@@ -158,25 +158,37 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void SearchForPerson()
         {
+            if (string.IsNullOrEmpty(PersonSearch))
+            {
+                FilteredPersons = Persons;
+                return;
+            }
             FilteredPersons = new ObservableCollection<PersonModel>(Persons.Where(p => p.FirstName.Contains(PersonSearch) || p.LastName.Contains(PersonSearch)));
             PersonSearch = "";
         }
 
         private void SearchForItem()
         {
+            if (string.IsNullOrEmpty(ItemSearch))
+            {
+                FilteredItems = Items;
+                return;
+            }
             FilteredItems = new ObservableCollection<ItemModel>(Items.Where(i => i.Name.Contains(ItemSearch)));
             ItemSearch = "";
         }
 
-        // TODO ak sa zmaze osoba zmazu sa aj vsetky tagy
         private void DeleteItem()
         {
             _unitOfWork.Items.Delete(_selectedItem.Id);
+            Items.Remove(_selectedItem);
         }
 
         private void DeletePerson()
         {
             _unitOfWork.Persons.Delete(_selectedPerson.Id);
+
+            Persons.Remove(_selectedPerson);
         }
 
         private void AddAlbum()
@@ -188,6 +200,7 @@ namespace PhotoGallery.WPF.ViewModels
             };
 
             Albums.Add(_unitOfWork.Albums.Add(newAlbum));
+            NewAlbumName = string.Empty;
         }
 
         private void AddNewPersonItemToList(SendNewTag newTag)
@@ -198,18 +211,23 @@ namespace PhotoGallery.WPF.ViewModels
 
         private void DeleteAlbum()
         {
+            var albumPhotos = _unitOfWork.Photos.GetPhotosByPredicate(x => x.AlbumId == _selectedAlbum.Id);
+            foreach (var photos in albumPhotos)
+                _unitOfWork.Photos.Delete(photos.Id);
+
             _unitOfWork.Albums.Delete(_selectedAlbum.Id);
+            _messenger.Send(new SendAlbum(_selectedAlbum, true));
             Albums.Remove(_selectedAlbum);
         }
 
         private bool DeleteItemCanUse()
         {
-            return _selectedItem != null;
+            return _selectedItem != null && _unitOfWork.ItemTags.GetByItemId(_selectedItem.Id).Count == 0;
         }
 
         private bool DeletePersonCanUse()
         {
-            return _selectedPerson != null;
+            return _selectedPerson != null && _unitOfWork.PersonTags.GetByPersonId(_selectedPerson.Id).Count == 0; ;
         }
 
         public bool AddAlbumCanUse()
@@ -222,17 +240,9 @@ namespace PhotoGallery.WPF.ViewModels
             return SelectedAlbum != null;
         }
 
-        private bool SearchForItemCanUse()
-        {
-            return !string.IsNullOrEmpty(ItemSearch);
-        }
-        private bool SearchForPersonCanUse()
-        {
-            return !string.IsNullOrEmpty(PersonSearch); ;
-        }
-
         private void ChangeAlbum(SendAlbum msg)
         {
+            if (msg.Delete) return;
             var album = Albums.SingleOrDefault(x => x.Id == msg.AlbumModel.Id);
             if (album == null) return;
             album.Title = msg.AlbumModel.Title;

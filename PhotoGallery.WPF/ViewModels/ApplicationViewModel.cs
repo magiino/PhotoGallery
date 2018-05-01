@@ -1,4 +1,5 @@
 ﻿using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.DAL.Enums;
 using PhotoGallery.WPF.ViewModels.Base;
 

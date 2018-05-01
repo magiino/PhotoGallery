@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.WPF.ViewModels.Dialogs;
 
 namespace PhotoGallery.WPF.Views.Dialogs.Base

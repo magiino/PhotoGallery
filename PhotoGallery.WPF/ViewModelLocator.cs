@@ -1,4 +1,5 @@
 ﻿using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.WPF.ViewModels;
 

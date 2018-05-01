@@ -33,13 +33,13 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding NewAlbumName}"
+                            <TextBox Text="{Binding NewAlbumName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                      Margin="0 0 5 0"
                                      materialDesign:HintAssist.Hint="Album name"
                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      />
                             <Button Grid.Column="1"
-                                    Margin="0 0 10 0"
+                                    Margin="0 0 5 0"
                                     Command="{Binding AddAlbumCommand}"
                                     Style="{DynamicResource MaterialDesignRaisedLightButton}"
                                     >
@@ -52,7 +52,7 @@
                             </Button>
 
                             <Button Grid.Column="2"
-                                    Margin="0 0 10 0"
+                                    Margin="0 0 5 0"
                                     Command="{Binding DeleteAlbumCommand}"
                                     Style="{DynamicResource MaterialDesignRaisedLightButton}"
                                     >
@@ -130,20 +130,43 @@
 
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding PersonSearch}"
+                            <TextBox Text="{Binding PersonSearch, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="0 0 5 0"
                                      materialDesign:HintAssist.Hint="Search"
                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      />
+
                             <Button Grid.Column="1"
-                                    Margin="10 0"
-                                    Content="Search"
+                                    Margin="0 0 5 0"
                                     Command="{Binding SearchPersonCommand}"
                                     Style="{DynamicResource MaterialDesignRaisedLightButton}"
-                                    />
+                                    >
+                                <materialDesign:PackIcon Kind="Magnify"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Height="24"
+                                                         Width="24" 
+                                                         />
+                            </Button>
+
+                            <Button Grid.Column="2"
+                                    Margin="0 0 5 0"
+                                    Command="{Binding DeletePersonCommand}"
+                                    Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                                    >
+                                <materialDesign:PackIcon Kind="Delete"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Height="24"
+                                                         Width="24" 
+                                                         />
+                            </Button>
                         </Grid>
 
                         <Border Grid.Row="1"
@@ -211,20 +234,39 @@
 
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding ItemSearch}"
+                            <TextBox Text="{Binding ItemSearch, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="Search"
                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      />
                             <Button Grid.Column="1"
-                                    Margin="10 0"
-                                    Content="Search"
+                                    Margin="0 0 5 0"
                                     Command="{Binding SearchItemCommand}"
                                     Style="{DynamicResource MaterialDesignRaisedLightButton}"
-                                    />
+                                    >
+                                <materialDesign:PackIcon Kind="Magnify"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Height="24"
+                                                         Width="24" 
+                                                         />
+                            </Button>
+                            <Button Grid.Column="2"
+                                    Margin="0 0 5 0"
+                                    Command="{Binding DeleteItemCommand}"
+                                    Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                                    >
+                                <materialDesign:PackIcon Kind="Delete"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Height="24"
+                                                         Width="24" 
+                                />
+                            </Button>
 
                         </Grid>
 

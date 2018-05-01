@@ -1,6 +1,6 @@
 ﻿using PhotoGallery.DAL.Enums;
 
-namespace PhotoGallery.BL
+namespace PhotoGallery.BL.Interfaces
 {
     public interface IApplicationViewModel
     {

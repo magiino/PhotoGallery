@@ -1,4 +1,5 @@
-﻿using PhotoGallery.BL.Repositories;
+﻿using PhotoGallery.BL.Interfaces;
+using PhotoGallery.BL.Repositories;
 using PhotoGallery.BL.Repositories.Interfaces;
 using PhotoGallery.DAL;
 
@@ -12,9 +13,9 @@ namespace PhotoGallery.BL
         public IPhotoRepository Photos { get; }
         public IItemTagRepository ItemTags { get; }
         public IPersonTagRepository PersonTags { get; }
-        public PersonRepository Persons { get; }
-        public ItemRepository Items { get; }
-        public ResolutionRepository Resolutions { get; }
+        public IPersonRepository Persons { get; }
+        public IItemRepository Items { get; }
+        public IResolutionRepository Resolutions { get; }
 
         public UnitOfWork(DataContext context)
         {

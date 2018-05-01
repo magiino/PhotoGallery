@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using PhotoGallery.BL;
+using PhotoGallery.BL.Interfaces;
 using PhotoGallery.BL.IoC;
 using PhotoGallery.BL.MessengerFile.Messeges;
 using PhotoGallery.BL.Models;
@@ -30,7 +31,6 @@ namespace PhotoGallery.WPF.ViewModels
         public ICommand NextPhotoCommand { get; set; }
         public ICommand AddTagCommand { get; set; }
 
-        // TODO oznacovanie tagov na fotke
         public PhotoDetailViewModel(IMessenger messenger, IUnitOfWork unitOfWork)
         {
             _messenger = messenger;

@@ -16,26 +16,11 @@ namespace PhotoGallery.BL.Repositories
             _dataContext = dataContext;
         }
 
-        //public PersonTagModel GetById(int id)
-        //{
-        //    var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
-        //    return Mapper.PersonTagEntityToPersonTagModel(personTag);
-        //}
-        //public ICollection<PersonTagModel> GetAll()
-        //{
-        //    return Mapper.PersonTagEntitiesToPersonTagModels(_dataContext.PersonTags.ToList());
-        //}
-        //public PersonTagModel GetByFirstName(string name)
-        //{
-        //    var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.FirstName == name);
-        //    return Mapper.PersonTagEntityToPersonTagModel(personTag);
-        //}
-        //public PersonTagModel GetByLastName(string name)
-        //{
-        //    var personTag = _dataContext.PersonTags.FirstOrDefault(x => x.Person.LastName == name);
-        //    return Mapper.PersonTagEntityToPersonTagModel(personTag);
-        //}
-
+        public ICollection<PersonTagModel> GetByPersonId(int personId)
+        {
+            var itemTags = _dataContext.PersonTags.Where(x => x.PersonId == personId).ToList();
+            return Mapper.PersonTagEntitiesToPersonTagModels(itemTags);
+        }
 
         public int Add(TagModel person, PhotoDetailModel photo)
         {
@@ -72,7 +57,6 @@ namespace PhotoGallery.BL.Repositories
 
         public bool Delete(int id)
         {
-            // TODO v DB nastavit cascade delete z fotky
             var person = _dataContext.PersonTags.FirstOrDefault(x => x.Id == id);
             if (person == null) return false;
 
@@ -91,18 +75,5 @@ namespace PhotoGallery.BL.Repositories
             _dataContext.SaveChanges();
             return true;
         }
-
-        //public bool Update(PersonTagModel person)
-        //{
-        //    var personEntity = _dataContext.PersonTags.SingleOrDefault(x => x.Id == person.Id);
-        //    if (personEntity == null) return false;
-
-        //    personEntity.XPosition = person.XPosition;
-        //    personEntity.YPosition = person.YPosition;
-        //    personEntity.Person.FirstName = person.FirstName;
-        //    personEntity.Person.LastName = person.LastName;
-        //    _dataContext.SaveChanges();
-        //    return true;
-        //}
     }
 }

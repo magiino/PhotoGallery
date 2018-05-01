@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using PhotoGallery.DAL;
 using PhotoGallery.BL.Models;
 using PhotoGallery.BL.Repositories.Interfaces;
@@ -28,7 +30,6 @@ namespace PhotoGallery.BL.Repositories
                 if (album.CoverPhotoId > 0)
                     album.CoverPhotoPath = _dataContext.Photos.SingleOrDefault(x => x.Id == album.CoverPhotoId)?.Path;
             }
-
             return albums;
         }
         public AlbumModel GetByTitle(string title)
@@ -47,7 +48,7 @@ namespace PhotoGallery.BL.Repositories
 
         public bool Delete(int id)
         {
-            var album = _dataContext.Albums.FirstOrDefault(r => r.Id == id);
+            var album = _dataContext.Albums.Include(x => x.Photos).FirstOrDefault(x => x.Id == id);
             if (album == null) return false;
             _dataContext.Albums.Remove(album);
             _dataContext.SaveChanges();
